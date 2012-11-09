@@ -1,0 +1,3 @@
+This is a short snippet of code demonstrating a typical application life cycle in LWJGL. You can find other examples on the [LWJGL wiki](http://www.lwjgl.org/wiki/index.php?title=Main_Page).
+
+<script src="https://gist.github.com/4043340.js?file=gistfile1.java"></script>
