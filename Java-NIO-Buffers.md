@@ -87,13 +87,13 @@ Below is an example of getting data from GL:
 //create a new buffer with at least 16 elements
 IntBuffer buffer = BufferUtils.createIntBuffer(16);
 
-//this will call the relative "put" on our buffer
+//this will call relative "put" with the max texture size,
+//then continue "putting" zeros until the buffer's capacity is reached,
+//then flip() our buffer
 glGetInteger(GL_MAX_TEXTURE_SIZE, buffer);
 
-//before we read back the values, we need to "flip" it
-buffer.flip();
-
-//now we can get the max size as a Java int
+//since our buffer is already flipped, our position will be zero...
+//so we can go ahead and grab the first element
 int maxSize = buffer.get();
 ```
 
