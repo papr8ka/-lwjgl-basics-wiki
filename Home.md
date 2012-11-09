@@ -16,7 +16,6 @@ Also hosted here are a variety of "snippets" for those keen on learning LWJGL an
 
 ### Credits
 
-[PT Font](http://www.fontsquirrel.com/fonts/PT-Sans)
-[Grass & Water Tileset](http://opengameart.org/content/grass-and-water-tiles)
-
-Code written by Matt DesLauriers (aka: davedes or mattdesl) unless otherwise stated.
+* [PT Font](http://www.fontsquirrel.com/fonts/PT-Sans)
+* [Grass & Water Tileset](http://opengameart.org/content/grass-and-water-tiles)
+* Code written by Matt DesLauriers (aka: davedes or mattdesl) unless otherwise stated.
