@@ -6,7 +6,7 @@ The [source code](https://github.com/mattdesl/lwjgl-basics) is hosted on GitHub.
 
 ### Snippets
 
-Also hosted here are a variety of "snippets" for those keen on learning LWJGL and OpenGL from the ground up:
+Also hosted here are a variety of "snippets" and tutorials for those keen on learning LWJGL and OpenGL from the ground up:
 
 * [Display Creation](wiki/Display)
 * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
