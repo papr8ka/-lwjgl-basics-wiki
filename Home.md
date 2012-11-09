@@ -1,5 +1,3 @@
-## About
-
 *lwjgl-basics* is a minimal shader-based library for use with LWJGL. It provides essential features such as texture loading, shader programming, and sprite rendering. It's also useful for prototyping "modern" OpenGL techniques (e.g. geometry shaders) in a bare-bones environment.
 
 For a serious game project, a platform like [LibGDX](http://libgdx.badlogicgames.com/) may be more suitable.
