@@ -69,7 +69,7 @@ int bpp = 4; //4 bytes per pixel (RGBA)
 ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * bpp);
 
 //put the Red, Green, Blue, and Alpha bytes
-buffer.put(0x00).put(0x00).put(0xFF).put(0xFF);
+buffer.put((byte)0x00).put((byte)0x00).put((byte)0xFF).put((byte)0xFF);
 
 //flip the buffer !!! this needs to be done before it can be read by GL
 buffer.flip();
