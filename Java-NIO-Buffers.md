@@ -89,7 +89,7 @@ IntBuffer buffer = BufferUtils.createIntBuffer(16);
 
 //this will call relative "put" with the max texture size,
 //then continue "putting" zeros until the buffer's capacity is reached,
-//then flip() our buffer
+//then it will flip() our buffer
 glGetInteger(GL_MAX_TEXTURE_SIZE, buffer);
 
 //since our buffer is already flipped, our position will be zero...
