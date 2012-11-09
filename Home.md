@@ -9,7 +9,7 @@ The [source code](https://github.com/mattdesl/lwjgl-basics) is hosted on GitHub.
 Also hosted here are a variety of "snippets" for those keen on learning LWJGL and OpenGL from the ground up:
 
 * [Display Creation](display.html)
-* [Understanding Buffers](buffers.html)
+* [Using Buffers with LWJGL](Buffers)
 * [Texture Loading](textures.html)
 * [Shader Programming](shaders.html)
 * [Sprite Rendering](batch.html)
