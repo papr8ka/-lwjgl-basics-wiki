@@ -10,7 +10,7 @@ Also hosted here are a variety of "snippets" for those keen on learning LWJGL an
 
 * [Display Creation](display.html)
 * [Using Buffers with LWJGL](Java-NIO-Buffers)
-* [Texture Loading](textures.html)
+* [Texture Loading](wiki/Java-NIO-Buffers)
 * [Shader Programming](shaders.html)
 * [Sprite Rendering](batch.html)
 
