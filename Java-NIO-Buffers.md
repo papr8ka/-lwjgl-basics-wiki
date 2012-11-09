@@ -1,5 +1,3 @@
-## Java NIO Buffers
-
 This is a short introduction to Java NIO buffers, which are commonly used in LWJGL to handle GL data. For a more detailed look at buffers, [see here](http://tutorials.jenkov.com/java-nio/buffers.html).
 
 ### Intro
@@ -105,5 +103,3 @@ Also note that LWJGL includes convenience methods for glGetInteger, glGenTexture
 ```java
 int maxSize = glGetInteger(GL_MAX_TEXTURE_SIZE);
 ```
-
-Once you're comfortable with buffers, you can start reading up on [textures](basics_part3.html).
