@@ -84,10 +84,11 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
 Below is an example of getting data from GL:
 
 ```java
-IntBuffer buffer = BufferUtils.createIntBuffer(1);
+//create a new buffer with at least 16 elements
+IntBuffer buffer = BufferUtils.createIntBuffer(16);
 
 //this will call the relative "put" on our buffer
-glGetInteger(GL_MAX_TEXURE_SIZE, buffer);
+glGetInteger(GL_MAX_TEXTURE_SIZE, buffer);
 
 //before we read back the values, we need to "flip" it
 buffer.flip();
@@ -96,7 +97,7 @@ buffer.flip();
 int maxSize = buffer.get();
 ```
 
-As described [in the docs](http://www.khronos.org/opengles/documentation/opengles1_0/html/glGetInteger.html), `GL_MAX_TEXTURE_SIZE` will give us one value. Some other GL parameters may return more values, and in that case we would have to create our buffer with a large enough capacity. Where possible, you should try to re-use buffers instead of always creating new ones.
+As described [in the docs](http://www.khronos.org/opengles/documentation/opengles1_0/html/glGetInteger.html), `GL_MAX_TEXTURE_SIZE` will give us one value, but since glGetInteger can return up to 16 elements, LWJGL expects our buffer to have at least that as a capacity. Where possible, you should try to re-use buffers instead of always creating new ones.
 
 Also note that LWJGL includes convenience methods for glGetInteger, glGenTextures, and various other calls. So the above code would actually be reduced to the following:
 
