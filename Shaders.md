@@ -1,7 +1,7 @@
 This page is a work in progress.
 
 
-The full source of our shader utility:
+Below is the full source of our shader utility. See the [repo](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/glutils/ShaderProgram.java) for a more complete version, which includes better documentation.
 
 ```java
 /**
