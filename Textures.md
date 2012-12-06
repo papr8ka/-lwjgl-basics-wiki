@@ -116,28 +116,28 @@ Before calling `glTexImage2D`, it's essential that we set up our texture paramet
 
 **This section is a work in progress. For now you should be fine with the following parameters:**
 ```java
+//Setup wrap mode, i.e. how OpenGL will handle pixels outside of the expected range
 //Note: GL_CLAMP_TO_EDGE is part of GL12
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-
+//Setup filtering, i.e. how OpenGL will interpolate the pixels when scaling up or down
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 ```
 
-The filter will define how the image is handled upon scaling. For "pixel-art" style games, generally `GL_NEAREST`
+The minification/magnification filters define how the image is handled upon scaling. For "pixel-art" style games, generally `GL_NEAREST`
 is suitable as it leads to hard-edge scaling without blurring. Specifying `GL_LINEAR` will use bilinear scaling
 for smoother results, which is generally effective for 3D games (e.g. a 1024x1024 rock or grass texture) but not
 so for a 2D game:  
 ![Scaling](http://i.imgur.com/vAVHc.png)
 
+### Texture Atlases
 
-
+**This section is a work in progress.**
 ![Tiles](http://i.imgur.com/gxtcY.png)
 
-Above, we have a variety of isometric tiles that are contained in a single PNG image. This is called a "sprite sheet" or "texture atlas" -- as it's a combination of sprites contained in a single image.
-
-
+### Full Source Code
 
 Below is the full source of our texture wrapper. See the [repo](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/Texture.java) for a more complete version, including better documentation.
 
@@ -256,19 +256,24 @@ public class Texture {
 			//flip the buffer into "read mode" for OpenGL
 			buf.flip();
 
+			//enable textures and generate an ID
 			glEnable(target);
 			id = glGenTextures();
 
+			//bind texture
 			bind();
 
+			//setup unpack mode
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 			glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
+			//setup parameters
 			glTexParameteri(target, GL_TEXTURE_MIN_FILTER, filter);
 			glTexParameteri(target, GL_TEXTURE_MAG_FILTER, filter);
 			glTexParameteri(target, GL_TEXTURE_WRAP_S, wrap);
 			glTexParameteri(target, GL_TEXTURE_WRAP_T, wrap);
 
+			//pass RGBA data to OpenGL
 			glTexImage2D(target, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
 		} finally {
 			if (input != null) {
