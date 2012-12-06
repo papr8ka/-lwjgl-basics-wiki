@@ -1,4 +1,142 @@
-This page is a work in progress.
+This is a short introduction to textures in OpenGL. Our end result will be a Texture class which we can use in our simple sprite engine.
+
+### Primer: Digital Images
+
+An image, as you may know, is simply an array of colors, rendered in two dimensions. Let's use this very small image as an example; a heart sprite and a half-heart sprite:   
+![Heart](http://i.imgur.com/WQDjE.png)
+
+Now, when we zoom in on the image in Photoshop or another program, we can clearly see how the image is constructed of individual pixels:    
+![HeartBig](http://i.imgur.com/NgH4n.png)
+
+There are a number of ways an image like this would be stored on a computer, most commonly [RGBA with 8-bits per channel](http://en.wikipedia.org/wiki/RGBA_color_space). The color red would be represented like so in different formats; where `A` is the alpha (transparency) channel and `RGB` refer to the red, green and blue channels.
+```
+Hex aka RGB int: #ff0000 or 0xff0000
+RGBA byte: (255, 0, 0, 1)
+RGBA float: (1f, 0f, 0f, 1f)
+```
+
+The byte array might look something like this:
+```java
+new byte[ imageWidth * imageHeight * 4 ] {
+    0x00, 0x00, 0x00, 0x00, //Pixel index 0, position (x=0, y=0), transparent black
+    0xFF, 0x00, 0x00, 0xFF, //Pixel index 1, position (x=1, y=0), opaque red
+    0xFF, 0x00, 0x00, 0xFF, //Pixel index 2, position (x=2, y=0), opaque red
+    ... etc ...
+}
+```
+
+As you can see, a single pixel is made up of four bytes. Keep in mind it's just a single-dimensional array! 
+The size of the array is WIDTH * HEIGHT * BPP, where BPP (bytes per pixel) in this case is 4 (RGBA).
+We will rely on the width in order to render it as a two-dimensional image.
+
+Most often, we use compression like PNG, TIFF, JPEG, GIF, or what have you, in order to make the file-size smaller. 
+
+### OpenGL Textures
+
+In OpenGL, we use *textures* to store image data. OpenGL textures do not only store image data; they are simply float arrays stored on the GPU, e.g. useful for shadow mapping and other advanced techniques.
+
+The basic steps of setting up a texture are as follows:
+
+1. Decode into RGBA bytes
+2. Get a new texture ID
+3. Bind that texture
+4. Set up any texture parameters
+5. Upload the RGBA bytes to OpenGL
+
+### Decoding PNG to RGBA bytes
+
+OpenGL doesn't know anything about GIF, PNG, JPEG, etc; it only understands bytes and floats. So we need to decode our PNG image into a ByteBuffer. If you are unfamiliar with NIO buffers, [see this page](https://github.com/mattdesl/lwjgl-basics/wiki/Java-NIO-Buffers).
+
+In order to do that, we will use Matthias Mann's open source pure-Java PNG decoder. He also has some decoders for BMP, JPEG and TGA which you can find [here](http://hg.l33tlabs.org/TextureLoader/file/tip/src/de/matthiasmann/textureloader). 
+
+The code to decode an image into a ByteBuffer looks like this:
+```java
+//get an InputStream from our URL
+input = pngURL.openStream();
+
+//initialize the decoder
+PNGDecoder dec = new PNGDecoder(input);
+
+//set up image dimensions 
+width = dec.getWidth();
+height = dec.getHeight();
+
+//we are using RGBA, i.e. 4 components or "bytes per pixel"
+final int bpp = 4;
+
+//create a new byte buffer which will hold our pixel data
+ByteBuffer buf = BufferUtils.createByteBuffer(bpp * width * height);
+
+//decode the image into the byte buffer, in RGBA format
+dec.decode(buf, width * bpp, PNGDecoder.Format.RGBA);
+
+//flip the buffer into "read mode" for OpenGL
+buf.flip();
+```
+
+### Creating the Texture
+
+Although it's possible to bind multiple textures in OpenGL with multiple texture units, this guide
+will only focus on using a single texture unit. Therefore, in order to change the parameters of a texture,
+or in order to send the RGBA bytes to OpenGL, we first need to *bind* that texture, i.e. "make it the currently
+active texture." We can use `glGenTextures` to retrieve a unique identifier (aka "texture name" or "texture handle")
+so that GL knows which texture we are trying to bind. 
+
+The process of creating a texture and uploading the RGBA bytes looks like this:
+
+```java
+//Generally a good idea to enable texturing first
+glEnable(GL_TEXTURE_2D);
+
+//generate a texture handle or unique ID for this texture
+id = glGenTextures();
+
+//bind the texture
+glBindTexture(GL_TEXTURE_2D, id);
+
+//use an alignment of 1 to be safe
+//this tells OpenGL how to unpack the RGBA bytes we will specify
+glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+glPixelStorei(GL_PACK_ALIGNMENT, 1);
+
+//set up our texture parameters
+glTexParameteri(...);
+
+//upload our ByteBuffer to GL
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);		
+```
+
+The call to `glTexImage2D` is what sets up the actual texture in OpenGL. We can call this again later if we decide to change the width and height of our image, or if we need to change the RGBA pixel data.
+If we only want to change a portion of the RGBA data (i.e. a sub-image), we can use `glTexSubImage2D`. For per-pixel modifications, however, we will generally rely on fragment shaders, which we will look into later.
+
+
+### Texture Parameters
+
+Before calling `glTexImage2D`, it's essential that we set up our texture parameters correctly. 
+
+**This section is a work in progress. For now you should be fine with the following parameters:**
+```java
+//Note: GL_CLAMP_TO_EDGE is part of GL12
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+```
+
+The filter will define how the image is handled upon scaling. For "pixel-art" style games, generally `GL_NEAREST`
+is suitable as it leads to hard-edge scaling without blurring. Specifying `GL_LINEAR` will use bilinear scaling
+for smoother results, which is generally effective for 3D games (e.g. a 1024x1024 rock or grass texture) but not
+so for a 2D game:  
+![Scaling](http://i.imgur.com/vAVHc.png)
+
+
+
+![Tiles](http://i.imgur.com/gxtcY.png)
+
+Above, we have a variety of isometric tiles that are contained in a single PNG image. This is called a "sprite sheet" or "texture atlas" -- as it's a combination of sprites contained in a single image.
+
 
 
 Below is the full source of our texture wrapper. See the [repo](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/Texture.java) for a more complete version, including better documentation.
@@ -96,13 +234,26 @@ public class Texture {
 	public Texture(URL pngRef, int filter, int wrap) throws IOException {
 		InputStream input = null;
 		try {
+			//get an InputStream from our URL
 			input = pngRef.openStream();
+			
+			//initialize the decoder
 			PNGDecoder dec = new PNGDecoder(input);
 
+			//set up image dimensions 
 			width = dec.getWidth();
 			height = dec.getHeight();
-			ByteBuffer buf = BufferUtils.createByteBuffer(4 * width * height);
-			dec.decode(buf, width * 4, PNGDecoder.Format.RGBA);
+			
+			//we are using RGBA, i.e. 4 components or "bytes per pixel"
+			final int bpp = 4;
+			
+			//create a new byte buffer which will hold our pixel data
+			ByteBuffer buf = BufferUtils.createByteBuffer(bpp * width * height);
+			
+			//decode the image into the byte buffer, in RGBA format
+			dec.decode(buf, width * bpp, PNGDecoder.Format.RGBA);
+			
+			//flip the buffer into "read mode" for OpenGL
 			buf.flip();
 
 			glEnable(target);
