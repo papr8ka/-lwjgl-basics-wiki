@@ -26,7 +26,7 @@ new byte[ imageWidth * imageHeight * 4 ] {
 ```
 
 As you can see, a single pixel is made up of four bytes. Keep in mind it's just a single-dimensional array! 
-The size of the array is WIDTH * HEIGHT * BPP, where BPP (bytes per pixel) in this case is 4 (RGBA).
+The size of the array is `WIDTH * HEIGHT * BPP`, where `BPP` (bytes per pixel) is in this case 4 (RGBA).
 We will rely on the width in order to render it as a two-dimensional image.
 
 Most often, we use compression like PNG, TIFF, JPEG, GIF, or what have you, in order to make the file-size smaller. 
