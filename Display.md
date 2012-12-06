@@ -1,5 +1,54 @@
 This is a short snippet of code demonstrating a typical application life cycle in LWJGL. The code is pretty self-explanatory. You can find other examples on the [LWJGL wiki](http://www.lwjgl.org/wiki/index.php?title=Main_Page).
 
+### OpenGL Setup
+
+We need to set up a few things in order for OpenGL to work correctly. Note that we are using static imports; when developing we can static import with the wildcard symbol `*` for convenience.
+
+Firstly, it's important to set up our OpenGL viewport to match the display size. This needs to be re
+```java
+glViewport(0, 0, Display.getWidth(), Display.getHeight());
+```
+
+Next, we can disable depth testing since most 2D games will not require this. A bit of info here: the depth buffer is used in 3D scenes to ensure that distant objects are rendered *behind* closer objects. 
+In 2D games, we determine which sprites overlap others based on their *draw order*. Some advanced games may make use of the depth buffer for hardware-accelerated depth sorting, but we don't need to worry about that for now.
+
+```java
+glDisable(GL_DEPTH_TEST);
+```
+
+Next, we need to enable blending. This will be explained in more detail in another series.
+Without this enabled, transparent sprites may not render as expected.
+
+```java
+glEnable(GL_BLEND);
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+```
+
+We also set the "clear color" in our initialization. This is the color which GL will clear the 
+screen to. Keep in mind that colors are specified in RGBA floats, so here we are specifiying transparent black.
+```java
+glClearColor(0f, 0f, 0f, 0f);
+```
+
+### Game Loop
+
+The game loop we have here is very basic. At a later point, you can return to it to implement some timing and interpolation,
+such as in [this example](http://www.lwjgl.org/wiki/index.php?title=LWJGL_Basics_4_(Timing)). For now, we rely on LWJGL's
+`Display.sync` method to cap the frame-rate at 60 frames per second. 
+
+LWJGL uses double-buffering under the hood; we render to the "back buffer,"
+then call `Display.update` to flip the buffers and show the result on screen. As you can see,
+we clear the screen each frame with the following line:
+```java
+glClear(GL_COLOR_BUFFER_BIT);
+```
+
+This will clear the screen to the color we specified earlier, transparent black.
+
+The rest of the code should be relatively self-explanitory.
+
+### Full Source Code
+
 ```java
 /**
  * Copyright (c) 2012, Matt DesLauriers All rights reserved.
@@ -75,16 +124,21 @@ public class Game {
 	// Start our game
 	public void start() throws LWJGLException {
 		// Set up our display 
-		Display.setTitle("Display example");
-		Display.setResizable(true);
-		Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
-		Display.setVSyncEnabled(VSYNC);
-		Display.setFullscreen(FULLSCREEN);
+		Display.setTitle("Display example"); //title of our window
+		Display.setResizable(true); //whether our window is resizable
+		Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT)); //resolution of our display
+		Display.setVSyncEnabled(VSYNC); //whether hardware VSync is enabled
+		Display.setFullscreen(FULLSCREEN); //whether fullscreen is enabled
+
+		//create and show our display
 		Display.create();
 		
 		// Create our OpenGL context and initialize any resources
 		create();
 		
+		// Call this before running to set up our initial size
+		resize();
+
 		running = true;
 		
 		// While we're still running and the user hasn't closed the window... 
@@ -122,10 +176,7 @@ public class Game {
 		
 		// Set clear to transparent black
 		glClearColor(0f, 0f, 0f, 0f);
-		
-		// Set up our viewport to the desired size
-		glViewport(0, 0, WIDTH, HEIGHT);
-		
+				
 		// ... initialize resources here ...
 	}
 	
