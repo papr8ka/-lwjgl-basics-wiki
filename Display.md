@@ -11,7 +11,7 @@ glViewport(0, 0, Display.getWidth(), Display.getHeight());
 
 Next, we can disable depth testing since most 2D games will not require this. A bit of info here: the depth buffer is used in 3D scenes to ensure that distant objects render correctly, and do not overlap with closer objects. 
 
-In 2D games, we determine which sprites overlap others based on their *draw order*. Some advanced games may make use of the depth buffer for hardware-accelerated depth sorting, but we don't need to worry about that for now.
+In 2D games, we determine which sprites overlap others based on their *draw order* (i.e. sprite B is drawn after sprite A, therefore it will appear on top of sprite A). Some advanced 2D games may make use of the depth buffer for hardware-accelerated depth sorting, but we don't need to worry about that for now.
 
 ```java
 glDisable(GL_DEPTH_TEST);
