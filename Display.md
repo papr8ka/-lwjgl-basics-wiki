@@ -9,7 +9,8 @@ Firstly, it's important to set up our OpenGL viewport to match the display size.
 glViewport(0, 0, Display.getWidth(), Display.getHeight());
 ```
 
-Next, we can disable depth testing since most 2D games will not require this. A bit of info here: the depth buffer is used in 3D scenes to ensure that distant objects are rendered *behind* closer objects. 
+Next, we can disable depth testing since most 2D games will not require this. A bit of info here: the depth buffer is used in 3D scenes to ensure that distant objects render correctly, and do not overlap with closer objects. 
+
 In 2D games, we determine which sprites overlap others based on their *draw order*. Some advanced games may make use of the depth buffer for hardware-accelerated depth sorting, but we don't need to worry about that for now.
 
 ```java
