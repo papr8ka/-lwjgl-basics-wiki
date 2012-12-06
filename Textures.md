@@ -135,7 +135,6 @@ so for a 2D game:
 ### Texture Atlases
 
 **This section is a work in progress.**
-![Tiles](http://i.imgur.com/gxtcY.png)
 
 ### Full Source Code
 
