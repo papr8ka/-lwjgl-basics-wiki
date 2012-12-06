@@ -47,9 +47,9 @@ The basic steps of setting up a texture are as follows:
 
 OpenGL doesn't know anything about GIF, PNG, JPEG, etc; it only understands bytes and floats. So we need to decode our PNG image into a ByteBuffer. If you are unfamiliar with NIO buffers, [see this page](https://github.com/mattdesl/lwjgl-basics/wiki/Java-NIO-Buffers).
 
-In order to do that, we will use Matthias Mann's open source pure-Java PNG decoder. He also has some decoders for BMP, JPEG and TGA which you can find [here](http://hg.l33tlabs.org/TextureLoader/file/tip/src/de/matthiasmann/textureloader). 
+In order to do this, we will use Matthias Mann's open source pure-Java PNG decoder. He also has some decoders for BMP, JPEG and TGA which you can find [here](http://hg.l33tlabs.org/TextureLoader/file/tip/src/de/matthiasmann/textureloader). 
 
-The code to decode an image into a ByteBuffer looks like this:
+To decode an image into a ByteBuffer, it looks like this:
 ```java
 //get an InputStream from our URL
 input = pngURL.openStream();
