@@ -8,7 +8,7 @@ An image, as you may know, is simply an array of colors, rendered in two dimensi
 Now, when we zoom in on the image in Photoshop or another program, we can clearly see how the image is constructed of individual pixels:    
 ![HeartBig](http://i.imgur.com/NgH4n.png)
 
-There are a number of ways an image like this would be stored on a computer, most commonly [RGBA with 8-bits per channel](http://en.wikipedia.org/wiki/RGBA_color_space). `RGB` refers to the red, green and blue channels, and `A` refers to the alpha (transparency) channel. Below we can see how the color `red` would be stored digitally:
+There are a number of ways an image like this would be stored on a computer, most commonly [RGBA with 8-bits per channel](http://en.wikipedia.org/wiki/RGBA_color_space). `RGB` refers to the red, green and blue channels, and `A` refers to the alpha (transparency) channel. Below we can see how the color red would be stored digitally:
 ```
 Hex aka RGB int: #ff0000 or 0xff0000
 RGBA byte: (R=255, G=0, B=0, A=1)
