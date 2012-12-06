@@ -22,7 +22,7 @@ for (int i=0; i<buffer.limit(); i++) {
 }
 ```
 
-To understand what's happening, comparing it to a Java array:
+To understand what's happening, let's compare it to a Java array:
 ```java
 //creating the fixed-size array..
 byte[] array = new byte[4];
