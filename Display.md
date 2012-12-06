@@ -4,7 +4,7 @@ This is a short snippet of code demonstrating a typical application life cycle i
 
 We need to set up a few things in order for OpenGL to work correctly. Note that we are using static imports; when developing we can static import with the wildcard symbol `*` for convenience.
 
-Firstly, it's important to set up our OpenGL viewport to match the display size. This needs to be re
+Firstly, it's important to set up our OpenGL viewport to match the display size. We will also call this whenever the display is resized:
 ```java
 glViewport(0, 0, Display.getWidth(), Display.getHeight());
 ```
