@@ -105,3 +105,38 @@ public int getUniformLocation(String str) {
 	return glGetUniformLocation(program, str);
 }
 ```
+
+
+## Setting Uniform Valuse
+
+As discussed in the earlier series, we use `glUniform` to pass uniform data to our shaders. A complete ShaderProgram utility may include numerous utilities for getting and setting uniforms (see [here](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/glutils/ShaderProgram.java)). Our simple example will deal with the bare minimum: matrices and integer uniforms (for sampler2D).
+
+```java
+/**
+ * Sets the uniform data at the specified location (the uniform type may be int, bool or sampler2D). 
+ * @param loc the location of the int/bool/sampler2D uniform 
+ * @param i the value to set
+ */
+public void setUniformi(int loc, int i) {
+	if (loc==-1) return;
+	glUniform1i(loc, i);
+}
+
+/**
+ * Sends a 4x4 matrix to the shader program.
+ * @param loc the location of the mat4 uniform
+ * @param transposed whether the matrix should be transposed
+ * @param mat the matrix to send
+ */
+public void setUniformMatrix(int loc, boolean transposed, Matrix4f mat) {
+	if (loc==-1) return;
+	if (buf16Pool == null)
+		buf16Pool = BufferUtils.createFloatBuffer(16);
+	buf16Pool.clear();
+	mat.store(buf16Pool);
+	buf16Pool.flip();
+	glUniformMatrix4(loc, transposed, buf16Pool);
+}
+```
+
+**Note:** Our `setUniform` methods assume the program is already in use.
