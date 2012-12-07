@@ -134,7 +134,14 @@ so for a 2D game:
 
 #### Wrap Modes
 
-To explain this, we need to understand a bit more about *texture coordinates* and vertices. In OpenGL, we define objects in vertices. Take this simplified sprite, which is a quad. In reality, we would need to use two triangles in GL 3.0+, as quads are deprecated, but the concepts remain the same.
+To explain this, we need to understand a bit more about *texture coordinates* and vertices. In OpenGL, we define objects in vertices. Let's take a simple two dimensional image, like the following brick texture:  
+![Brick](http://i.imgur.com/IGn1g.png)
+
+To render the above object, we need to give OpenGL a "mesh" which consists of four vertices (aka: a quad). Each vertex has a number of attributes, including Position (x, y) and Texture Coordinates (s, t). Texture coordinates are defined in *tangent space*, generally between 0.0 and 1.0. These tell OpenGL where to sample from our texture data. Here is an image showing the attributes of each vertex in our quad:  
+![Quad](http://i.imgur.com/fkzfb.png)
+
+*Note:* This depends on our coordinate system having an origin in the upper-left ("Y-down"). Some libraries, like LibGDX, will use lower-left origin ("Y-up"), and so the values for Position and TexCoord may be in a different order.
+
 
 
 
