@@ -152,7 +152,8 @@ Before we get into the programmable pipeline and our sprite batching system, we 
 
 ```java
 public static void debugTexture(Texture tex, float x, float y, float width, float height) {
-	//in a typical OpenGL game, this part would be done during initialization rather than within the game loop
+	//usually this would not be included in our game loop
+	//however, since it's deprecated, let's keep it inside of this debug function which we will remove later
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, Display.getWidth(), Display.getHeight(), 0, 1, -1);
