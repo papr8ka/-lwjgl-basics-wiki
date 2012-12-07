@@ -112,25 +112,36 @@ If we only want to change a portion of the RGBA data (i.e. a sub-image), we can 
 
 ### Texture Parameters
 
-Before calling `glTexImage2D`, it's essential that we set up our texture parameters correctly. 
-
-**This section is a work in progress. For now you should be fine with the following parameters:**
+Before calling `glTexImage2D`, it's essential that we set up our texture parameters correctly. The code to do that looks like this:
 ```java
+//Setup filtering, i.e. how OpenGL will interpolate the pixels when scaling up or down
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
 //Setup wrap mode, i.e. how OpenGL will handle pixels outside of the expected range
 //Note: GL_CLAMP_TO_EDGE is part of GL12
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-//Setup filtering, i.e. how OpenGL will interpolate the pixels when scaling up or down
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 ```
+
+#### Filtering 
 
 The minification/magnification filters define how the image is handled upon scaling. For "pixel-art" style games, generally `GL_NEAREST`
 is suitable as it leads to hard-edge scaling without blurring. Specifying `GL_LINEAR` will use bilinear scaling
 for smoother results, which is generally effective for 3D games (e.g. a 1024x1024 rock or grass texture) but not
 so for a 2D game:  
 ![Scaling](http://i.imgur.com/vAVHc.png)
+
+#### Wrap Modes
+
+To explain this, we need to understand a bit more about *texture coordinates* and vertices. In OpenGL, we define objects in vertices. Take this simplified sprite, which is a quad. In reality, we would need to use two triangles in GL 3.0+, as quads are deprecated, but the concepts remain the same.
+
+
+
+
+ In OpenGL, textures coordinates are defined in "tangent space," i.e. (T, S) for a two dimensional image.
+
+ 
 
 ### Texture Atlases
 
