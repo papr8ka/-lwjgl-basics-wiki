@@ -3,7 +3,7 @@ This is a short introduction to textures in OpenGL. Our end result will be a Tex
 ### Primer: Digital Images
 
 An image, as you may know, is simply an array of colors, rendered in two dimensions. Let's use this very small image as an example; a heart sprite and a half-heart sprite:   
-![Heart](http://i.imgur.com/WQDjE.png)
+![Heart](http://i.imgur.com/libCK.png)
 
 Now, when we zoom in on the image in Photoshop or another program, we can clearly see how the image is constructed of individual pixels:    
 ![HeartBig](http://i.imgur.com/NgH4n.png)
@@ -15,7 +15,7 @@ RGBA byte: (R=255, G=0, B=0, A=1)
 RGBA float: (R=1f, G=0f, B=0f, A=1f)
 ```
 
-The RGBA byte array representing the above image (22x9 px) might look something like this:
+The RGBA byte array representing the above image (32x16 px) might look something like this:
 ```java
 new byte[ imageWidth * imageHeight * 4 ] {
     0x00, 0x00, 0x00, 0x00, //Pixel index 0, position (x=0, y=0), transparent black
