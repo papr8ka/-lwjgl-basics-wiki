@@ -146,9 +146,53 @@ So what happens if we use values less than 0.0, or greater than 1.0? This is whe
 
 ![WrapModes](http://i.imgur.com/lflHc.png)
 
+### Debug Rendering
+
+Before we get into the programmable pipeline and our sprite batching system, we can "test render" our sprite using old-school immediate mode. These calls (glMatrixMode, glBegin, glColor4f, glVertex2f, etc) are deprecated, and should not be used aside from simple debugging purposes. Once our sprite renderer is set up, we will no longer need to rely on them to draw a texture.
+
+```java
+public static void debugTexture(Texture tex, float x, float y, float width, float height) {
+	//in a typical OpenGL game, this part would be done during initialization rather than within the game loop
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, Display.getWidth(), Display.getHeight(), 0, 1, -1);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
+	//bind the texture before rendering it
+	tex.bind();
+
+	//setup our texture coordinates
+	float u = 0f;
+	float v = 0f;
+	float u2 = 1f;
+	float v2 = 1f;
+
+	//immediate mode is deprecated -- we are only using it for quick debugging
+	glColor4f(1f, 1f, 1f, 1f);
+	glBegin(GL_QUADS);
+		glTexCoord2f(u, v);
+		glVertex2f(x, y);
+		glTexCoord2f(u, v2);
+		glVertex2f(x, y + height);
+		glTexCoord2f(u2, v2);
+		glVertex2f(x + width, y + height);
+		glTexCoord2f(u2, v);
+		glVertex2f(x + width, y);
+	glEnd();
+}
+```
+
+As you can see, the concept here is the same as we described in our earlier image. We are specifying a quad with texture coordinates 0.0 and 1.0. 
+
 ### Texture Atlases
 
-**This section is a work in progress.**
+One thing I haven't mentioned yet is the importance of texture atlases or "sprite sheets." Since we are only binding one texture at a time, this can be costly if we plan to draw many sprites or tiles per frame. Instead, it's almost always a better idea to place all of your tiles and sprites into a single image, so that you only have to bind one texture per frame. 
+
+You can query the maximum texture size with `glGetInteger(GL_MAX_TEXTURE_SIZE)`. Generally, most modern computers allow for at least 4096x4096 textures, but to be safe you may want to limit yourself to 2048x2048
+
+### Non-Power of Two Images
+... todo ...
 
 ### Full Source Code
 
