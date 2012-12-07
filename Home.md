@@ -4,15 +4,15 @@ For a large game project, a platform like [LibGDX](http://libgdx.badlogicgames.c
 
 The [source code](https://github.com/mattdesl/lwjgl-basics) is hosted on GitHub.
 
-### Snippets
+### Tutorials
 
-Also hosted here are a variety of "snippets" and tutorials for those keen on learning LWJGL and OpenGL from the ground up:
+Also hosted here are a variety of tutorials for those keen on learning LWJGL and OpenGL from the ground up:
 
-* [Display Creation](wiki/Display)
-* [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
-* [Texture Loading](wiki/Textures)
-* [Shader Programming](wiki/Shaders)
-* [Sprite Rendering](wiki/SpriteBatch)
+* [1. Display Creation](wiki/Display)
+* [2. Textures](wiki/Textures)
+  * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
+* [3. Shaders](wiki/Shaders)
+* [4. Sprite Batching](wiki/SpriteBatch)
 
 ### Credits
 
