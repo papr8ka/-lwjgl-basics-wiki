@@ -148,7 +148,7 @@ So what happens if we use values less than 0.0, or greater than 1.0? This is whe
 
 ### Debug Rendering
 
-Before we get into the programmable pipeline and our sprite batching system, we can "test render" our sprite using old-school immediate mode. These calls (glMatrixMode, glBegin, glColor4f, glVertex2f, etc) are deprecated, and should not be used aside from simple debugging purposes. Once our sprite renderer is set up, we will no longer need to rely on them to draw a texture.
+Before we get into the programmable pipeline and our sprite batching system, we can "test render" our sprite using old-school immediate mode. These calls (glMatrixMode, glBegin, glColor4f, glVertex2f, etc) are deprecated, and should not be used aside from simple debugging purposes. Once our sprite batcher is set up, we will no longer need to rely on deprecated code to draw a texture.
 
 ```java
 public static void debugTexture(Texture tex, float x, float y, float width, float height) {
