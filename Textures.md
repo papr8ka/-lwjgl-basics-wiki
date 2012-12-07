@@ -188,12 +188,40 @@ As you can see, the concept here is the same as we described in our earlier imag
 
 ### Texture Atlases
 
-One thing I haven't mentioned yet is the importance of texture atlases or "sprite sheets." Since we are only binding one texture at a time, this can be costly if we plan to draw many sprites or tiles per frame. Instead, it's almost always a better idea to place all of your tiles and sprites into a single image, so that you only have to bind one texture per frame. 
+One thing I haven't mentioned yet is the importance of texture atlases or "sprite sheets." Since we are only binding one texture at a time, this can be costly if we plan to draw many sprites or tiles per frame. Instead, it's almost always a better idea to place all of your tiles and sprites into a single image, so that you are only binding minimal textures per frame.
 
-You can query the maximum texture size with `glGetInteger(GL_MAX_TEXTURE_SIZE)`. Generally, most modern computers allow for at least 4096x4096 textures, but to be safe you may want to limit yourself to 2048x2048
+You can query the maximum texture size with `glGetInteger(GL_MAX_TEXTURE_SIZE)`. Generally, most modern computers allow for at least 4096x4096 textures, but if you want to be really safe you can limit yourself to 2048x2048. If you think you will be working with old or limiting drivers (or Android, iOS, WebGL), you may want to limit yourself to 1024x1024.
+
+Here is one example of a texture atlas:  
+![TexAtlas](http://i.imgur.com/0uz31.png)
+
+As you might have noticed from the *Texture Wrap* section, we can tell OpenGL what part of our texture to render by specifying different texture coordinates. For example, say we want to render the grass tile at (1, 0), then texture coordinates would be set up like so:
+```java
+float srcX = 64;
+float srcY = 0;
+float srcWidth = 64;
+float srcHeight = 64;
+
+float u = srcX / tex.width;
+float v = srcY / tex.height;
+float u2 = (srcX + srcWidth) / tex.width;
+float v2 = (srcY + srcHeight) / tex.height;
+```
+
+The above would be better suited in its own method, such as `drawDebugRegion`. Later, we will examine the `TextureRegion` utility class, which will simplify the process of handling sprite sheets and sub-images.
+
+*Note:* As we discussed earlier, using `GL_LINEAR` will lead to bilinear interpolation when scaling -- i.e. the nearest four pixels will be selected and blended together. This can lead to unwanted effects when scaling a texture atlas, where "bleeding" occurs at the edge of sprites, and so it's often wise to use `GL_NEAREST` and/or pad each sprite in your atlas with a transparent 1-2px border.
 
 ### Non-Power of Two Images
-... todo ...
+One thing I have yet to note is the use of power-of-two (POT) dimensions. Historically, OpenGL only allowed POT texture dimensions:  
+`1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096... etc`
+
+Today, however, most drivers will support non-power-of-two (NPOT) texture sizes. You can check to see if your user supports NPOT textures with the following code:  
+```java
+boolean npotSupported = GLContext.getCapabilities().GL_ARB_texture_non_power_of_two;
+```
+
+It should be noted that even if the driver does support NPOT textures, it's generally still advisable to stick to POT sizes as it will often lead to better performance and storage. At a later point, this tutorial may include a segment on padding NPOT textures to a power-of-two size, for drivers that don't support NPOT textures.
 
 ### Full Source Code
 
