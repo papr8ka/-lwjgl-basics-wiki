@@ -134,21 +134,17 @@ so for a 2D game:
 
 #### Wrap Modes
 
-To explain this, we need to understand a bit more about *texture coordinates* and vertices. In OpenGL, we define objects in vertices. Let's take a simple two dimensional image, like the following brick texture:  
+To explain this, we need to understand a bit more about *texture coordinates* and vertices. Let's take a simple two dimensional image, like the following brick texture:  
 ![Brick](http://i.imgur.com/IGn1g.png)
 
-To render the above object, we need to give OpenGL a "mesh" which consists of four vertices (aka: a quad). Each vertex has a number of attributes, including Position (x, y) and Texture Coordinates (s, t). Texture coordinates are defined in *tangent space*, generally between 0.0 and 1.0. These tell OpenGL where to sample from our texture data. Here is an image showing the attributes of each vertex in our quad:  
+To render the above object, we need to give OpenGL a **mesh** which consists of four **vertices**. As you can see, we end up with a 2D quad. Each vertex has a number of attributes, including Position (x, y) and Texture Coordinates (s, t). Texture coordinates are defined in *tangent space*, generally between 0.0 and 1.0. These tell OpenGL where to sample from our texture data. Here is an image showing the attributes of each vertex in our quad:  
 ![Quad](http://i.imgur.com/fkzfb.png)
 
 *Note:* This depends on our coordinate system having an origin in the upper-left ("Y-down"). Some libraries, like LibGDX, will use lower-left origin ("Y-up"), and so the values for Position and TexCoord may be in a different order.
 
+So what happens if we use values less than 0.0, or greater than 1.0? This is where the *wrap mode* comes into play. We tell OpenGL how to handle values outside of the texture coordinates. The two most common modes are `GL_CLAMP_TO_EDGE`, which simply samples the edge color, and `GL_REPEAT`, which will lead to a repeating pattern. For example, using 2.0 and `GL_REPEAT` will lead to the image being repeated twice within the *width* and *height* we specified. Here is an image to demonstrate the differences between clamping and repeat wrap modes:
 
-
-
-
- In OpenGL, textures coordinates are defined in "tangent space," i.e. (T, S) for a two dimensional image.
-
- 
+![WrapModes](http://i.imgur.com/lflHc.png)
 
 ### Texture Atlases
 
