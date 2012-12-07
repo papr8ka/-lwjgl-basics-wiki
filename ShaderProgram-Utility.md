@@ -10,7 +10,7 @@ For our purposes, we will only use one vertex and one fragment shader to create 
 4. Attach the vertex and shader objects to our program with `glAttachShader`. 
 5. If we are targeting 2.1, here is where we would bind any attribute locations manually. For example, we would bind the Position attribute to index 0. For this we use `glBindAttribLocation`. If we are targeting newer versions of GLSL, we can skip this step.
 6. We then link the program with `glLinkProgram`.
-7. If the program succeeded in compiling, we can now detach and delete the vertex and fragment shader objects as they are no longer needed -- using `glDetachShader` and `glDeleteShader`, respectively.
+7. If the program succeeded in compiling, we can now detach and delete the vertex and fragment shader objects as they are no longer needed -- using `glDetachShader` and `glDeleteShader`, respectively. These are only flags for OpenGL, and the objects will be deleted when they are no longer associated with any rendering states.
 
 You can see the entire process for that here:
 ```java
@@ -79,8 +79,29 @@ protected int compileShader(String source, int type) throws LWJGLException {
 
 ## Using the Program
 
-In OpenGL, we can only have a single shader program in use at a time. We use `glUseProgram(program)` to specify the active program. In the days of "old school GL", we would specify `glUseProgram(0)` to use the default (fixed-function) shader, but since we are trying to avoid fixed-function, we should never need to call that. In 3.1+ core profile, specifying `0` will give you an error.
-
+In OpenGL, we can only have a single shader program in use at a time. We call `glUseProgram(program)` to specify the active program. Back in fixed-function days, we would specify `glUseProgram(0)` to use the "default" shader. However, since we are trying to work with the programmable pipeline, we should no longer concern ourselves with the default shader, since there is no such thing in modern GL. In fact, it may cause errors if we try rendering with the default shader in GL 3.1+ core profile. So our methods to the end-user look like this:
 ```java
+/**
+ * Make this shader the active program.
+ */
+public void use() {
+	glUseProgram(program);
+}
 
+/**
+ * Destroy this shader program.
+ */
+public void destroy() {
+	//a flag for GL -- the program will not actually be deleted until it's no longer in use
+	glDeleteProgram(program);
+}
+
+/**
+ * Gets the location of the specified uniform name.
+ * @param str the name of the uniform
+ * @return the location of the uniform in this program
+ */
+public int getUniformLocation(String str) {
+	return glGetUniformLocation(program, str);
+}
 ```
