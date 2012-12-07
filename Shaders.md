@@ -6,7 +6,7 @@ GLSL stands for OpenGL Shading Language. Shaders are like small scripts that let
 
 ### Vertex Shaders
 
-As discussed in the Texture article, a **vertex** is a point in space with some attributes attached to it, like position (xyz), colour (rgba), texture coordinates (st). A “vertex shader” allows you to interact with this vertex information before sending it along the graphics pipeline to be rendered.
+As discussed in the [Textures](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) article, a **vertex** is a point in space with some attributes attached to it, like position (xyz), colour (rgba), texture coordinates (st). A “vertex shader” allows you to interact with this vertex information before sending it along the graphics pipeline to be rendered.
 
 Vertex shaders are often more applicable in 3D graphics programming -- e.g. applying a noise displacement to the vertices of a 3D mesh -- but they are still essential to understand even for 2D games.
 
