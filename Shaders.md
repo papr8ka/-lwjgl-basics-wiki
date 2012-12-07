@@ -2,182 +2,24 @@ This page is a work in progress.
 
 ## Intro to GLSL
 
-GLSL stands for OpenGL Shading Language. Shaders are like small scripts that let us interact with the graphics processor more closely. Often they are used in 3D games, but nowadays 2D games are beginning to use them as well. 
+GLSL stands for OpenGL Shading Language. Shaders are like small scripts that let us interact with the graphics processor more closely. They are an essential aspect of graphics programming, and can be used for a variety of effects and visuals in your 2D and 3D games. For now, there are two types of shaders you should familiarize yourself with:
 
---- todo ----
+### Vertex Shaders
 
+As discussed in the Texture article, a **vertex** is a point in space with some attributes attached to it, like position (xyz), colour (rgba), texture coordinates (st). A “vertex shader” allows you to interact with this vertex information before sending it along the graphics pipeline to be rendered.
 
+Vertex shaders are often more applicable in 3D graphics programming -- e.g. applying a noise displacement to the vertices of a 3D mesh -- but they are still essential to understand even for 2D games.
 
-Below is the full source of our shader utility. See the [repo](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/glutils/ShaderProgram.java) for a more complete version, which includes better documentation.
+### Fragment Shaders
 
-```java
-/**
- * Copyright (c) 2012, Matt DesLauriers All rights reserved.
- *
- *	Redistribution and use in source and binary forms, with or without
- *	modification, are permitted provided that the following conditions are met:
- *
- *	* Redistributions of source code must retain the above copyright notice, this
- *	  list of conditions and the following disclaimer.
- *
- *	* Redistributions in binary
- *	  form must reproduce the above copyright notice, this list of conditions and
- *	  the following disclaimer in the documentation and/or other materials provided
- *	  with the distribution.
- *
- *	* Neither the name of the Matt DesLauriers nor the names
- *	  of his contributors may be used to endorse or promote products derived from
- *	  this software without specific prior written permission.
- *
- *	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *	AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *	IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *	ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *	CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- *	SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- *	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- *	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- *	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- *	POSSIBILITY OF SUCH DAMAGE.
- */
-package mdesl.graphics.glutils;
+Often called “pixel shaders,” these allow us to modify individual pixels before they are sent along the graphics pipeline. These shaders “output” a RGBA colour. Think of it like a return statement: if we rendered a sprite with a fragment shader that only returned the colour red `(R=1, G=0, B=0, A=1)` – the result would be a red box! 
 
-import static org.lwjgl.opengl.GL11.GL_FALSE;
-import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
-import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
-import static org.lwjgl.opengl.GL20.GL_INFO_LOG_LENGTH;
-import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
-import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
-import static org.lwjgl.opengl.GL20.glAttachShader;
-import static org.lwjgl.opengl.GL20.glBindAttribLocation;
-import static org.lwjgl.opengl.GL20.glCompileShader;
-import static org.lwjgl.opengl.GL20.glCreateProgram;
-import static org.lwjgl.opengl.GL20.glCreateShader;
-import static org.lwjgl.opengl.GL20.glDeleteProgram;
-import static org.lwjgl.opengl.GL20.glDeleteShader;
-import static org.lwjgl.opengl.GL20.glDetachShader;
-import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
-import static org.lwjgl.opengl.GL20.glGetProgrami;
-import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
-import static org.lwjgl.opengl.GL20.glGetShaderi;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glLinkProgram;
-import static org.lwjgl.opengl.GL20.glShaderSource;
-import static org.lwjgl.opengl.GL20.glUniformMatrix4;
-import static org.lwjgl.opengl.GL20.glUseProgram;
+## Where to start?
 
-import java.nio.FloatBuffer;
-import java.util.List;
+Before you start working on your own shader-based sprite renderer, it would be smart to experiment with GLSL in order to become a little more comfortable with concepts like uniforms and attributes. For this I recommend using a library or tool that will set up shaders for you, allowing you to jump right into GLSL code. For this tutorial series, we will follow the tests in *lwjgl-basics*. There are also online GLSL editors, if you have a WebGL-enabled browser, which are extremely useful for learning various concepts:
+- http://glsl.heroku.com/
+- http://www.iquilezles.org/apps/shadertoy/
 
-import org.lwjgl.BufferUtils;
-import org.lwjgl.util.vector.Matrix4f;
+## Hello World
 
-/**
- * A bare-bones ShaderProgram utility based on ra4king's ArcSynthesis Java ports.
- *
- * @author ra4king, modifications by davedes and matheusdev
- */
-public class ShaderProgram {
-
-	private static final FloatBuffer buf16Pool = BufferUtils.createFloatBuffer(16);
-
-	public final int program;
-	public final int vertex;
-	public final int fragment;
-	protected String log;
-
-	public ShaderProgram(String vertexSource, String fragmentSource) {
-		this(vertexSource, fragmentSource, null);
-	}
-
-	public ShaderProgram(String vertexShader, String fragmentShader, List<VertexAttrib> attributes) {
-		vertex = compileShader(vertexShader, GL_VERTEX_SHADER);
-		fragment = compileShader(fragmentShader, GL_FRAGMENT_SHADER);
-		program = glCreateProgram();
-		glAttachShader(program, vertex);
-		glAttachShader(program, fragment);
-
-		if (attributes != null)
-			for (VertexAttrib a : attributes)
-				glBindAttribLocation(program, a.location, a.name);
-
-		glLinkProgram(program);
-
-		String infoLog = glGetProgramInfoLog(program, glGetProgrami(program, GL_INFO_LOG_LENGTH));
-
-		if (glGetProgrami(program, GL_LINK_STATUS) == GL_FALSE)
-			throw new RuntimeException(
-					"Failure in linking program. Error log:\n" + infoLog);
-
-		if (infoLog!=null && infoLog.trim().length()!=0)
-			log += infoLog;
-
-		glDetachShader(program, vertex);
-		glDetachShader(program, fragment);
-		glDeleteShader(vertex);
-		glDeleteShader(fragment);
-	}
-
-	private int compileShader(String source, int type) {
-		int shader = glCreateShader(type);
-		glShaderSource(shader, source);
-		glCompileShader(shader);
-
-		String infoLog = glGetShaderInfoLog(shader,
-				glGetShaderi(shader, GL_INFO_LOG_LENGTH));
-
-		if (glGetShaderi(shader, GL_COMPILE_STATUS) == GL_FALSE)
-			throw new RuntimeException("Failure in compiling " + getName(type)
-					+ ". Error log:\n" + infoLog);
-
-		if (infoLog!=null && infoLog.trim().length()!=0)
-			log += getName(type) +": "+infoLog + "\n";
-
-		return shader;
-	}
-
-	private String getName(int shaderType) {
-		if (shaderType == GL_VERTEX_SHADER)
-			return "GL_VERTEX_SHADER";
-		if (shaderType == GL_FRAGMENT_SHADER)
-			return "GL_FRAGMENT_SHADER";
-		else
-			return "shader";
-	}
-
-	public void begin() {
-		glUseProgram(program);
-	}
-
-	public void end() {
-		glUseProgram(0);
-	}
-
-	public void destroy() {
-		glDeleteProgram(program);
-	}
-
-	public int getUniformLocation(String str) {
-		return glGetUniformLocation(program, str);
-	}
-
-	public FloatBuffer getBuf16Pool() {
-		buf16Pool.clear();
-		return buf16Pool;
-	}
-
-	public void storeUniformMat4(String uniform, Matrix4f mat, boolean transposed) {
-		FloatBuffer buffer = getBuf16Pool();
-		mat.store(buffer);
-		buffer.flip();
-
-		int uniformId = getUniformLocation(uniform);
-		if (uniformId != -1) {
-			glUniformMatrix4(uniformId, transposed, buf16Pool);
-		} else {
-			throw new IllegalStateException("glGetUniformLocation for the uniform \"" + uniform + "\" returned -1.");
-		}
-	}
-}
-```
+Continue to Lesson 1 to get started.
