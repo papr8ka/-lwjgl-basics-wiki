@@ -35,7 +35,7 @@ Since an array of bytes can get very large, we generally use compression like PN
 
 In OpenGL, we use *textures* to store image data. OpenGL textures do not only store image data; they are simply float arrays stored on the GPU, e.g. useful for shadow mapping and other advanced techniques.
 
-The basic steps of setting up a texture are as follows:
+The basic steps of getting an image into a texture are as follows:
 
 1. Decode into RGBA bytes
 2. Get a new texture ID
