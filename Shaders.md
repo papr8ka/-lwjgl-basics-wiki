@@ -1,5 +1,12 @@
 This page is a work in progress.
 
+## Intro to GLSL
+
+GLSL stands for Open**GL** **S**hading **L**anguage. Shaders are like small scripts that let us interact with the graphics processor more closely. Often they are used in 3D games, but nowadays 2D games are beginning to use them as well. 
+
+--- todo ----
+
+
 
 Below is the full source of our shader utility. See the [repo](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/glutils/ShaderProgram.java) for a more complete version, which includes better documentation.
 
