@@ -111,6 +111,8 @@ Our fragment shader is also pretty simple:
 2. Invert the RGB components of the texture color.
 3. Multiply this color by our vertex color and "output" the result.
 
+# Dissecting the Vertex Shader
+
 ## Vertex Attributes
 
 Here's the first thing you'll notice, found in our vertex shader:
@@ -137,7 +139,9 @@ Another attribute that is not shown in the above image is `Color`. Generally, we
 
 SpriteBatch expects these three attributes to exist in the vertex shader, and the names should match exactly. This is why we created our ShaderProgram with `SpriteBatch.ATTRIBUTES` as a parameter.
 
-We can only declare attributes in our vertex shader. In order for the fragment shader to utilize them, we need to "pass them along." This is done by declaring a varying in both vertex and fragment shaders with the same name. In the vertex shader, we pass them along like so:
+We can only declare attributes in our vertex shader. Also note, attributes are **read-only** since they are passed from SpriteBatch. So we cannot assign them a value in GLSL.
+
+In order for the fragment shader to utilize these attributes, we need to "pass them along." This is done by declaring **varyings** in the vertex and fragment shaders. In the vertex shader, we pass them along like so:
 ```glsl
 ...
 
@@ -153,14 +157,14 @@ void main() {
 
 Our varying names can be anything, as long as they are consistent between fragment and vertex shaders.
 
-## Uniforms
+## mat4 Uniform
 
 The next line in our vertex shader brings us to another topic, uniforms:
 ```glsl
 uniform mat4 u_projView;
 ```
 
-A uniform is like a script variable that we can set from Java. For example, if we needed to pass the mouse coordinates to a shader program, we would use a `vec2` uniform. 
+A uniform is like a script variable that we can set from Java. For example, if we needed to pass the mouse coordinates to a shader program, we would use a `vec2` uniform and send the new `(x, y)` values to the shader every time the mouse moves. Like attributes, uniforms are **read-only** in the shader, so we cannot assign values to them in GLSL.
 
 In our case, the vertex shader needs to transform the screen space coordinates from our SpriteBatch -- e.g. `(10, 10)` -- into 3D world-space coordinates. We do this by multiplying our `Position` attribute by the combined [projection and view matrices](http://en.wikipedia.org/wiki/Transformation_matrix) of our SpriteBatch, which is named `u_projView` (or `SpriteBatch.U_PROJ_VIEW`). This leads to 2D orthographic projection, where origin `(0, 0)` is at the top left:
 ```glsl
@@ -168,3 +172,23 @@ gl_Position = u_projView * vec4(Position.xy, 0.0, 1.0);
 ```
 
 SpriteBatch will update the `u_projView` uniform data as necessary; for example, when we first initialize SpriteBatch, or after calling `SpriteBatch.resize`. Notice that the uniform uses a `mat4` data type. 
+
+# Dissecting the Fragment Shader
+
+## sampler2D Uniform
+
+As I briefly explained in the Texture tutorial, it's possible in OpenGL to have multiple active texture units (i.e. multiple textures "bound" at once). The `sampler2D` data type tells us which texture unit we are dealing with. However, for now, we will only concern ourselves with the default one: texture unit zero (`GL_TEXTURE0`). We can think of it as an integer, where 0 is the default texture unit. 
+
+SpriteBatch expects a `sampler2D` uniform named `u_texture` (or `SpriteBatch.U_TEXTURE`). SpriteBatch will then set this uniform for us to `0`, during initialization, to indicate the default texture unit.
+
+As we can see in the fragment shader, we also need to declare our varyings, i.e. our attributes passed from the vertex shader. The names should match the varyings we declared in the vertex shader.
+
+```glsl
+//texture unit, SpriteBatch will set it to zero (0)
+uniform sampler2D u_texture;
+
+//"in" attributes from vertex shader
+varying vec4 vColor;
+varying vec2 vTexCoord;
+```
+
