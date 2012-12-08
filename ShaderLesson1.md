@@ -192,4 +192,4 @@ varying vec4 vColor;
 varying vec2 vTexCoord;
 ```
 
-
+Within our `main()`
