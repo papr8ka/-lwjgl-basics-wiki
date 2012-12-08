@@ -14,6 +14,28 @@ Vertex shaders are often more applicable in 3D graphics programming -- e.g. appl
 
 Often called “pixel shaders,” these allow us to modify individual pixels before they are sent along the graphics pipeline. These shaders “output” a RGBA colour. Think of it like a return statement: if we rendered a sprite with a fragment shader that only returned the colour red `(R=1, G=0, B=0, A=1)` – the result would be a red box! 
 
+### Basic Shaders
+
+Vertex and fragment shaders both require a `main()` method. Vertex shaders typically pass the position of the vertex on to GL, like so:
+
+```glsl
+//the position of the vertex as specified by our renderer
+attribute vec3 Position;
+
+void main() {
+    //pass along the position
+    gl_Position = vec4(Position, 1.0);
+}
+```
+
+Whereas fragment shaders typically pass the frag color (i.e. "pixel" color) along, like so:
+```glsl
+void main() {
+    //pass along the color red
+    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+}
+```
+
 ## Where to start?
 
 Before jumping straight into your shader-based sprite renderer, it would be smart to experiment with GLSL in order to become a little more comfortable with concepts like uniforms and attributes. For this I recommend using a library or tool that will set up shaders for you, allowing you to jump right into GLSL code. For this tutorial series, we will follow the tests in [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics/tree/master/test/mdesl/test/shadertut). There are also online GLSL editors, if you have a WebGL-enabled browser, which are extremely useful for learning various concepts:
