@@ -47,4 +47,4 @@ The best way to learn GLSL is through experimentation and practice. Once you've 
 - http://glsl.heroku.com/
 - http://www.iquilezles.org/apps/shadertoy/
 
-If you're feeling comfortable with GLSL, you could also try making your own shader-based sprite batcher in order to have a better grasp of how it all comes together.
+If you're feeling comfortable with GLSL, you could also try making your own [shader-based sprite batcher](https://github.com/mattdesl/lwjgl-basics/wiki/CustomRenderer) in order to have a better grasp of how it all comes together.
