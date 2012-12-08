@@ -62,7 +62,7 @@ Bloody exhilarating, isn't it?
 
 ## The Shaders
 
-Let's take a look at what is going on. Here is the [vertex shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.vert), which works on every vertex that SpriteBatch sends to GL:
+Let's take a look at what is going on. Here is the [vertex shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.vert), which works on every vertex that our SpriteBatch sends to GL:
 ```glsl
 //incoming Position attribute from our SpriteBatch
 attribute vec2 Position;
