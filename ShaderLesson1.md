@@ -61,7 +61,7 @@ protected void render() throws LWJGLException {
 
 ## The Shaders
 
-Let's take a look at what is going on. Here is the [vertex shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.vert):
+Let's take a look at what is going on. Here is the [vertex shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.vert), which works on every vertex that SpriteBatch sends to GL:
 ```glsl
 //incoming Position attribute from our SpriteBatch
 attribute vec2 Position;
@@ -77,7 +77,7 @@ void main() {
 
 We simply take the Position attribute (given to us by our sprite batcher) -- such as `(10, 10)` -- and transform it into 3D world-space coordinates that OpenGL can work with.
 
-The [fragment shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.frag):
+The [fragment shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.frag), which works on every fragment (or "pixel") that exists within our shape:
 ```glsl
 void main() {
 	//final color
@@ -104,39 +104,28 @@ In our case, we are ignoring the `TexCoord` attribute since we don't need it. In
 _Attributes can only be declared in vertex shaders_. Also, attributes are **read-only** since they are passed from SpriteBatch. So we cannot assign them a value in GLSL.
 
 
-## Uniform: u_projView
+## Uniforms
 
 The next line in our vertex shader brings us to another topic, uniforms:
 ```glsl
 uniform mat4 u_projView;
 ```
 
-A uniform is like a script variable that we can set from Java. For example, if we needed to pass the mouse coordinates to a shader program, we would use a `vec2` uniform and send the new `(x, y)` values to the shader every time the mouse moves. Like attributes, uniforms are **read-only** in the shader, so we cannot assign values to them in GLSL.
+A uniform is like a script variable that we can set from Java. For example, if we needed to pass the mouse coordinates to a shader program, we would use a `vec2` uniform and send the `(x, y)` values to the shader every time the mouse moves. Like attributes, uniforms are **read-only** in the shader, so we cannot assign values to them in GLSL.
 
-In our case, the vertex shader needs to transform the screen space coordinates from our SpriteBatch -- e.g. `(10, 10)` -- into 3D world-space coordinates. We do this by multiplying our `Position` attribute by the combined [projection and view matrices](http://en.wikipedia.org/wiki/Transformation_matrix) of our SpriteBatch, which is named `u_projView` (or `SpriteBatch.U_PROJ_VIEW`). This leads to 2D orthographic projection, where origin `(0, 0)` is at the top left:
+In our case, the vertex shader needs to transform the screen space coordinates from our SpriteBatch into 3D world-space coordinates. We do this by multiplying our `Position` attribute by the combined [transformation matrix](http://en.wikipedia.org/wiki/Transformation_matrix) of our SpriteBatch, which is named `u_projView` (or `SpriteBatch.U_PROJ_VIEW`). This leads to a 2D orthographic projection, where origin `(0, 0)` is at the top left. e.g. `(32, 7)` would be 32 pixels right, 7 pixels down.
 ```glsl
 gl_Position = u_projView * vec4(Position.xy, 0.0, 1.0);
 ```
 
-SpriteBatch will update the `u_projView` uniform data as necessary; for example, when we first initialize SpriteBatch, or after calling `SpriteBatch.resize`. Notice that the uniform uses a `mat4` data type. 
+Whenever we change the transformation matrix of our SpriteBatch (for example, when we call `SpriteBatch.resize`), it will update the `u_projView` uniform in our shader. It expects the name and data type to match; notice we are using `mat4` as the GLSL data type to represent a 4x4 matrix.
 
-# Dissecting the Fragment Shader
+## The Fragment Shader
 
-## Uniform: u_texture
-
-As I briefly explained in the Texture tutorial, it's possible in OpenGL to have multiple active texture units (i.e. multiple textures "bound" at once). The `sampler2D` data type tells us which texture unit we are dealing with. However, for now, we will only concern ourselves with the default one: texture unit zero (`GL_TEXTURE0`). We can think of it as an integer, where 0 is the default texture unit. 
-
-SpriteBatch expects a `sampler2D` uniform named `u_texture` (or `SpriteBatch.U_TEXTURE`). SpriteBatch will then set this uniform for us to `0`, during initialization, to indicate the default texture unit.
-
-As we can see in the fragment shader, we also need to declare our varyings, i.e. our attributes passed from the vertex shader. The names should match the varyings we declared in the vertex shader.
+A fragment shader usually ends by assigning a value to `gl_FragColor`, which can be thought of in simple terms as a "return statement." This fragment shader is called on every pixel within our shape (in the case of SpriteBatch, rectangles), and for every fragment we are returning the color red. Thus, we end up with red boxes... Pretty simple.
 
 ```glsl
-//texture unit, SpriteBatch will set it to zero (0)
-uniform sampler2D u_texture;
-
-//"in" attributes from vertex shader
-varying vec4 vColor;
-varying vec2 vTexCoord;
+gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 ```
 
-Within our `main()`
+# Data Types
