@@ -113,7 +113,7 @@ Our fragment shader is also pretty simple:
 
 # Dissecting the Vertex Shader
 
-## Vertex Attributes
+## Attributes
 
 Here's the first thing you'll notice, found in our vertex shader:
 ```glsl
@@ -139,7 +139,7 @@ Another attribute that is not shown in the above image is `Color`. Generally, we
 
 SpriteBatch expects these three attributes to exist in the vertex shader, and the names should match exactly. This is why we created our ShaderProgram with `SpriteBatch.ATTRIBUTES` as a parameter.
 
-We can only declare attributes in our vertex shader. Also note, attributes are **read-only** since they are passed from SpriteBatch. So we cannot assign them a value in GLSL.
+_Attributes can only be declared in vertex shaders_. Also, attributes are **read-only** since they are passed from SpriteBatch. So we cannot assign them a value in GLSL.
 
 In order for the fragment shader to utilize these attributes, we need to "pass them along." This is done by declaring **varyings** in the vertex and fragment shaders. In the vertex shader, we pass them along like so:
 ```glsl
