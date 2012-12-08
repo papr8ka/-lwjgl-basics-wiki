@@ -12,7 +12,7 @@ Also hosted here is a short tutorial series aimed to get users started with the 
 * [2. Textures](wiki/Textures)
   * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
 * [3. Intro to Shaders](wiki/Shaders)
-  * Lesson 1: Hello World, Uniforms and Attributes
+  * [Lesson 1: Red Boxes](wiki/ShaderLesson1)
 * 4. Creating Your own 2D Renderer
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
   * [Sprite Batching](wiki/SpriteBatch)
