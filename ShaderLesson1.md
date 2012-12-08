@@ -47,7 +47,7 @@ protected void render() throws LWJGLException {
 	// start our batch
 	batch.begin();
 
-	// draw some sprites here
+	// draw some sprites... they will all appear inverted
 	batch.draw(tex, 10, 10);
 
 	// end our batch
@@ -56,3 +56,43 @@ protected void render() throws LWJGLException {
 ```
 
 ![Invert](http://i.imgur.com/CdA4o.png)
+
+
+## The Shaders
+
+Let's take a look at what is going on. Here is the [vertex shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.vert):
+```java
+uniform mat4 u_projView;
+
+attribute vec2 Position;
+attribute vec2 TexCoord;
+attribute vec4 Color;
+
+varying vec4 vColor;
+varying vec2 vTexCoord;
+ 
+void main() {
+	vColor = Color;
+	vTexCoord = TexCoord;
+	gl_Position = u_projView * vec4(Position.xy, 0.0, 1.0);
+}
+```
+
+And the [fragment shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.frag):
+```java
+uniform sampler2D u_texture;
+
+varying vec4 vColor;
+varying vec2 vTexCoord;
+
+void main(void) {
+	//sample the texture
+	vec4 texColor = texture2D(u_texture, vTexCoord);
+
+	//invert the red, green and blue channels
+	texColor.rgb = 1.0 - texColor.rgb;
+
+	//final color
+	gl_FragColor = vColor * texColor;
+}
+```
