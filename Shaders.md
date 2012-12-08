@@ -14,24 +14,6 @@ Vertex shaders are often more applicable in 3D graphics programming -- e.g. appl
 
 Often called “pixel shaders,” these allow us to modify individual pixels before they are sent along the graphics pipeline. These shaders “output” a RGBA colour. Think of it like a return statement: if we rendered a sprite with a fragment shader that only returned the colour red `(R=1, G=0, B=0, A=1)` – the result would be a red box! 
 
-## Vertex Attributes
-
-Let's go back to the brick sprite we were using in the [Textures](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) tutorial:  
-![Brick](http://i.imgur.com/IGn1g.png)
-
-As we explained in the Textures tutorial, we need to give OpenGL four **vertices** to make up our quad. Each **vertex** contains a number of **attributes**, such as `Position` and `TexCoord`. Refer to this image again:  
-![Quad](http://i.imgur.com/fkzfb.png)
-
-Another attribute that is not shown in the above image is `Color`. Generally, we'll use opaque white `(R=1, G=1, B=1, A=1)` for each vertex, in order to render the sprite with full opacity.
-
-These attributes are "passed to the vertex shader." That is to say, a vertex shader can do something with these attributes before sending them along the pipeline. Most commonly, a vertex shader will transform the given `Position` by some kind of projection matrix. For example: the screen-space coordinates `(23, 15)` will be transformed into orthographic 3D world-space coordinates that OpenGL understands.
-
-The vertex shader is also responsible for passing various attributes (`Color`, `TexCoord`, etc) along to the fragment shader. 
-
-## Uniforms
-
-
-
 ## Where to start?
 
 Before jumping straight into your shader-based sprite renderer, it would be smart to experiment with GLSL in order to become a little more comfortable with concepts like uniforms and attributes. For this I recommend using a library or tool that will set up shaders for you, allowing you to jump right into GLSL code. For this tutorial series, we will follow the tests in [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics/tree/master/test/mdesl/test/shadertut). There are also online GLSL editors, if you have a WebGL-enabled browser, which are extremely useful for learning various concepts:
