@@ -122,10 +122,73 @@ Whenever we change the transformation matrix of our SpriteBatch (for example, wh
 
 ## The Fragment Shader
 
-A fragment shader usually ends by assigning a value to `gl_FragColor`, which can be thought of in simple terms as a "return statement." This fragment shader is called on every pixel within our shape (in the case of SpriteBatch, rectangles), and for every fragment we are returning the color red. Thus, we end up with red boxes... Pretty simple.
+Our fragment shader "returns" our "outputs" the color red; this is done by assigning a 4-component RGBA vector to `gl_FragColor`. This fragment shader is called on every pixel within our shape (in the case of SpriteBatch, rectangles), and for every fragment we are returning the color red. Thus, we end up with red boxes... Pretty simple.
 
 ```glsl
 gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 ```
 
-# Data Types
+## Data Types 
+
+A vector is much like an array; it's a container which holds a fixed number of elements (2, 3, or 4). Here is a brief list of some data types available in desktop GLSL:
+
+  * `float` - a simple float value, e.g. 1.0
+  * `vec2` - a float Vector2, e.g. (x, y)
+  * `vec3` - a float Vector3, e.g. (x, y, z) or (r, g, b)
+  * `vec4` - a float Vector4, e.g. (r, g, b, a)
+  * `int` - an integer
+  * `vec2i`, `vec3i`, `vec4i` - as above, but expects integer type
+  * `sampler2D` - a special type which we will get to when dealing with texture sampling
+
+Notice that some GLSL compilers are a little picky. For example, this might give us an error, because we are trying to give an `int` type where the compiler expects a `float`:
+```glsl
+float x = 5; <-- error
+vec2 v = vec2(10, 5); <-- another error
+```
+
+If you are working on desktop, you can append `#version 120` to the top of your fragment and vertex shaders, which will introduce a more lenient compiler. If you are working on iOS, Android, or WebGL, you will need to do the following:
+```glsl
+float x = 5.0;
+vec2 v = vec2(10.0, 5.0);
+```
+
+We create vectors like so:
+```glsl
+vec2 foo = vec2(1.0, 5.0); // => (1, 5)
+vec3 bar = vec3(5.0, 1.0, 2.0); // => (5, 1, 2)
+vec4 white = vec4(1.0); // => (1, 1, 1, 1)
+```
+
+And we can access them in a number of ways:
+```glsl
+//copies only the first three components, notice we need to use vec3
+vec3 other = myVec.xyz;
+ 
+//copies all four components
+vec4 aColor = myVec.rgba;
+ 
+//"swizzles" the (x, y) components
+vec2 swiz = myVec.yx;
+ 
+//stpq are used for texture coordinates
+vec2 texCoords = myVec.st;
+ 
+//the first component
+float x = myVec.x;
+ 
+//we could even treat vectors as an array
+float e0 = myVec[0];
+```
+
+GLSL doesn't care if you use `rgba`, `xyzw`, or `stpq` to access a vector, so long as it's consistent (you cannot do `rgzw`, for example). 
+
+Also useful to know is the `const` keyword, which is similar to Java's `final`, and allows us to declare constants. Let's re-write our fragment shader to demonstrate some different means of writing GLSL:
+
+```glsl
+const vec3 RED = vec3(1.0, 0.0, 0.0); 
+
+void main() {
+    gl_FragColor = vec4(RED, 1.0);
+}
+```
+
