@@ -64,10 +64,12 @@ Let's take a look at what is going on. Here is the [vertex shader](https://githu
 ```java
 uniform mat4 u_projView;
 
+//"in" attributes from our SpriteBatch
 attribute vec2 Position;
 attribute vec2 TexCoord;
 attribute vec4 Color;
 
+//"out" attributes sent along to fragment shader
 varying vec4 vColor;
 varying vec2 vTexCoord;
  
@@ -78,10 +80,15 @@ void main() {
 }
 ```
 
+The above is a simple "pass through" vertex shader. It does two things:
+1. Pass the `Color` and `TexCoord` attributes along to our fragment shader.
+2. Transform the given screen space position -- e.g. `(10, 10)` -- into 3D world-space coordinates that OpenGL understands.
+
 And the [fragment shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.frag):
 ```java
 uniform sampler2D u_texture;
 
+//"in" attributes from vertex shader
 varying vec4 vColor;
 varying vec2 vTexCoord;
 
@@ -92,7 +99,30 @@ void main(void) {
 	//invert the red, green and blue channels
 	texColor.rgb = 1.0 - texColor.rgb;
 
-	//final color
+	//output final color
 	gl_FragColor = vColor * texColor;
 }
 ```
+
+Our fragment shader is also pretty simple:
+1. Sample the color at the current texture coordinate. 
+2. Invert the RGB components of the texture color.
+3. Multiply this color by our vertex color and "output" the result.
+
+
+
+## Vertex Attributes
+
+Let's go back to the brick sprite we were using in the [Textures](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) tutorial:  
+![Brick](http://i.imgur.com/IGn1g.png)
+
+As we explained in the Textures tutorial, we need to give OpenGL four **vertices** to make up our quad. Each **vertex** contains a number of **attributes**, such as `Position` and `TexCoord`. Refer to this image again:  
+![Quad](http://i.imgur.com/fkzfb.png)
+
+Another attribute that is not shown in the above image is `Color`. Generally, we'll use opaque white `(R=1, G=1, B=1, A=1)` for each vertex, in order to render the sprite with full opacity.
+
+These attributes are "passed to the vertex shader." That is to say, a vertex shader can do something with these attributes before sending them along the pipeline. Most commonly, a vertex shader will transform the given `Position` by some kind of projection matrix. For example: the screen-space coordinates `(23, 15)` will be transformed into orthographic 3D world-space coordinates that OpenGL understands.
+
+The vertex shader is also responsible for passing various attributes (`Color`, `TexCoord`, etc) along to the fragment shader. 
+
+## Uniforms
