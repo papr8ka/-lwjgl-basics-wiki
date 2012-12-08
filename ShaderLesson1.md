@@ -111,9 +111,9 @@ Our fragment shader is also pretty simple:
 2. Invert the RGB components of the texture color.
 3. Multiply this color by our vertex color and "output" the result.
 
+Let's take a look at these step-by-step.
 
-
-## Vertex Attributes
+## What's an "attribute"?
 
 Let's go back to the brick sprite we were using in the [Textures](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) tutorial:  
 ![Brick](http://i.imgur.com/IGn1g.png)
@@ -123,8 +123,23 @@ As we explained in the Textures tutorial, we need to give OpenGL four **vertices
 
 Another attribute that is not shown in the above image is `Color`. Generally, we'll use opaque white `(R=1, G=1, B=1, A=1)` for each vertex, in order to render the sprite with full opacity.
 
+So, let's break down the following render code:
+```java
+batch.draw(tex, 10, 10);
+```
+
+This results in sending the following four<a href="#1"><sup>1</sup></a> vertices to GL:
+```java
+
+```
+
 These attributes are "passed to the vertex shader." That is to say, a vertex shader can do something with these attributes before sending them along the pipeline. Most commonly, a vertex shader will transform the given `Position` by some kind of projection matrix. For example: the screen-space coordinates `(23, 15)` will be transformed into orthographic 3D world-space coordinates that OpenGL understands.
 
 The vertex shader is also responsible for passing various attributes (`Color`, `TexCoord`, etc) along to the fragment shader. 
 
 ## Uniforms
+
+
+***
+
+<a name="1"><sup>1</sup></a> In actuality, SpriteBatch sends triangles to OpenGL. So a quad is made up of six vertices. For the sake of simplicity, we will talk about things in quads.
