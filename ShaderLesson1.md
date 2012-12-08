@@ -40,4 +40,19 @@ We then create our shader program and specify the attribute locations with the t
 
 Then, we create our SpriteBatch using our custom shader. Now we can render our sprites as per usual, and they will appear inverted:
 
+```java
+protected void render() throws LWJGLException {
+	super.render();
+
+	// start our batch
+	batch.begin();
+
+	// draw some sprites here
+	batch.draw(tex, 10, 10);
+
+	// end our batch
+	batch.end();
+}
+```
+
 ![Invert](http://i.imgur.com/CdA4o.png)
