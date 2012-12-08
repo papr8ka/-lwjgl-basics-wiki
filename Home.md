@@ -12,7 +12,7 @@ Also hosted here are a variety of tutorials for those keen on learning LWJGL and
 * [2. Textures](wiki/Textures)
   * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
 * [3. Shaders: Intro](wiki/Shaders)
-  * [Lesson 1: Hello World, Uniforms and Attributes](wiki/ShaderLesson1)
+  * Lesson 1: Hello World, Uniforms and Attributes
 * 4. Creating Your own 2D Renderer
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
   * [Sprite Batching](wiki/SpriteBatch)
