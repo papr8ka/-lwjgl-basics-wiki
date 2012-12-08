@@ -8,10 +8,10 @@ The [source code](https://github.com/mattdesl/lwjgl-basics) is hosted on GitHub.
 
 Also hosted here is a short tutorial series aimed to get users started with the programmable pipeline. The series is still a work in progress.
 
-* [1. Display Creation](wiki/Display)
-* [2. Textures](wiki/Textures)
+* 1. [Display Creation](wiki/Display)
+* 2. [Textures](wiki/Textures)
   * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
-* [3. Intro to Shaders](wiki/Shaders)
+* 3. [Intro to Shaders](wiki/Shaders)
   * [Lesson 1: Red Boxes](wiki/ShaderLesson1)
 * 4. [Creating Your own 2D Renderer](wiki/CustomRenderer)
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
