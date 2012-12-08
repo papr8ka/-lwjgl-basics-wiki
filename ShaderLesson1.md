@@ -62,12 +62,12 @@ protected void render() throws LWJGLException {
 
 Let's take a look at what is going on. Here is the [vertex shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.vert):
 ```java
-uniform mat4 u_projView;
-
 //"in" attributes from our SpriteBatch
 attribute vec2 Position;
 attribute vec2 TexCoord;
 attribute vec4 Color;
+
+uniform mat4 u_projView;
 
 //"out" attributes sent along to fragment shader
 varying vec4 vColor;
@@ -111,29 +111,29 @@ Our fragment shader is also pretty simple:
 2. Invert the RGB components of the texture color.
 3. Multiply this color by our vertex color and "output" the result.
 
-Let's take a look at these step-by-step.
+## Breakdown: Vertex Attributes
 
-## What's an "attribute"?
+Here's the first thing you'll notice, found in our vertex shader:
+```java
+//"in" attributes from our SpriteBatch
+attribute vec2 Position;
+attribute vec2 TexCoord;
+attribute vec4 Color;
+```
 
-Let's go back to the brick sprite we were using in the [Textures](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) tutorial:  
+Think back to our basic brick sprite in the [Textures](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) tutorial:  
 ![Brick](http://i.imgur.com/IGn1g.png)
 
-As we explained in the Textures tutorial, we need to give OpenGL four **vertices** to make up our quad. Each **vertex** contains a number of **attributes**, such as `Position` and `TexCoord`. Refer to this image again:  
+As we explained in the Textures tutorial, we need to give OpenGL four **vertices** to make up our quad. Each **vertex** contains a number of **attributes**, such as `Position` and `TexCoord`:
 ![Quad](http://i.imgur.com/fkzfb.png)
 
-Another attribute that is not shown in the above image is `Color`. Generally, we'll use opaque white `(R=1, G=1, B=1, A=1)` for each vertex, in order to render the sprite with full opacity.
+Another attribute that is not shown in the above image is `Color`. Generally, we'll use opaque white `(R=1, G=1, B=1, A=1)` for each vertex, in order to render the sprite with full opacity. So our SpriteBatch is passing three **attributes** for each **vertex**: `Position`, `TexCoord`, and `Color`.
 
-So, let's break down the following render code:
-```java
-batch.draw(tex, 10, 10);
-```
+`Position` is defined with two components: `(x, y)`. In GLSL, we use a `vec2` (2-component float vector) to define this attribute. 
 
-This results in sending the following four<a href="#1"><sup>1</sup></a> vertices to GL:
-```java
+`TexCoord` is also defined with two components: `(s, t)`. Again, we use a `vec2` to define it.
 
-```
-
-These attributes are "passed to the vertex shader." That is to say, a vertex shader can do something with these attributes before sending them along the pipeline. Most commonly, a vertex shader will transform the given `Position` by some kind of projection matrix. For example: the screen-space coordinates `(23, 15)` will be transformed into orthographic 3D world-space coordinates that OpenGL understands.
+`Color` is defined with four components: `(r, g, b, a)`. We will use a `vec4` (4-component float vector) to define it.
 
 The vertex shader is also responsible for passing various attributes (`Color`, `TexCoord`, etc) along to the fragment shader. 
 
