@@ -61,7 +61,7 @@ protected void render() throws LWJGLException {
 ## The Shaders
 
 Let's take a look at what is going on. Here is the [vertex shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.vert):
-```java
+```glsl
 //"in" attributes from our SpriteBatch
 attribute vec2 Position;
 attribute vec2 TexCoord;
@@ -86,7 +86,7 @@ The above is a simple "pass through" vertex shader. It does two things:
 2. Transform the given screen space position -- e.g. `(10, 10)` -- into 3D world-space coordinates that OpenGL understands.
 
 And the [fragment shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.frag):
-```java
+```glsl
 uniform sampler2D u_texture;
 
 //"in" attributes from vertex shader
@@ -111,20 +111,20 @@ Our fragment shader is also pretty simple:
 2. Invert the RGB components of the texture color.
 3. Multiply this color by our vertex color and "output" the result.
 
-## Breakdown: Vertex Attributes
+## Vertex Attributes
 
 Here's the first thing you'll notice, found in our vertex shader:
-```java
+```glsl
 //"in" attributes from our SpriteBatch
 attribute vec2 Position;
 attribute vec2 TexCoord;
 attribute vec4 Color;
 ```
 
-Think back to our basic brick sprite in the [Textures](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) tutorial:  
+Think back to our brick sprite in the [Textures](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) tutorial:  
 ![Brick](http://i.imgur.com/IGn1g.png)
 
-As we explained in the Textures tutorial, we need to give OpenGL four **vertices** to make up our quad. Each **vertex** contains a number of **attributes**, such as `Position` and `TexCoord`:
+As we explained in the Textures tutorial, we need to give OpenGL four **vertices** to make up our quad. Each **vertex** contains a number of **attributes**, such as `Position` and `TexCoord`:  
 ![Quad](http://i.imgur.com/fkzfb.png)
 
 Another attribute that is not shown in the above image is `Color`. Generally, we'll use opaque white `(R=1, G=1, B=1, A=1)` for each vertex, in order to render the sprite with full opacity. So our SpriteBatch is passing three **attributes** for each **vertex**: `Position`, `TexCoord`, and `Color`.
@@ -135,11 +135,33 @@ Another attribute that is not shown in the above image is `Color`. Generally, we
 
 `Color` is defined with four components: `(r, g, b, a)`. We will use a `vec4` (4-component float vector) to define it.
 
-The vertex shader is also responsible for passing various attributes (`Color`, `TexCoord`, etc) along to the fragment shader. 
+SpriteBatch expects these three attributes to exist in the vertex shader, and the names should match exactly. This is why we created our ShaderProgram with `SpriteBatch.ATTRIBUTES` as a parameter.
+
+We can only declare attributes in our vertex shader. In order for the fragment shader to utilize them, we need to "pass them along." This is done by declaring a varying in both vertex and fragment shaders with the same name. In the vertex shader, we pass them along like so:
+```glsl
+...
+
+varying vec2 vTexCoord;
+varying vec4 vColor;
+
+void main() {
+    vTexCoord = TexCoord;
+    vColor = Color;
+    ...
+}
+```
+
+Our varying names can be anything, as long as they are consistent between fragment and vertex shaders.
 
 ## Uniforms
 
+The next line in our vertex shader brings us to another topic, uniforms:
+```glsl
+uniform mat4 u_projView;
+```
 
-***
+A uniform is like a script variable that we can set from Java. For example, if we needed to pass the mouse coordinates to a shader program, we would use a `vec2` uniform. 
 
-<a name="1"><sup>1</sup></a> In actuality, SpriteBatch sends triangles to OpenGL. So a quad is made up of six vertices. For the sake of simplicity, we will talk about things in quads.
+In our case, the vertex shader needs to transform the screen space coordinates from our SpriteBatch -- e.g. `(10, 10)` -- into 3D world-space coordinates. We do this by multiplying our `Position` attribute by the combined projection and view matrices of our SpriteBatch, which is named `u_projView` (or `SpriteBatch.U_PROJ_VIEW`). This leads to 2D orthographic projection, where origin `(0, 0)` is at the top left.
+
+SpriteBatch will update the uniform data as necessary; for example, when we first initialize SpriteBatch, and after calling `SpriteBatch.resize`. Notice that the uniform uses a `mat4` data type. 
