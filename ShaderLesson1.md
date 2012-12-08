@@ -8,18 +8,15 @@ This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwj
 
 ## Intro
 
-As discussed, we need to write *vertex* and *fragment* scripts in order for our shader program to work. This first example will use standard shaders, similar to those defined in SpriteBatch
+As discussed, we need to write *vertex* and *fragment* scripts in order for our shader program to work. This first example will use standard shaders, similar to those defined in SpriteBatch. You can see the default SpriteBatch programs by printing `SpriteBatch.DEFAULT_VERT_SHADER` and `SpriteBatch.DEFAULT_FRAG_SHADER`. Our program will include one minor difference: we will invert the final colour. For example, it will look as if we applied Photoshop's *Invert Color* function.
 
-(as you can see if you were to print `SpriteBatch.DEFAULT_VERT_SHADER` and `SpriteBatch.DEFAULT_FRAG_SHADER`), with one minor difference: we will invert the final colour. For example, it will look as if we applied Photoshop's Invert Color function.
-
-In this series, we will use text files (`.vert` and `.frag`) for easier editing. When you go to release and distribute your games, you may want to embed the GLSL in your Java source as a String. Eclipse includes a [feature for pasting multi-line strings](http://www.vasanth.in/2009/03/10/eclipse-tip-escape-text-when-pasting/) which will be helpful.
+*Note:* In this series, we will use text files (`.vert` and `.frag`) for easier editing. When you go to release and distribute your games, you may want to embed the GLSL in your Java source as a String. Eclipse includes a [feature for pasting multi-line strings](http://www.vasanth.in/2009/03/10/eclipse-tip-escape-text-when-pasting/) which will be helpful.
 
 Follow along with the full source code [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson1.java).
 
-Before we go into GLSL and how to write shaders, let's take a quick look at how we are creating them from our Java application:
-
 ## Set-Up
 
+Below is our setup code:
 ```java
 //load our shader program and sprite batch
 try {
@@ -37,6 +34,10 @@ try {
 }
 ```
 
-For convenience, we use the [Util](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/Util.java) class to read our text files. We then create our shader program and specify the attribute locations with the third parameter. This tells ShaderProgram how the attributes will be laid out; since SpriteBatch expects them to be in a specific order (i.e. Position is expected at index 0). 
+For convenience, we use the [Util](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/Util.java) class to read our text files.
 
-Then, we create our SpriteBatch using our custom shader. Now we can render our 
+We then create our shader program and specify the attribute locations with the third parameter. This tells ShaderProgram how the attributes will be laid out; since SpriteBatch expects them to be in a specific order (i.e. Position is expected at index 0). 
+
+Then, we create our SpriteBatch using our custom shader. Now we can render our sprites as per usual, and they will appear inverted:
+
+![Invert](http://i.imgur.com/CdA4o.png)
