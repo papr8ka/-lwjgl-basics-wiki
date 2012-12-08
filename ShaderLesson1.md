@@ -81,6 +81,7 @@ void main() {
 ```
 
 The above is a simple "pass through" vertex shader. It does two things:
+
 1. Pass the `Color` and `TexCoord` attributes along to our fragment shader.
 2. Transform the given screen space position -- e.g. `(10, 10)` -- into 3D world-space coordinates that OpenGL understands.
 
@@ -105,6 +106,7 @@ void main(void) {
 ```
 
 Our fragment shader is also pretty simple:
+
 1. Sample the color at the current texture coordinate. 
 2. Invert the RGB components of the texture color.
 3. Multiply this color by our vertex color and "output" the result.
