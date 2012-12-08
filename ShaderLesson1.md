@@ -1,4 +1,13 @@
-As discussed, we need to write *vertex* and *fragment* scripts in order for our shader program to work. This first example will use the exact same shaders as defined in the SpriteBatch (as you can see if you were to print `SpriteBatch.DEFAULT_VERT_SHADER` and `SpriteBatch.DEFAULT_FRAG_SHADER`), with one minor difference: we will invert the final colour. For example, it will look as if we applied Photoshop's Invert Color function.
+### Preface
+
+This series relies on lwjgl-basics for shader and rendering utilities. However, the concepts should be universal enough that they could be applied to LibGDX, [GLSL Sandbox](http://glsl.heroku.com/), [Love2D](https://love2d.org/), or any other library/engine that supports GLSL. I'd recommend starting with the [Textures](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) tutorial, which covers essential concepts like filters and texture coordinates.
+
+***
+
+
+As discussed, we need to write *vertex* and *fragment* scripts in order for our shader program to work. This first example will use standard shaders, similar to those defined in SpriteBatch
+
+(as you can see if you were to print `SpriteBatch.DEFAULT_VERT_SHADER` and `SpriteBatch.DEFAULT_FRAG_SHADER`), with one minor difference: we will invert the final colour. For example, it will look as if we applied Photoshop's Invert Color function.
 
 In this series, we will use text files (`.vert` and `.frag`) for easier editing. When you go to release and distribute your games, you may want to embed the GLSL in your Java source as a String. Eclipse includes a [feature for pasting multi-line strings](http://www.vasanth.in/2009/03/10/eclipse-tip-escape-text-when-pasting/) which will be helpful.
 
