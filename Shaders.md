@@ -36,14 +36,15 @@ void main() {
 }
 ```
 
-## Where to start?
-
-Before jumping straight into trying to create your own shader-based sprite renderer, it would be smart to experiment with GLSL in order to become a little more comfortable with it. For this I recommend using a library or tool that will set up shaders and rendering for you, allowing you to jump right into GLSL code. For this tutorial series, we will follow the tests in [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics/tree/master/test/mdesl/test/shadertut). There are also online GLSL editors, if you have a WebGL-enabled browser, which are extremely useful for learning various concepts:
-- http://glsl.heroku.com/
-- http://www.iquilezles.org/apps/shadertoy/
-
-Once you feel more comfortable with the basics of GLSL, you can start looking "under the hood" to see how it all comes together in a custom renderer.
-
 ## Lesson 1: Red Boxes
 
 [Lesson 1](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson1) covers the basics of writing your own vertex and fragment shaders.
+
+## Further Reading
+
+The best way to learn GLSL is through experimentation and practice. Once you've finished the lessons, check out some online GLSL effects to see how they were achieved:
+
+- http://glsl.heroku.com/
+- http://www.iquilezles.org/apps/shadertoy/
+
+If you're feeling comfortable with GLSL, you could also try making your own shader-based sprite batcher in order to have a better grasp of how it all comes together.
