@@ -77,15 +77,13 @@ void main() {
 
 We simply take the Position attribute (given to us by our sprite batcher) -- such as `(10, 10)` -- and transform it into 3D world-space coordinates that OpenGL can work with.
 
-The [fragment shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.frag), which works on every fragment (or "pixel") that exists within our shape:
+Every fragment (or pixel) within our shape will then be modified by our [fragment shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.frag):
 ```glsl
 void main() {
-	//final color
+	//final color: return opaque red
 	gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 }
 ```
-
-Our fragment shader is also pretty simple -- it simply returns opaque red as the fragment (or "pixel") color.
 
 ## Vertex Attributes
 
