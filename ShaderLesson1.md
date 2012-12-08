@@ -191,6 +191,10 @@ void main() {
 }
 ```
 
+## On to Lesson 2
+
+Check out [Lesson 2](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson2) or go back to the [Table of Contents](https://github.com/mattdesl/lwjgl-basics/wiki).
+
 <a name="Ports" />
 ## Other APIs
 
