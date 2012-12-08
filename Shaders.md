@@ -16,9 +16,11 @@ Often called “pixel shaders,” these allow us to modify individual pixels bef
 
 ## Where to start?
 
-Before you start working on your own shader-based sprite renderer, it would be smart to experiment with GLSL in order to become a little more comfortable with concepts like uniforms and attributes. For this I recommend using a library or tool that will set up shaders for you, allowing you to jump right into GLSL code. For this tutorial series, we will follow the tests in *lwjgl-basics*. There are also online GLSL editors, if you have a WebGL-enabled browser, which are extremely useful for learning various concepts:
+Before jumping straight into your shader-based sprite renderer, it would be smart to experiment with GLSL in order to become a little more comfortable with concepts like uniforms and attributes. For this I recommend using a library or tool that will set up shaders for you, allowing you to jump right into GLSL code. For this tutorial series, we will follow the tests in [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics/tree/master/test/mdesl/test/shadertut). There are also online GLSL editors, if you have a WebGL-enabled browser, which are extremely useful for learning various concepts:
 - http://glsl.heroku.com/
 - http://www.iquilezles.org/apps/shadertoy/
+
+Once you feel more comfortable with the basics of GLSL, you can start looking "under the hood" to see how it all comes together in a custom renderer.
 
 ## Hello World
 
