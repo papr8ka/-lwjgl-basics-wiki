@@ -162,6 +162,9 @@ uniform mat4 u_projView;
 
 A uniform is like a script variable that we can set from Java. For example, if we needed to pass the mouse coordinates to a shader program, we would use a `vec2` uniform. 
 
-In our case, the vertex shader needs to transform the screen space coordinates from our SpriteBatch -- e.g. `(10, 10)` -- into 3D world-space coordinates. We do this by multiplying our `Position` attribute by the combined projection and view matrices of our SpriteBatch, which is named `u_projView` (or `SpriteBatch.U_PROJ_VIEW`). This leads to 2D orthographic projection, where origin `(0, 0)` is at the top left.
+In our case, the vertex shader needs to transform the screen space coordinates from our SpriteBatch -- e.g. `(10, 10)` -- into 3D world-space coordinates. We do this by multiplying our `Position` attribute by the combined [projection and view matrices](http://en.wikipedia.org/wiki/Transformation_matrix) of our SpriteBatch, which is named `u_projView` (or `SpriteBatch.U_PROJ_VIEW`). This leads to 2D orthographic projection, where origin `(0, 0)` is at the top left:
+```glsl
+gl_Position = u_projView * vec4(Position.xy, 0.0, 1.0);
+```
 
-SpriteBatch will update the uniform data as necessary; for example, when we first initialize SpriteBatch, and after calling `SpriteBatch.resize`. Notice that the uniform uses a `mat4` data type. 
+SpriteBatch will update the `u_projView` uniform data as necessary; for example, when we first initialize SpriteBatch, or after calling `SpriteBatch.resize`. Notice that the uniform uses a `mat4` data type. 
