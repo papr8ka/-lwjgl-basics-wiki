@@ -166,7 +166,7 @@ public class SpriteBatch {
 				viewMatrix,
 				projViewMatrix);
 
-		program.begin();
+		program.use();
 
 		// Store the the multiplied matrix in the "projViewMatrix"-uniform:
 		program.storeUniformMat4(U_PROJ_VIEW, projViewMatrix, false);
@@ -175,14 +175,12 @@ public class SpriteBatch {
 		int tex0 = program.getUniformLocation(U_TEXTURE);
 		if (tex0!=-1)
 			glUniform1i(tex0, 0);
-
-		program.end();
 	}
 
 	public void begin() {
 		if (drawing) throw new IllegalStateException("must not be drawing before calling begin()");
 		drawing = true;
-		program.begin();
+		program.use();
 		idx = 0;
 		renderCalls = 0;
 		texture = null;
@@ -192,7 +190,6 @@ public class SpriteBatch {
 		if (!drawing) throw new IllegalStateException("must be drawing before calling end()");
 		drawing = false;
 		flush();
-		program.end();
 	}
 
 	public void flush() {
