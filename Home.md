@@ -6,7 +6,7 @@ The [source code](https://github.com/mattdesl/lwjgl-basics) is hosted on GitHub.
 
 ### Tutorials
 
-Also hosted here are a variety of tutorials for those keen on learning LWJGL and OpenGL from the ground up:
+Also hosted here is a short tutorial series aimed to get users started with the programmable pipeline. The series is still a work in progress.
 
 * [1. Display Creation](wiki/Display)
 * [2. Textures](wiki/Textures)
