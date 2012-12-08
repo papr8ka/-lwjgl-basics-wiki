@@ -11,7 +11,7 @@ Also hosted here is a short tutorial series aimed to get users started with the 
 * [1. Display Creation](wiki/Display)
 * [2. Textures](wiki/Textures)
   * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
-* [3. Understanding Shaders](wiki/Shaders)
+* [3. Intro to Shaders](wiki/Shaders)
   * Lesson 1: Hello World, Uniforms and Attributes
 * 4. Creating Your own 2D Renderer
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
