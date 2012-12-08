@@ -36,7 +36,7 @@ void main() {
 }
 ```
 
-## Lesson 1: Red Boxes
+## On to Lesson 1...
 
 [Lesson 1](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson1) covers the basics of writing your own vertex and fragment shaders.
 
