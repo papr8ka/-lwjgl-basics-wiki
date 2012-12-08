@@ -157,7 +157,7 @@ void main() {
 
 Our varying names can be anything, as long as they are consistent between fragment and vertex shaders.
 
-## mat4 Uniform
+## Uniform: u_projView
 
 The next line in our vertex shader brings us to another topic, uniforms:
 ```glsl
@@ -175,7 +175,7 @@ SpriteBatch will update the `u_projView` uniform data as necessary; for example,
 
 # Dissecting the Fragment Shader
 
-## sampler2D Uniform
+## Uniform: u_texture
 
 As I briefly explained in the Texture tutorial, it's possible in OpenGL to have multiple active texture units (i.e. multiple textures "bound" at once). The `sampler2D` data type tells us which texture unit we are dealing with. However, for now, we will only concern ourselves with the default one: texture unit zero (`GL_TEXTURE0`). We can think of it as an integer, where 0 is the default texture unit. 
 
@@ -191,4 +191,5 @@ uniform sampler2D u_texture;
 varying vec4 vColor;
 varying vec2 vTexCoord;
 ```
+
 
