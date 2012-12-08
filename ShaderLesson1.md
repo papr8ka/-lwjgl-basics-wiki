@@ -58,6 +58,7 @@ protected void render() throws LWJGLException {
 
 ![RedBoxes](http://i.imgur.com/iziaV.png)
 
+Bloody exhilarating, isn't it?
 
 ## The Shaders
 
@@ -120,7 +121,7 @@ Whenever we change the transformation matrix of our SpriteBatch (for example, wh
 
 ## The Fragment Shader
 
-Our fragment shader "returns" our "outputs" the color red; this is done by assigning a 4-component RGBA vector to `gl_FragColor`. This fragment shader is called on every pixel within our shape (in the case of SpriteBatch, rectangles), and for every fragment we are returning the color red. Thus, we end up with red boxes... Pretty simple.
+Our fragment shader "returns" or "outputs" the color red; this is done by assigning a 4-component RGBA vector to `gl_FragColor`. This fragment shader is called on every pixel within our shape (in the case of SpriteBatch, rectangles). Thus, we end up with red boxes... Pretty bland.
 
 ```glsl
 gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
