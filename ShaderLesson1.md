@@ -181,7 +181,7 @@ float e0 = myVec[0];
 
 GLSL doesn't care if you use `rgba`, `xyzw`, or `stpq` to access a vector, so long as it's consistent (you cannot do `rgzw`, for example). 
 
-Also useful to know is the `const` keyword, which is similar to Java's `final`, and allows us to declare constants. Let's re-write our fragment shader to demonstrate some different means of writing GLSL:
+Also useful to know is the `const` keyword, which is similar to Java's `final`, and allows us to declare constants. To demonstrate, we could have written our shader like so:
 
 ```glsl
 const vec3 RED = vec3(1.0, 0.0, 0.0); 
