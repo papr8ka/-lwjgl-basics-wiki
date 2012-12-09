@@ -156,3 +156,36 @@ We can output this colour to `gl_FragColor` in order to see the regular texture 
 //invert the red, green and blue channels
 texColor.rgb = 1.0 - texColor.rgb;
 ```
+
+For our final colour, we'll multiply the texture colour by the vertex colour. This allows us to use `SpriteBatch.setColor` to tint the RGB of a sprite, and/or change its transparency. Using pure white (the default SpriteBatch colour) will have no effect, since are multiplying the RGBA by `1.0`.
+
+```glsl
+gl_FragColor = texColor * vColor;
+```
+
+We can test by changing our application's rendering code to the following:
+```java
+protected void render() throws LWJGLException {
+	super.render();
+
+	// start our batch
+	batch.begin();
+
+	//SpriteBatch will use the same color for each vertex
+	
+	//alpha set to 75% opacity
+	//multiply RGB by (1, 0, 0)
+	batch.setColor(1f, 0.0f, 0.0f, 0.75f);
+	batch.draw(tex, 10, 10);
+
+	//pure white; i.e. unchanged
+	batch.setColor(1f, 1f, 1f, 1f);
+	batch.draw(tex, 10, 320, 32, 32);
+
+	// end our batch
+	batch.end();
+}
+```
+
+We can see the result of that here:
+![Tint](http://i.imgur.com/RLqav.png)
