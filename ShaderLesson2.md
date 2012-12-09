@@ -197,3 +197,8 @@ protected void render() throws LWJGLException {
 
 We can see the result of that here:  
 ![Tint](http://i.imgur.com/RLqav.png)
+
+<a name="Ports" />
+## Other APIs
+
+  * [Ported to LibGDX](https://gist.github.com/4247043)
