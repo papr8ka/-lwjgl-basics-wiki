@@ -204,6 +204,8 @@ gl_Position = u_projView * vec4(vec3(Position, 0.0), 1.0);
 etc...
 ```
 
+For a nice GLSL cheat sheet, see [here](http://mew.cx/glsl_quickref.pdf).
+
 ## On to Lesson 2
 
 Check out [Lesson 2](ShaderLesson2) or go back to the [Table of Contents](https://github.com/mattdesl/lwjgl-basics/wiki).
