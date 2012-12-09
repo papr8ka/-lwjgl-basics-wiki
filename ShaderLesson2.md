@@ -1,3 +1,11 @@
+**Preface**
+
+***
+
+This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics) API for shader and rendering utilities. The code has also been [Ported to LibGDX](#Ports). The concepts should be universal enough that they could be applied to [Love2D](https://love2d.org/), [GLSL Sandbox](http://glsl.heroku.com/), iOS, or any other platforms that support GLSL. 
+
+***
+
 In this lesson we'll learn how to sample from a texture and invert its colours, similar to Photoshop's Invert Color function.
 
 ## Set Up
