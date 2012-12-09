@@ -153,9 +153,9 @@ vec2 v = vec2(10.0, 5.0);
 
 We create vectors like so:
 ```glsl
-vec2 foo = vec2(1.0, 5.0); // => (1, 5)
-vec3 bar = vec3(5.0, 1.0, 2.0); // => (5, 1, 2)
-vec4 white = vec4(1.0); // => (1, 1, 1, 1)
+vec2 foo = vec2(1.0, 5.0); // => (1f, 5f)
+vec3 bar = vec3(5.0, 1.0, 2.0); // => (5f, 1f, 2f)
+vec4 white = vec4(1.0); // => (1f, 1f, 1f, 1f)
 ```
 
 And we can access them in a number of ways:
