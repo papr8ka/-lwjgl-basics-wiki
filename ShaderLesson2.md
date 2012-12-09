@@ -6,9 +6,9 @@ This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwj
 
 ***
 
-In this lesson we'll learn how to sample from a texture and invert its colours, similar to Photoshop's Invert Color function.
-
 ## Set Up
+
+In this lesson we'll learn how to sample from a texture and invert its colours, similar to Photoshop's Invert Color function.
 
 Follow along with the full source code [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson2.java). Our set up looks exactly the same as in [Lesson1](ShaderLesson1), except that we are loading different shaders.
 
