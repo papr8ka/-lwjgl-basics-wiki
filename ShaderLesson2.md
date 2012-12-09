@@ -141,7 +141,7 @@ If we were to then draw the full texture with texcoords `[0.0 - 1.0]`, we would 
 
 As we can see, the value is interpolated from `0.0` (black, on left) to `1.0` (white, on right), resulting in a gradient.
 
-So, in order to sample our texture at the current fragment, we simply use the following method:
+To sample our texture at the current fragment, we use the following method:
 
 ```glsl
 vec4 texColor = texture2D(u_texture, vTexCoord);
