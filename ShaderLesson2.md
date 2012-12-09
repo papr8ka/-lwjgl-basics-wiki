@@ -122,7 +122,37 @@ varying vec2 vTexCoord;
 
 ### Texture Sampling
 
-Remember that the vertex shader works on every vertex, and the fragment shader works on every fragment (or "pixel"). So our fragment shader's `main()` method is being used on every pixel within the `width` and `height` we specified to `SpriteBatch.draw`. 
+Remember that the vertex shader works on every vertex, and the fragment shader works on every fragment (or "pixel"). So our fragment shader's `main()` method is being used on every pixel within the `width` and `height` we specified to `SpriteBatch.draw`.
 
+As we can see in the following image from our [Textures](Textures) tutorial, the texture coordinates are only specified per-vertex:
 
-### Inverting Colours
+![TexCoordVerts](http://i.imgur.com/nwXUM.png)
+
+For fragments within those vertices, the `TexCoord` value (as well as other attributes, like vertex `Color`) are interpolated based on the relative distances of the vertices to the fragment. We can test this by outputting `TexCoord.s` (i.e. the x-axis texture coordinate) as the fragment color:
+
+```glsl
+//use TexCoord.s for RGB, then 1.0 for alpha
+gl_FragColor = vec4(vec3(vTexCoord.s), 1.0);
+```
+
+If we were to draw the full texture with texcoords `[0.0 - 1.0]`, we would see the following:
+
+![TexCoordTest](http://i.imgur.com/QeFQ8.png)
+
+As we can see, the value is interpolated from `0.0` (black, on left) to `1.0` (white, on right), resulting in a gradient.
+
+So, in order to sample our texture at the current fragment, we simply use the following method:
+
+```glsl
+vec4 texColor = texture2D(u_texture, vTexCoord);
+```
+
+The `texture2D` method expects a `sampler2D` for the first argument (i.e. to know which texture unit to sample from), and a `vec2` for the second argument (texture coordinates `st`). It returns a `vec4` with the RGBA for that sample. 
+
+If we are using `GL_NEAREST`, the colour will be sampled by picking the [nearest-neighbour](http://en.wikipedia.org/wiki/Nearest-neighbor_interpolation) based on our texture coordinates. If we are using `GL_LINEAR`, the colour will take the four nearest pixel colours and blend them with a weighted average (i.e. [bilinear interpolation](http://en.wikipedia.org/wiki/Bilinear_interpolation)).
+
+We can output this colour to `gl_FragColor` in order to see the regular texture colour. However, for the sake of doing something cool, let's first invert the colour. Keep in mind that RGBA is generally normalized to `[0.0 - 1.0]` (where 0.0 is black, and 1.0 is white). So we can use the following to invert the RGB values, and leave the alpha component unchanged:
+```glsl
+//invert the red, green and blue channels
+texColor.rgb = 1.0 - texColor.rgb;
+```
