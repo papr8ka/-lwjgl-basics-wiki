@@ -34,12 +34,15 @@ void main() {
 
 ## Lessons
 
+Most of the lessons are geared toward 2D games, although the concepts can easily be applied to 3D.
+
   * [Lesson 1](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson1) covers the basics of writing your own vertex and fragment shaders.
   * [Lesson 2](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson2) covers texture sampling and basic image processing (inverting a texture).
   * Lesson 3 (WIP) will cover circles, vignettes, sepia, grayscale, and other common effects.
   * Lesson 4 (WIP) will cover multiple texture units, blending, and texture splatting. For now, [see here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/TextureBlendTest.java).
   * Lesson 5 (WIP) will cover blurring images.
   * Lesson 6 (WIP) will cover normal map lighting for 2D games. See [here](http://www.java-gaming.org/topics/glsl-using-normal-maps-to-illuminate-a-2d-texture-libgdx/27516/view.html) for now.
+  * Lesson 7 (WIP) will cover light scattering, aka "god rays".
 
 ## Further Reading
 
