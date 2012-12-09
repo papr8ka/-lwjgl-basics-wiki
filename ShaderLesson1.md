@@ -92,7 +92,7 @@ void main() {
 attribute vec2 Position;
 ```
 
-Seeing the above line, you may be wondering what exactly an `attribute` is in GLSL. Think back to our brick sprite in the [Textures](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) tutorial:  
+Seeing the above line, you may be wondering what exactly an `attribute` is in GLSL. Think back to our brick sprite in the [Textures](Textures) tutorial:  
 ![Brick](http://i.imgur.com/IGn1g.png)
 
 As we explained in the Textures tutorial, we need to give OpenGL four **vertices** to make up our quad. Each **vertex** contains a number of **attributes**, such as `Position` and `TexCoord`:  
