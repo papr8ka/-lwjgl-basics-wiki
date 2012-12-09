@@ -2,7 +2,7 @@ In this lesson we'll learn how to sample from a texture and invert its colours, 
 
 ## Set Up
 
-Follow along with the full source code [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson2.java). Our set up looks exactly the same as in [Lesson1](ShaderLesson1), except that we are loading `lesson2.vert` and `lesson2.frag`. 
+Follow along with the full source code [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson2.java). Our set up looks exactly the same as in [Lesson1](ShaderLesson1), except that we are loading different shaders.
 
 We can leave our rendering method the same, and now we'll see a different outcome:
 
@@ -37,9 +37,9 @@ void main() {
 The above is a simple "pass through" vertex shader. It does two things:
 
 1. Pass the `Color` and `TexCoord` attributes along to our fragment shader.
-2. Transform the given screen space position -- e.g. `(10, 10)` -- into 3D world-space coordinates that OpenGL understands.
+2. Transform the given screen space position into 3D world-space coordinates that OpenGL understands (same as in Lesson 1).
 
-And the [fragment shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.frag):
+And the [fragment shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson2.frag):
 ```glsl
 //SpriteBatch will use texture unit 0
 uniform sampler2D u_texture;
@@ -66,11 +66,10 @@ Our fragment shader is also pretty simple:
 2. Invert the RGB components of the texture color.
 3. Multiply this color by our vertex color and "output" the result.
 
-# Dissecting the Vertex Shader
 
-## Attributes
+## Vertex Shader
 
-Here's the first thing you'll notice, found in our vertex shader:
+As in Lesson 1, we declare a `Position` attribute, but also a `TexCoord` and `Color` attribute. These are given to us from our SpriteBatch, and are read-only in GLSL.
 ```glsl
 //"in" attributes from our SpriteBatch
 attribute vec2 Position;
@@ -78,30 +77,17 @@ attribute vec2 TexCoord;
 attribute vec4 Color;
 ```
 
-Think back to our brick sprite in the [Textures](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) tutorial:  
-![Brick](http://i.imgur.com/IGn1g.png)
+The `TexCoord` attribute depends on which region of a texture we are rendering. If we are rendering the texture fully, generally tex coords `[0.0 - 1.0]` will be used. If we were rendering a "sub image" of our texture with `drawRegion`, the tex coords will be much different. Custom tex coords can be specified with `SpriteBatch.draw` if we, say, wanted a texture to repeat using `GL_REPEAT`. Since each vertex only uses 2 texture coordinates `(s, t)`, we use a `vec2`.
 
-As we explained in the Textures tutorial, we need to give OpenGL four **vertices** to make up our quad. Each **vertex** contains a number of **attributes**, such as `Position` and `TexCoord`:  
-![Quad](http://i.imgur.com/fkzfb.png)
-
-Another attribute that is not shown in the above image is `Color`. Generally, we'll use opaque white `(R=1, G=1, B=1, A=1)` for each vertex, in order to render the sprite with full opacity. So our SpriteBatch is passing three **attributes** for each **vertex**: `Position`, `TexCoord`, and `Color`.
-
-`Position` is defined with two components: `(x, y)`. In GLSL, we use a `vec2` (2-component float vector) to define this attribute. 
-
-`TexCoord` is also defined with two components: `(s, t)`. Again, we use a `vec2` to define it.
-
-`Color` is defined with four components: `(r, g, b, a)`. We will use a `vec4` (4-component float vector) to define it.
-
-SpriteBatch expects these three attributes to exist in the vertex shader, and the names should match exactly. This is why we created our ShaderProgram with `SpriteBatch.ATTRIBUTES` as a parameter.
-
-_Attributes can only be declared in vertex shaders_. Also, attributes are **read-only** since they are passed from SpriteBatch. So we cannot assign them a value in GLSL.
+The `Color` attribute is set from Java by using `SpriteBatch.setColor`, and it can be useful for tinting sprites or changing their transparency. Generally all vertices of a single sprite will use the same `Color` attribute; however, you could specify different values for each vertex in order to, say, have a sprite fade out from left to right. Most often, the `Color` attribute will be opaque white `(R=1, G=1, B=1, A=1)` in order to render our sprites with 100% opacity. To store the `(r, g, b, a)` components, we use a `vec4`.
 
 In order for the fragment shader to utilize these attributes, we need to "pass them along." This is done by declaring **varyings** in the vertex and fragment shaders. In the vertex shader, we pass them along like so:
 ```glsl
 ...
 
-varying vec2 vTexCoord;
-varying vec4 vColor;
+//passing values "out" to the fragment shader
+varying vec2 vTexCoord; //a vec2 for ST
+varying vec4 vColor; //a vec4 for RGBA
 
 void main() {
     vTexCoord = TexCoord;
@@ -112,39 +98,25 @@ void main() {
 
 Our varying names can be anything, as long as they are consistent between fragment and vertex shaders.
 
-## Uniform: u_projView
+## Fragment Shader
 
-The next line in our vertex shader brings us to another topic, uniforms:
+Before we can sample our texture, we need to know which texture unit we are sampling from.
+
 ```glsl
-uniform mat4 u_projView;
+uniform sampler2D u_texture;
 ```
 
-A uniform is like a script variable that we can set from Java. For example, if we needed to pass the mouse coordinates to a shader program, we would use a `vec2` uniform and send the new `(x, y)` values to the shader every time the mouse moves. Like attributes, uniforms are **read-only** in the shader, so we cannot assign values to them in GLSL.
+As I briefly explained in the Texture tutorial, it's possible in OpenGL to have multiple active texture units (i.e. multiple textures "bound" at once). We use `sampler2D` to know which to sample from. However, for now, we will only concern ourselves with the default texture unit zero (`GL_TEXTURE0`). We can think of `sampler2D` as an `int` type, where `0` is the default texture unit. 
 
-In our case, the vertex shader needs to transform the screen space coordinates from our SpriteBatch -- e.g. `(10, 10)` -- into 3D world-space coordinates. We do this by multiplying our `Position` attribute by the combined [projection and view matrices](http://en.wikipedia.org/wiki/Transformation_matrix) of our SpriteBatch, which is named `u_projView` (or `SpriteBatch.U_PROJ_VIEW`). This leads to 2D orthographic projection, where origin `(0, 0)` is at the top left:
-```glsl
-gl_Position = u_projView * vec4(Position.xy, 0.0, 1.0);
-```
+SpriteBatch will look for a `sampler2D` uniform named `u_texture` (or `SpriteBatch.U_TEXTURE`). SpriteBatch will then set this uniform for us to `0`, during initialization, to indicate the default texture unit.
 
-SpriteBatch will update the `u_projView` uniform data as necessary; for example, when we first initialize SpriteBatch, or after calling `SpriteBatch.resize`. Notice that the uniform uses a `mat4` data type. 
-
-# Dissecting the Fragment Shader
-
-## Uniform: u_texture
-
-As I briefly explained in the Texture tutorial, it's possible in OpenGL to have multiple active texture units (i.e. multiple textures "bound" at once). The `sampler2D` data type tells us which texture unit we are dealing with. However, for now, we will only concern ourselves with the default one: texture unit zero (`GL_TEXTURE0`). We can think of it as an integer, where 0 is the default texture unit. 
-
-SpriteBatch expects a `sampler2D` uniform named `u_texture` (or `SpriteBatch.U_TEXTURE`). SpriteBatch will then set this uniform for us to `0`, during initialization, to indicate the default texture unit.
+Again, since uniforms and attributes are read-only in GLSL, we cannot assign them a value from within our shaders.
 
 As we can see in the fragment shader, we also need to declare our varyings, i.e. our attributes passed from the vertex shader. The names should match the varyings we declared in the vertex shader.
 
 ```glsl
-//texture unit, SpriteBatch will set it to zero (0)
-uniform sampler2D u_texture;
-
 //"in" attributes from vertex shader
 varying vec4 vColor;
 varying vec2 vTexCoord;
 ```
 
-Within our `main()`
