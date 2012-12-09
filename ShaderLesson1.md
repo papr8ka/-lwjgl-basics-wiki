@@ -27,6 +27,10 @@ try {
 	//create our shader program -- be sure to pass SpriteBatch's default attributes!
 	ShaderProgram program = new ShaderProgram(VERTEX, FRAGMENT, SpriteBatch.ATTRIBUTES);
 	
+	//Good idea to log any warnings if they exist
+	if (program.getLog().length()!=0)
+		System.out.println(program.getLog());
+
 	//create our sprite batch
 	batch = new SpriteBatch(program);
 } catch (Exception e) { 
