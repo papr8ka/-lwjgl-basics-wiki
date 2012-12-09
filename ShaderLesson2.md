@@ -124,18 +124,18 @@ varying vec2 vTexCoord;
 
 Remember that the vertex shader works on every vertex, and the fragment shader works on every fragment (or "pixel"). So our fragment shader's `main()` method is being used on every pixel within the `width` and `height` we specified to `SpriteBatch.draw`.
 
-As we can see in the following image from our [Textures](Textures) tutorial, the texture coordinates are only specified per-vertex:
+However, as we can see in the following image from our [Textures](Textures) tutorial, the texture coordinates are only specified _per-vertex_:
 
 ![TexCoordVerts](http://i.imgur.com/nwXUM.png)
 
-For fragments within those vertices, the `TexCoord` value (as well as other attributes, like vertex `Color`) are interpolated based on the relative distances of the vertices to the fragment. We can test this by outputting `TexCoord.s` (i.e. the x-axis texture coordinate) as the fragment color:
+For fragments _within_ those vertices, the `TexCoord` value (as well as other attributes, like vertex `Color`) is interpolated based on the relative distances of the vertices to that fragment. We can test this by outputting `TexCoord.s` (i.e. the x-axis texture coordinate) as the fragment color:
 
 ```glsl
 //use TexCoord.s for RGB, then 1.0 for alpha
 gl_FragColor = vec4(vec3(vTexCoord.s), 1.0);
 ```
 
-If we were to draw the full texture with texcoords `[0.0 - 1.0]`, we would see the following:
+If we were to then draw the full texture with texcoords `[0.0 - 1.0]`, we would see the following:
 
 ![TexCoordTest](http://i.imgur.com/QeFQ8.png)
 
