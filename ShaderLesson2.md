@@ -1,79 +1,36 @@
-this page is a WIP
+In this lesson we'll learn how to sample from a texture and invert its colours, similar to Photoshop's Invert Color function.
 
---- ignore it all for now ---
+## Set Up
 
+Follow along with the full source code [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson2.java). Our set up looks exactly the same as in [Lesson1](ShaderLesson1), except that we are loading `lesson2.vert` and `lesson2.frag`. 
 
-## Intro
+We can leave our rendering method the same, and now we'll see a different outcome:
 
-As discussed, we need to write *vertex* and *fragment* scripts in order for our shader program to work. This first example will use standard shaders, similar to those defined in SpriteBatch. You can see the default SpriteBatch programs by printing `SpriteBatch.DEFAULT_VERT_SHADER` and `SpriteBatch.DEFAULT_FRAG_SHADER`. Our program will include one minor difference: we will invert the final colour. For example, it will look as if we applied Photoshop's *Invert Color* function.
+![Invert](http://i.imgur.com/Bb0MA.png)
 
-*Note:* In this series, we will use text files (`.vert` and `.frag`) for easier editing. When you go to release and distribute your games, you may want to embed the GLSL in your Java source as a String. Eclipse includes a [feature for pasting multi-line strings](http://www.vasanth.in/2009/03/10/eclipse-tip-escape-text-when-pasting/) which will be helpful.
-
-Follow along with the full source code [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson1.java).
-
-## Set-Up
-
-Below is our setup code:
-```java
-//load our shader program and sprite batch
-try {
-	//read the files into strings
-	final String VERTEX = Util.readFile(Util.getResourceAsStream("res/shadertut/lesson1.vert"));
-	final String FRAGMENT = Util.readFile(Util.getResourceAsStream("res/shadertut/lesson1.frag"));
-	
-	//create our shader program -- be sure to pass SpriteBatch's default attributes!
-	ShaderProgram program = new ShaderProgram(VERTEX, FRAGMENT, SpriteBatch.ATTRIBUTES);
-	
-	//create our sprite batch
-	batch = new SpriteBatch(program);
-} catch (Exception e) { 
-	// ... handle the exception ... 
-}
-```
-
-For convenience, we use the [Util](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/Util.java) class to read our text files.
-
-We then create our shader program and specify the attribute locations with the third parameter. This tells ShaderProgram how the attributes will be laid out; since SpriteBatch expects them to be in a specific order (i.e. Position is expected at index 0). 
-
-Then, we create our SpriteBatch using our custom shader. Now we can render our sprites as per usual, and they will appear inverted:
-
-```java
-protected void render() throws LWJGLException {
-	super.render();
-
-	// start our batch
-	batch.begin();
-
-	// draw some sprites... they will all appear inverted
-	batch.draw(tex, 10, 10);
-
-	// end our batch
-	batch.end();
-}
-```
-
-![Invert](http://i.imgur.com/CdA4o.png)
+(The original grass texture can be seen [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/grass.png).)
 
 
 ## The Shaders
 
-Let's take a look at what is going on. Here is the [vertex shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.vert):
+Here is the [vertex shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson2.vert):
 ```glsl
+//combined projection and view matrix
+uniform mat4 u_projView;
+
 //"in" attributes from our SpriteBatch
 attribute vec2 Position;
 attribute vec2 TexCoord;
 attribute vec4 Color;
 
-uniform mat4 u_projView;
-
-//"out" attributes sent along to fragment shader
+//"out" varyings to our fragment shader
 varying vec4 vColor;
 varying vec2 vTexCoord;
  
 void main() {
 	vColor = Color;
 	vTexCoord = TexCoord;
-	gl_Position = u_projView * vec4(Position.xy, 0.0, 1.0);
+	gl_Position = u_projView * vec4(Position, 0.0, 1.0);
 }
 ```
 
@@ -84,20 +41,21 @@ The above is a simple "pass through" vertex shader. It does two things:
 
 And the [fragment shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson1.frag):
 ```glsl
+//SpriteBatch will use texture unit 0
 uniform sampler2D u_texture;
 
-//"in" attributes from vertex shader
+//"in" varyings from our vertex shader
 varying vec4 vColor;
 varying vec2 vTexCoord;
 
-void main(void) {
+void main() {
 	//sample the texture
 	vec4 texColor = texture2D(u_texture, vTexCoord);
-
+	
 	//invert the red, green and blue channels
 	texColor.rgb = 1.0 - texColor.rgb;
-
-	//output final color
+	
+	//final color
 	gl_FragColor = vColor * texColor;
 }
 ```
