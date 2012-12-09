@@ -13,6 +13,7 @@ Also hosted here is a short tutorial series aimed to get users started with the 
   * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
 * 3. [Intro to Shaders](wiki/Shaders)
   * [Lesson 1: Red Boxes](wiki/ShaderLesson1)
+  * [Lesson 2: Inverting a Texture](wiki/ShaderLesson2)
 * 4. [Creating Your own 2D Renderer](wiki/CustomRenderer)
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
   * [Sprite Batching](wiki/SpriteBatch)
