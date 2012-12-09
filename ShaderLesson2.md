@@ -187,5 +187,5 @@ protected void render() throws LWJGLException {
 }
 ```
 
-We can see the result of that here:
+We can see the result of that here:  
 ![Tint](http://i.imgur.com/RLqav.png)
