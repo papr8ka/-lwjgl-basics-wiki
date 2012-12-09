@@ -77,9 +77,9 @@ attribute vec2 TexCoord;
 attribute vec4 Color;
 ```
 
-The `TexCoord` attribute depends on which region of a texture we are rendering. If we are rendering the texture fully, generally tex coords `[0.0 - 1.0]` will be used. If we were rendering a "sub image" of our texture with `drawRegion`, the tex coords will be much different. Custom tex coords can be specified with `SpriteBatch.draw` if we, say, wanted a texture to repeat using `GL_REPEAT`. Since each vertex only uses 2 texture coordinates `(s, t)`, we use a `vec2`.
+The `TexCoord` attribute depends on which region of a texture we are rendering. If we are rendering the texture fully, generally tex coords `[0.0 - 1.0]` will be used. If we were rendering a "sub image" of our texture with `drawRegion`, the tex coords will be much different. Custom tex coords can be given to SpriteBatch if we, say, wanted to repeat a texture using `GL_REPEAT`. Since each vertex only uses 2 texture coordinates `(s, t)`, we use a `vec2`.
 
-The `Color` attribute is set from Java by using `SpriteBatch.setColor`, and it can be useful for tinting sprites or changing their transparency. Generally all vertices of a single sprite will use the same `Color` attribute; however, you could specify different values for each vertex in order to, say, have a sprite fade out from left to right. Most often, the `Color` attribute will be opaque white `(R=1, G=1, B=1, A=1)` in order to render our sprites with 100% opacity. To store the `(r, g, b, a)` components, we use a `vec4`.
+The `Color` attribute is set from Java with `SpriteBatch.setColor`, and it can be useful for tinting sprites or changing their transparency. Generally all vertices of a single sprite will use the same `Color` attribute; however, you could specify different values for each vertex in order to, say, have a sprite fade out from left to right. Most often, the `Color` attribute will be opaque white `(R=1, G=1, B=1, A=1)` in order to render our sprites with 100% opacity. To store the `(r, g, b, a)` components, we use a `vec4`.
 
 In order for the fragment shader to utilize these attributes, we need to "pass them along." This is done by declaring **varyings** in the vertex and fragment shaders. In the vertex shader, we pass them along like so:
 ```glsl
@@ -100,13 +100,13 @@ Our varying names can be anything, as long as they are consistent between fragme
 
 ## Fragment Shader
 
-Before we can sample our texture, we need to know which texture unit we are sampling from.
+Before we can sample our texture, we need to know which texture unit we are sampling from. For this we use the following:
 
 ```glsl
 uniform sampler2D u_texture;
 ```
 
-As I briefly explained in the Texture tutorial, it's possible in OpenGL to have multiple active texture units (i.e. multiple textures "bound" at once). We use `sampler2D` to know which to sample from. However, for now, we will only concern ourselves with the default texture unit zero (`GL_TEXTURE0`). We can think of `sampler2D` as an `int` type, where `0` is the default texture unit. 
+As I briefly explained in the [Texture](Textures) tutorial, it's possible in OpenGL to have multiple active texture units (i.e. multiple textures "bound" at once). We use a `sampler2D` to know which to sample from. However, for now, we will only concern ourselves with the default texture unit zero (`GL_TEXTURE0`). We can think of `sampler2D` as an `int` type, where `0` is the default texture unit. 
 
 SpriteBatch will look for a `sampler2D` uniform named `u_texture` (or `SpriteBatch.U_TEXTURE`). SpriteBatch will then set this uniform for us to `0`, during initialization, to indicate the default texture unit.
 
@@ -120,3 +120,9 @@ varying vec4 vColor;
 varying vec2 vTexCoord;
 ```
 
+### Texture Sampling
+
+Remember that the vertex shader works on every vertex, and the fragment shader works on every fragment (or "pixel"). So our fragment shader's `main()` method is being used on every pixel within the `width` and `height` we specified to `SpriteBatch.draw`. 
+
+
+### Inverting Colours
