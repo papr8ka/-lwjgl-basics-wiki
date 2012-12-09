@@ -72,7 +72,7 @@ uniform mat4 u_projView;
  
 void main() {
 	//transform our 2D screen space position into 3D world space
-	gl_Position = u_projView * vec4(Position.xy, 0.0, 1.0);
+	gl_Position = u_projView * vec4(Position, 0.0, 1.0);
 }
 ```
 
@@ -114,7 +114,7 @@ A uniform is like a script variable that we can set from Java. For example, if w
 
 In our case, the vertex shader needs to transform the screen space coordinates from our SpriteBatch into 3D world-space coordinates. We do this by multiplying our `Position` attribute by the combined [transformation matrix](http://en.wikipedia.org/wiki/Transformation_matrix) of our SpriteBatch, which is named `u_projView` (or `SpriteBatch.U_PROJ_VIEW`). This leads to a 2D orthographic projection, where origin `(0, 0)` is at the top left. e.g. `(32, 7)` would be 32 pixels right, 7 pixels down.
 ```glsl
-gl_Position = u_projView * vec4(Position.xy, 0.0, 1.0);
+gl_Position = u_projView * vec4(Position, 0.0, 1.0);
 ```
 
 Whenever we change the transformation matrix of our SpriteBatch (for example, when we call `SpriteBatch.resize`), it will update the `u_projView` uniform in our shader. It expects the name and data type to match; notice we are using `mat4` as the GLSL data type to represent a 4x4 matrix.
@@ -189,6 +189,15 @@ const vec3 RED = vec3(1.0, 0.0, 0.0);
 void main() {
     gl_FragColor = vec4(RED, 1.0);
 }
+```
+
+Our Position transformation could have been written in a variety of different ways:
+```glsl
+gl_Position = u_projView * vec4(Position, 0.0, 1.0);
+gl_Position = u_projView * vec4(Position.xy, 0.0, 1.0);
+gl_Position = u_projView * vec4(Position.x, Position.y, 0.0, 1.0);
+gl_Position = u_projView * vec4(vec3(Position, 0.0), 1.0);
+etc...
 ```
 
 ## On to Lesson 2
