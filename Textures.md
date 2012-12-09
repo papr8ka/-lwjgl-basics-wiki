@@ -195,10 +195,10 @@ You can query the maximum texture size with `glGetInteger(GL_MAX_TEXTURE_SIZE)`.
 Here is one example of a texture atlas:  
 ![TexAtlas](http://i.imgur.com/0uz31.png)
 
-As you might have noticed from the *Texture Wrap* section, we can tell OpenGL what part of our texture to render by specifying different texture coordinates. For example, say we want to render the grass tile at (1, 0), then texture coordinates would be set up like so:
+As you might have noticed from the *Texture Wrap* section, we can tell OpenGL what part of our texture to render by specifying different texture coordinates. For example, say we want to render the grass tile at (1, 1), then texture coordinates would be set up like so:
 ```java
 float srcX = 64;
-float srcY = 0;
+float srcY = 64;
 float srcWidth = 64;
 float srcHeight = 64;
 
@@ -207,6 +207,9 @@ float v = srcY / tex.height;
 float u2 = (srcX + srcWidth) / tex.width;
 float v2 = (srcY + srcHeight) / tex.height;
 ```
+
+Here is a visual breakdown of each vertex:  
+![VertexBreakdown](http://i.imgur.com/nwXUM.png)
 
 The above would be better suited in its own method, such as `drawDebugRegion`. Later, we will examine the `TextureRegion` utility class, which will simplify the process of handling sprite sheets and sub-images.
 
