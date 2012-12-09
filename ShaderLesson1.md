@@ -167,7 +167,7 @@ vec3 other = myVec.xyz;
 vec4 aColor = myVec.rgba;
  
 //"swizzles" the (x, y) components
-vec2 swiz = myVec.yx;
+myVec.xy = myVec.yx;
  
 //stpq are used for texture coordinates
 vec2 texCoords = myVec.st;
