@@ -149,21 +149,21 @@ vec4 texColor = texture2D(u_texture, vTexCoord);
 
 The `texture2D` method expects a `sampler2D` for the first argument (i.e. to know which texture unit to sample from), and a `vec2` for the second argument (texture coordinates `st`). It returns a `vec4` with the RGBA for that sample. 
 
-If we are using `GL_NEAREST`, the colour will be sampled by picking the [nearest-neighbour](http://en.wikipedia.org/wiki/Nearest-neighbor_interpolation) based on our texture coordinates. If we are using `GL_LINEAR`, the colour will take the four nearest pixel colours and blend them with a weighted average (i.e. [bilinear interpolation](http://en.wikipedia.org/wiki/Bilinear_interpolation)).
+If we are using `GL_NEAREST`, the colour will be sampled by picking the [nearest-neighbour](http://en.wikipedia.org/wiki/Nearest-neighbor_interpolation) pixel at the given texture coordinates. If we are using `GL_LINEAR`, the sampled colour will be the nearest _four_ pixel colours, blended with a weighted average (i.e. [bilinear interpolation](http://en.wikipedia.org/wiki/Bilinear_interpolation)).
 
-We can output this colour to `gl_FragColor` in order to see the regular texture colour. However, for the sake of doing something cool, let's first invert the colour. Keep in mind that RGBA is generally normalized to `[0.0 - 1.0]` (where 0.0 is black, and 1.0 is white). So we can use the following to invert the RGB values, and leave the alpha component unchanged:
+Now, we could output the `texColor` to `gl_FragColor` in order to see the regular texture colour. However, for the sake of doing something cool, let's try inverting the colour. Keep in mind that RGBA is generally normalized to `[0.0 - 1.0]` (where 0.0 is black, and 1.0 is white). So we can use the following to invert the RGB values, and leave the alpha component unchanged:
 ```glsl
 //invert the red, green and blue channels
 texColor.rgb = 1.0 - texColor.rgb;
 ```
 
-For our final colour, we'll multiply the texture colour by the vertex colour. This allows us to use `SpriteBatch.setColor` to tint the RGB of a sprite, and/or change its transparency. Using pure white (the default SpriteBatch colour) will have no effect, since are multiplying the RGBA by `1.0`.
+Lastly, for our final colour, we'll multiply the texture colour by the vertex colour. This allows us to use `SpriteBatch.setColor` to tint the RGB of a sprite, and/or change its transparency. Using pure white (the default SpriteBatch colour) will have no effect, since we are multiplying the RGBA by `1.0`.
 
 ```glsl
 gl_FragColor = texColor * vColor;
 ```
 
-We can test by changing our application's rendering code to the following:
+We can test this by changing our application's rendering code to the following:
 ```java
 protected void render() throws LWJGLException {
 	super.render();
