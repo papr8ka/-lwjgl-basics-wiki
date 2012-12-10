@@ -53,9 +53,6 @@ void main() {
 	//determine center position
 	vec2 position = (gl_FragCoord.xy / resolution.xy) - vec2(0.5);
 	
-	//correct for aspect ratio
-	position.x *= resolution.x / resolution.y;
-	
 	//determine the vector length of the center position
 	float len = length(position);
 	
@@ -99,14 +96,11 @@ gl_FragCoord.xy / resolution.xy
 
 Note that `gl_FragCoord` value uses a *lower left* origin, so `(32, 10)` would mean 32 pixels to the right, 10 pixels *up from the bottom*. However, since our circle is symmetrical and located at center, we do not need to worry about this difference in our specific demo.
 
-We subtract `(0.5, 0.5)` so that we can determine the length from **center**, rather than lower-left (the origin). Then we correct for the aspect ratio, so that our vignette doesn't look squashed.
+We subtract `(0.5, 0.5)` so that we can determine the length from **center**, rather than lower-left (the origin).
 
 ```glsl
 //determine center
-vec2 position = (gl_FragCoord.xy / resolution.xy) - vec2(0.5);
-	
-//correct for aspect ratio
-position.x *= resolution.x / resolution.y;	
+vec2 position = (gl_FragCoord.xy / resolution.xy) - vec2(0.5);	
 ```
 
 We will use GLSL's built-in `length()` method to determine the length from the center point. Fragments at the center will have a length of zero (i.e. black), and it will increase as we move outward (i.e. into white/gray). We can test the shader so far:
@@ -149,17 +143,21 @@ Which results in the following:
 
 ## Step 2: Circles, `step()` and `smoothstep()`
 
-Another built-in we should look at is `step(edge, x)` and its variants. This function returns `0.0` if `x` is less than `edge`, otherwise it returns `1.0`. It's useful to avoid `if` and `else` statements, which are expensive inside of fragment shaders. If we try it out, you'll notice we've created a sharp-edged circle:
+Another built-in we should look at is `step(edge, x)` and its variants. This function returns 0.0 if `x` is less than `edge`, otherwise it returns 1.0. It's useful to avoid `if` and `else` statements, which are expensive inside of fragment shaders. If we try it out, you'll notice we've created a sharp-edged circle:
 
 ```glsl
 //the radius of our circle
 float r = 0.5;
 
-//final colour, multiplied by vertex colour
 gl_FragColor = vec4( vec3( step(r, len) ), 1.0 );
 ```
 
-A variant of this function is `smoothstep(low, high, x)`, which returns `0.0` if `x` is less than `low` or `1.0` if `x` is greater than `high`. If `x` is between the two values, it will linearly interpolate between zero and one. So we can adjust our circle to the following, to gain finer control over how smooth our vignette will look. Here is our updated code:
+Also note that our result is squashed because of the aspect ratio. In order to correct for that, we need to include the following *before* we calculate the `length`:
+```glsl
+position.x *= resolution.x / resolution.y;
+```
+
+A variant of the `step` function is `smoothstep(low, high, x)`, which returns 0.0 if `x` is less than `low` or 1.0 if `x` is greater than `high`. If `x` is between the two values, it will linearly interpolate between zero and one. So we can adjust our circle to the following, to gain finer control over how smooth our vignette will look. Here is our updated code:
 
 ```glsl
 //the radius of our circle
@@ -168,11 +166,53 @@ float r = 0.5;
 //the softness of our circle edge, between 0.0 and 1.0
 float softness = 0.05;
 
-//final colour, multiplied by vertex colour
 gl_FragColor = vec4( vec3( smoothstep(r, r-softness, len) ), 1.0 );
 ```
 
-By specifying a different range of `low` and `high` values, we can create more or less "softness." For example, using a difference of `0.01` results in a nicely anti-aliased circle:
+Using a softness of 0.01 produces a nicely anti-aliased circle, whereas 0.45 produces a nice falloff for a vignette effect. 
+
+Now we can move the radius and softness to constants, and test it out on our texture RGB. We won't correct for the aspect ratio here:
+
+```glsl
+//texture 0
+uniform sampler2D u_texture;
+
+//our screen resolution, set from Java whenever the display is resized
+uniform vec2 resolution;
+
+//"in" attributes from our vertex shader
+varying vec4 vColor;
+varying vec2 vTexCoord;
+
+//RADIUS of our vignette, where 0.5 results in a circle fitting the screen
+const float RADIUS = 0.75;
+
+//softness of our vignette, between 0.0 and 1.0
+const float SOFTNESS = 0.45;
+
+void main() {
+	//sample our texture
+	vec4 texColor = texture2D(u_texture, vTexCoord);
+	
+	//determine center
+	vec2 position = (gl_FragCoord.xy / resolution.xy) - vec2(0.5);
+	
+	//OPTIONAL: correct for aspect ratio
+	//position.x *= resolution.x / resolution.y;
+	
+	//determine the vector length from center
+	float len = length(position);
+	
+	//our vignette effect, using smoothstep
+	float vignette = smoothstep(RADIUS, RADIUS-SOFTNESS, len);
+	
+	//apply our vignette
+	texColor.rgb *= vignette;
+	
+	gl_FragColor = texColor;
+}
+```
+
 
 
 ##Optimizations
