@@ -136,7 +136,6 @@ void main() {
 }
 ```
 
-Which leads to the following:  
 ![Vignette1](http://i.imgur.com/P93CZ.png)
 
 In fact, this is all we need to create a basic vignette effect. Try inverting the length `(1.0 - len)` and multiplying it by our colour:
@@ -144,7 +143,6 @@ In fact, this is all we need to create a basic vignette effect. Try inverting th
 gl_FragColor = vec4( texColor.rgb * (1.0 - len)), 1.0 );
 ```
 
-Which results in the following:  
 ![Vignette2](http://i.imgur.com/5UPKf.png)
 
 <a name="Step2" />
