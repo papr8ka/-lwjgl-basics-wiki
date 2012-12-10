@@ -230,22 +230,10 @@ void main() {
 ## Step 4: Grayscale & Sepia
 
 <a name="Optimizations" />
-##Optimizations
+##A Note on Optimization
 
 If we specify our texture coordinates in the range `[0.0 - 1.0]`, then we can use them to determine where the fragment lies within our quad, instead of relying on a `resolution` uniform. For example, if our texture coordinates were `(0.5, 0.5)` then that fragment would be at the center.
 
 The upside to this is that we could batch many sprites using our post-processing shader, and each one might have different dimensions.
 
-The downside is that not all drivers will support non-power-of-two texture sizes (for example, OpenGL ES 1.1). Typically, non-power-of-two textures will be padded with empty transparent pixels, and then rendered using smaller texture coordinates (i.e. `drawRegion` as we discussed earlier). Since typically we render post-processing effects at the same size (screen size), and since our screen size may not be power-of-two, using a `resolution` uniform is a more flexible solution. 
-
-***
-
-//determine center position
-vec2 position = (gl_FragCoord.xy / resolution.xy) - vec2(0.5);
-
-```glsl
-
-	//the most basic solution:
-	//texColor.rgb *= vec3(1.0 - length(position));
-	//gl_FragColor = texColor * vColor;
-```
+The downside is that not all drivers will support non-power-of-two texture sizes (for example, OpenGL ES 1.1). Typically, non-power-of-two textures will be padded with empty transparent pixels, and then rendered using smaller texture coordinates (i.e. `drawRegion` as we discussed earlier). Since we generally tend to render post-processing effects all using the same screen size, and since our screen size may not be power-of-two, our `resolution` solution is more flexible.
