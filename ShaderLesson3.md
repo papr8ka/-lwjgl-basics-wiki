@@ -93,7 +93,7 @@ The steps involved:
 
 To create the vignette effect, we first need to understand how to make a circle. A simple way of making a circle is to calculate the length of a vector from the quad center. To find the center, we need to determine how far the current fragment is along the x- and y-axis of our quad. 
 
-We use the built-in `gl_FragCoord` value, which gives us the `(x, y)` coordinates of the current fragment in the frame buffer, divided by the resolution width and height (e.g. `800, 600`).
+We use the built-in `gl_FragCoord` value, which gives us the `(x, y)` coordinates (in pixels) of the current fragment in the frame buffer. We divide this by the resolution width and height (e.g. `800, 600`) to get values between 0.0 and 1.0.
 
 ```glsl
 gl_FragCoord.xy / resolution.xy
