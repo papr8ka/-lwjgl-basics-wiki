@@ -75,12 +75,10 @@ void main() {
 }
 ```
 
-What a beast! Here is the scene before any effects:
-
+What a beast! Here is the scene before any effects:  
 ![Before](http://i.imgur.com/pMm39.png)
 
-And here is our scene with vignette and sepia applied:
-
+And here is our scene with vignette and sepia applied:  
 ![After](http://i.imgur.com/EUL4t.png)
 
 The steps involved:
@@ -138,7 +136,7 @@ void main() {
 }
 ```
 
-Which leads to the following:
+Which leads to the following:  
 ![Vignette1](http://i.imgur.com/P93CZ.png)
 
 In fact, this is all we need to create a basic vignette effect. Try inverting the length `(1.0 - len)` and multiplying it by our colour:
@@ -146,7 +144,7 @@ In fact, this is all we need to create a basic vignette effect. Try inverting th
 gl_FragColor = vec4( texColor.rgb * (1.0 - len)), 1.0 );
 ```
 
-Which results in the following:
+Which results in the following:  
 ![Vignette2](http://i.imgur.com/5UPKf.png)
 
 <a name="Step2" />
@@ -184,8 +182,7 @@ gl_FragColor = vec4( vec3( smoothstep(r, r-softness, len) ), 1.0 );
 
 Using a softness of 0.01 produces a nicely anti-aliased circle, whereas 0.45 produces a nice falloff for a vignette effect. 
 
-Now we can move the radius and softness to constants, and test it out on our texture RGB. Note that we aren't correcting for the aspect ratio here:
-
+Now we can move the radius and softness to constants, and test it out on our texture RGB. Note that we aren't correcting for the aspect ratio here:  
 ![NewVignette](http://i.imgur.com/8cxUU.png)
 
 ```glsl
