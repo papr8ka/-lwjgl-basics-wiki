@@ -181,7 +181,6 @@ gl_FragColor = vec4( vec3( smoothstep(r, r-softness, len) ), 1.0 );
 Using a softness of 0.01 produces a nicely anti-aliased circle, whereas 0.45 produces a nice falloff for a vignette effect. 
 
 Now we can move the radius and softness to constants, and test it out on our texture RGB. Note that we aren't correcting for the aspect ratio here:  
-![NewVignette](http://i.imgur.com/8cxUU.png)
 
 ```glsl
 //texture 0
@@ -222,6 +221,9 @@ void main() {
 	gl_FragColor = texColor;
 }
 ```
+
+Result:  
+![NewVignette](http://i.imgur.com/8cxUU.png)
 
 <a name="Step3" />
 ## Step 3: Reducing strength with `mix()`
