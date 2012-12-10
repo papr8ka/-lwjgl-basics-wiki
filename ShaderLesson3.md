@@ -140,7 +140,7 @@ void main() {
 
 In fact, this is all we need to create a basic vignette effect. Try inverting the length `(1.0 - len)` and multiplying it by our colour:
 ```glsl
-gl_FragColor = vec4( texColor.rgb * (1.0 - len)), 1.0 );
+gl_FragColor = vec4( texColor.rgb * (1.0 - len), 1.0 );
 ```
 
 ![Vignette2](http://i.imgur.com/5UPKf.png)
