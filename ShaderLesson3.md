@@ -21,8 +21,6 @@ protected void resize() throws LWJGLException {
 
 Here we are setting a uniform called `resolution`. We give it two float parameters, so the uniform will need to be of type `vec2`. Also note that, before sending our uniform data, we need to make our program active by calling `use()`. We declare our uniform in the fragment shader, although you can also use uniforms in vertex shaders. 
 
-*Note:* If you are sending uniform data within `SpriteBatch.begin()` and `end()`, you first need to `flush()` the batch before calling `setUniform`. Calling `use()` is not required since SpriteBatch will call that for us when we begin rendering.
-
 Our [vertex shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson3.vert) is exactly the same as in [Lesson 2](ShaderLesson2). 
 
 Our [fragment shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson3.frag) looks like this:
