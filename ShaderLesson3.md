@@ -139,7 +139,7 @@ void main() {
 ```
 
 Which leads to the following:
-![Vignette1](http://i.imgur.com/P93CZ)
+![Vignette1](http://i.imgur.com/P93CZ.png)
 
 In fact, this is all we need to create a basic vignette effect. Try inverting the length `(1.0 - len)` and multiplying it by our colour:
 ```glsl
@@ -147,7 +147,7 @@ gl_FragColor = vec4( texColor.rgb * (1.0 - len)), 1.0 );
 ```
 
 Which results in the following:
-![Vignette2](http://i.imgur.com/5UPKf)
+![Vignette2](http://i.imgur.com/5UPKf.png)
 
 <a name="Step2" />
 ## Step 2: Circles, `step()` and `smoothstep()`
@@ -161,7 +161,7 @@ float r = 0.5;
 gl_FragColor = vec4( vec3( step(r, len) ), 1.0 );
 ```
 
-![Circle1](http://i.imgur.com/QpLnu)
+![Circle1](http://i.imgur.com/QpLnu.png)
 
 Our circle is squashed because of the aspect ratio. In order to correct for that, we need to include the following *before* we calculate the `length`:
 ```glsl
@@ -180,13 +180,13 @@ float softness = 0.05;
 gl_FragColor = vec4( vec3( smoothstep(r, r-softness, len) ), 1.0 );
 ```
 
-![Circle2](http://i.imgur.com/YIYFv)
+![Circle2](http://i.imgur.com/YIYFv.png)
 
 Using a softness of 0.01 produces a nicely anti-aliased circle, whereas 0.45 produces a nice falloff for a vignette effect. 
 
 Now we can move the radius and softness to constants, and test it out on our texture RGB. Note that we aren't correcting for the aspect ratio here:
 
-![NewVignette](http://i.imgur.com/8cxUU)
+![NewVignette](http://i.imgur.com/8cxUU.png)
 
 ```glsl
 //texture 0
