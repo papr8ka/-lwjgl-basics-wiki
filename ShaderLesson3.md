@@ -148,7 +148,7 @@ gl_FragColor = vec4( texColor.rgb * (1.0 - len), 1.0 );
 <a name="Step2" />
 ## Step 2: Circles, `step()` and `smoothstep()`
 
-Another built-in we should look at is `step(edge, x)` and its variants. This function returns 0.0 if `x` is less than `edge`, otherwise it returns 1.0. It's useful to avoid `if` and `else` statements, which are expensive inside of fragment shaders. If we try it out, you'll notice we've created a sharp-edged circle:
+Another built-in we should look at is `step(edge, x)` and its variants. This function returns 0.0 if x is less than `edge`, otherwise it returns 1.0. It's useful to avoid `if` and `else` statements, which are expensive inside of fragment shaders. If we try it out, you'll notice we've created a sharp-edged circle:
 
 ```glsl
 //the radius of our circle
@@ -164,7 +164,7 @@ Our circle is squashed because of the aspect ratio. In order to correct for that
 position.x *= resolution.x / resolution.y;
 ```
 
-A variant of the `step` function is `smoothstep(low, high, x)`, which returns 0.0 if `x` is less than `low` or 1.0 if `x` is greater than `high`. If `x` is between the two values, it will linearly interpolate between zero and one. So we can adjust our circle to the following, to gain finer control over how smooth our vignette will look. Here is our updated code:
+A variant of the `step` function is `smoothstep(low, high, x)`, which returns 0.0 if x is less than `low` or 1.0 if x is greater than `high`. If x is between the two values, it will linearly interpolate between zero and one. So we can adjust our circle to the following, to gain finer control over how smooth our vignette will look. Here is our updated code:
 
 ```glsl
 //the radius of our circle
