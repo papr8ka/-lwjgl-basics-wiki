@@ -84,6 +84,14 @@ And here is our scene with vignette and sepia applied:
 
 ![After]()
 
+The steps involved:
+
+- [Step 1: The Basic Vignette](#Step1)
+- [Step 2: Circles, `step()` and `smoothstep()`](#Step2)
+- [Step 3: Reducing strength with `mix()`](#Step3)
+- [Step 4: Grayscale & Sepia](#Step4)
+
+<a name="Step1" />
 ## Step 1: The Basic Vignette
 
 To create the vignette effect, we first need to understand how to make a circle. A simple way of making a circle is to calculate the length of a vector from the quad center. To find the center, we need to determine how far the current fragment is along the x- and y-axis of our quad. 
@@ -140,7 +148,7 @@ gl_FragColor = vec4( texColor.rgb * (1.0 - len)), 1.0 );
 
 Which results in the following:
 
-
+<a name="Step2" />
 ## Step 2: Circles, `step()` and `smoothstep()`
 
 Another built-in we should look at is `step(edge, x)` and its variants. This function returns 0.0 if `x` is less than `edge`, otherwise it returns 1.0. It's useful to avoid `if` and `else` statements, which are expensive inside of fragment shaders. If we try it out, you'll notice we've created a sharp-edged circle:
@@ -213,8 +221,13 @@ void main() {
 }
 ```
 
+<a name="Step3" />
+## Step 3: Reducing strength with `mix()`
 
+<a name="Step4" />
+## Step 4: Grayscale & Sepia
 
+<a name="Optimizations" />
 ##Optimizations
 
 If we specify our texture coordinates in the range `[0.0 - 1.0]`, then we can use them to determine where the fragment lies within our quad, instead of relying on a `resolution` uniform. For example, if our texture coordinates were `(0.5, 0.5)` then that fragment would be at the center.
