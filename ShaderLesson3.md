@@ -1,7 +1,6 @@
 this page is a WIP
 
---- ignore it all for now ---
-
+--
 
 Now that you're familiar with some of the basic ideas behind GLSL, we can start getting into some more interesting effects. First, take a peek at [Lesson 3's Java source](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson3.java). As you can see, most of the code is the same as in the other lessons, save for a few differences in resource paths and a flag to `Display.setResizable(false)` (for simplicity's sake in our demo).
 
@@ -78,11 +77,11 @@ void main() {
 
 What a beast! Here is the scene before any effects:
 
-![Before]()
+![Before](http://i.imgur.com/pMm39.png)
 
 And here is our scene with vignette and sepia applied:
 
-![After]()
+![After](http://i.imgur.com/EUL4t.png)
 
 The steps involved:
 
@@ -140,6 +139,7 @@ void main() {
 ```
 
 Which leads to the following:
+![Vignette1](http://i.imgur.com/P93CZ)
 
 In fact, this is all we need to create a basic vignette effect. Try inverting the length `(1.0 - len)` and multiplying it by our colour:
 ```glsl
@@ -147,6 +147,7 @@ gl_FragColor = vec4( texColor.rgb * (1.0 - len)), 1.0 );
 ```
 
 Which results in the following:
+![Vignette2](http://i.imgur.com/5UPKf)
 
 <a name="Step2" />
 ## Step 2: Circles, `step()` and `smoothstep()`
@@ -160,7 +161,9 @@ float r = 0.5;
 gl_FragColor = vec4( vec3( step(r, len) ), 1.0 );
 ```
 
-Also note that our result is squashed because of the aspect ratio. In order to correct for that, we need to include the following *before* we calculate the `length`:
+![Circle1](http://i.imgur.com/QpLnu)
+
+Our circle is squashed because of the aspect ratio. In order to correct for that, we need to include the following *before* we calculate the `length`:
 ```glsl
 position.x *= resolution.x / resolution.y;
 ```
@@ -177,9 +180,13 @@ float softness = 0.05;
 gl_FragColor = vec4( vec3( smoothstep(r, r-softness, len) ), 1.0 );
 ```
 
+![Circle2](http://i.imgur.com/YIYFv)
+
 Using a softness of 0.01 produces a nicely anti-aliased circle, whereas 0.45 produces a nice falloff for a vignette effect. 
 
-Now we can move the radius and softness to constants, and test it out on our texture RGB. We won't correct for the aspect ratio here:
+Now we can move the radius and softness to constants, and test it out on our texture RGB. Note that we aren't correcting for the aspect ratio here:
+
+![NewVignette](http://i.imgur.com/8cxUU)
 
 ```glsl
 //texture 0
