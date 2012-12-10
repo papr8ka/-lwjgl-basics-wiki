@@ -2,7 +2,7 @@ this page is a WIP
 
 --
 
-Now that you're familiar with some of the basic ideas behind GLSL, we can start getting into some more interesting effects. First, take a peek at [Lesson 3's Java source](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson3.java). As you can see, most of the code is the same as in the other lessons, save for a few differences in resource paths and a flag to `Display.setResizable(false)` (for simplicity's sake in our demo).
+Now that you're familiar with some of the basic ideas behind GLSL, we can start getting into some more interesting effects. First, take a peek at [Lesson 3's source code](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson3.java). As you can see, most of the code is the same as in the earlier lessons, except for a few differences in resource paths and a flag to `Display.setResizable(false)` (for simplicity's sake in our demo).
 
 The most important change on the Java side can be seen in the `resize` method:
 ```java
