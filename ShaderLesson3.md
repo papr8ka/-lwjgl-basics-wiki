@@ -232,7 +232,7 @@ void main() {
 <a name="Optimizations" />
 ##A Note on Optimization
 
-If we specify our texture coordinates in the range `[0.0 - 1.0]`, then we can use them to determine where the fragment lies within our quad, instead of relying on a `resolution` uniform. For example, if our texture coordinates were `(0.5, 0.5)` then that fragment would be at the center.
+If we specify our texture coordinates in the range `[0.0 - 1.0]`, then we can use them to determine where the fragment lies within our quad, instead of relying on `gl_FragCoord` and a `resolution` uniform. For example, if our texture coordinates were `(0.5, 0.5)` then that fragment would be at the center.
 
 The upside to this is that we could batch many sprites using our post-processing shader, and each one might have different dimensions.
 
