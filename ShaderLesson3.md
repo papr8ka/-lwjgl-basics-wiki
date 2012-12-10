@@ -87,6 +87,7 @@ The steps involved:
 - [Step 2: Circles, `step()` and `smoothstep()`](#Step2)
 - [Step 3: Reducing strength with `mix()`](#Step3)
 - [Step 4: Grayscale & Sepia](#Step4)
+- [Step 5: Brightness & Contrast]()
 
 <a name="Step1" />
 ## Step 1: The Basic Vignette
