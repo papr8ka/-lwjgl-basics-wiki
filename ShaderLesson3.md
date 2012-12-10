@@ -19,7 +19,7 @@ protected void resize() throws LWJGLException {
 }
 ```
 
-Here we are setting a uniform called `resolution`. We give it two float parameters, so the uniform will need to be of type `vec2`. Also note that, before sending our uniform data, we need to make our program active by calling `use()`. We declare our uniform in the fragment shader, although you can also use uniforms in vertex shaders. 
+Here we are setting a uniform called `resolution` on our ShaderProgram object. We give it two float parameters, so the uniform will need to be of type `vec2`. Also note that, before sending our uniform data, we need to make our program active by calling `use()`. We declare our uniform in the fragment shader, although you can also use uniforms in vertex shaders. 
 
 Our [vertex shader](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/shadertut/lesson3.vert) is exactly the same as in [Lesson 2](ShaderLesson2). 
 
