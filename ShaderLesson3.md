@@ -37,8 +37,8 @@ uniform vec2 resolution;
 varying vec4 vColor;
 varying vec2 vTexCoord;
 
-//size of our vignette, where 1.0 results in a circle fitting the screen
-const float SIZE = 0.75;
+//RADIUS of our vignette, where 0.5 results in a circle fitting the screen
+const float RADIUS = 0.75;
 
 //softness of our vignette, between 0.0 and 1.0
 const float SOFTNESS = 0.45;
@@ -56,11 +56,11 @@ void main() {
 	//correct for aspect ratio
 	position.x *= resolution.x / resolution.y;
 	
-	//determine the vector length (magnitude) of the center position
+	//determine the vector length of the center position
 	float len = length(position);
 	
 	//use smoothstep to create a smooth vignette
-	float vignette = smoothstep(SIZE, SIZE-SOFTNESS, len);
+	float vignette = smoothstep(RADIUS, RADIUS-SOFTNESS, len);
 	
 	//apply the vignette with 50% opacity
 	texColor.rgb = mix(texColor.rgb, texColor.rgb * vignette, 0.5);
@@ -87,23 +87,95 @@ And here is our scene with vignette and sepia applied:
 
 ![After]()
 
-## Step 1: Creating a Circle
+## Step 1: The Basic Vignette
 
 To create the vignette effect, we first need to understand how to make a circle. A simple way of making a circle is to calculate the length of a vector from the quad center. To find the center, we need to determine how far the current fragment is along the x- and y-axis of our quad. 
 
-We use the built-in `gl_FragCoord` value, which gives us the `(x, y)` coordinates of the current fragment in the frame buffer. Note that this value uses a *lower left* origin, so `(32, 10)` would mean 32 pixels to the right, 10 pixels *up from the bottom*. However, since our circle is symmetrical and located at center, we do not need to worry about this difference in our specific demo:
+We use the built-in `gl_FragCoord` value, which gives us the `(x, y)` coordinates of the current fragment in the frame buffer, divided by the resolution width and height (e.g. `800, 600`).
 
 ```glsl
 gl_FragCoord.xy / resolution.xy
 ```
 
+Note that `gl_FragCoord` value uses a *lower left* origin, so `(32, 10)` would mean 32 pixels to the right, 10 pixels *up from the bottom*. However, since our circle is symmetrical and located at center, we do not need to worry about this difference in our specific demo.
+
+We subtract `(0.5, 0.5)` so that we can determine the length from **center**, rather than lower-left (the origin). Then we correct for the aspect ratio, so that our vignette doesn't look squashed.
+
+```glsl
+//determine center
+vec2 position = (gl_FragCoord.xy / resolution.xy) - vec2(0.5);
+	
+//correct for aspect ratio
+position.x *= resolution.x / resolution.y;	
+```
+
+We will use GLSL's built-in `length()` method to determine the length from the center point. Fragments at the center will have a length of zero (i.e. black), and it will increase as we move outward (i.e. into white/gray). We can test the shader so far:
+
+```glsl
+//texture 0
+uniform sampler2D u_texture;
+
+//our screen resolution, set from Java whenever the display is resized
+uniform vec2 resolution;
+
+//"in" attributes from our vertex shader
+varying vec4 vColor;
+varying vec2 vTexCoord;
+
+void main() {
+	//sample our texture
+	vec4 texColor = texture2D(u_texture, vTexCoord);
+	
+	//determine origin
+	vec2 position = (gl_FragCoord.xy / resolution.xy) - vec2(0.5);
+		
+	//determine the vector length of the center position
+	float len = length(position);
+	
+	//show our length for debugging
+	gl_FragColor = vec4( vec3(len), 1.0 );
+}
+```
+
+Which leads to the following:
+
+In fact, this is all we need to create a basic vignette effect. Try inverting the length `(1.0 - len)` and multiplying it by our colour:
+```glsl
+gl_FragColor = vec4( texColor.rgb * (1.0 - len)), 1.0 );
+```
+
+Which results in the following:
 
 
-We subtract `(0.5, 0.5)` so that the length gives us the proper value. If the fragment was at `(0.5, 0.5)` (i.e. center)
+## Step 2: Circles, `step()` and `smoothstep()`
 
-***
+Another built-in we should look at is `step(edge, x)` and its variants. This function returns `0.0` if `x` is less than `edge`, otherwise it returns `1.0`. It's useful to avoid `if` and `else` statements, which are expensive inside of fragment shaders. If we try it out, you'll notice we've created a sharp-edged circle:
 
-**Alternative Solution: Texture Coordinates*
+```glsl
+//the radius of our circle
+float r = 0.5;
+
+//final colour, multiplied by vertex colour
+gl_FragColor = vec4( vec3( step(r, len) ), 1.0 );
+```
+
+A variant of this function is `smoothstep(low, high, x)`, which returns `0.0` if `x` is less than `low` or `1.0` if `x` is greater than `high`. If `x` is between the two values, it will linearly interpolate between zero and one. So we can adjust our circle to the following, to gain finer control over how smooth our vignette will look. Here is our updated code:
+
+```glsl
+//the radius of our circle
+float r = 0.5;
+
+//the softness of our circle edge, between 0.0 and 1.0
+float softness = 0.05;
+
+//final colour, multiplied by vertex colour
+gl_FragColor = vec4( vec3( smoothstep(r, r-softness, len) ), 1.0 );
+```
+
+By specifying a different range of `low` and `high` values, we can create more or less "softness." For example, using a difference of `0.01` results in a nicely anti-aliased circle:
+
+
+##Optimizations
 
 If we specify our texture coordinates in the range `[0.0 - 1.0]`, then we can use them to determine where the fragment lies within our quad, instead of relying on a `resolution` uniform. For example, if our texture coordinates were `(0.5, 0.5)` then that fragment would be at the center.
 
