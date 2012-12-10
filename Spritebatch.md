@@ -262,7 +262,7 @@ public class SpriteBatch {
 	}
 
 	protected void checkFlush(Texture texture) {
-		if (texture==null || texture==null)
+		if (texture==null)
 			throw new NullPointerException("null texture");
 
 		//we need to bind a different texture/type. this is
