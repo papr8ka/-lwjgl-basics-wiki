@@ -9,6 +9,10 @@ This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn mo
   * [Lesson 1: Red Boxes](wiki/ShaderLesson1)
   * [Lesson 2: Inverting a Texture](wiki/ShaderLesson2)
   * [Lesson 3: Circles, vignette, sepia and grayscale effects](wiki/ShaderLesson3)
+  * Lesson 4 (WIP) will cover multiple texture units, blending, and texture splatting. For now, [see here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/TextureBlendTest.java).
+  * Lesson 5 (WIP) will cover blurring images.
+  * Lesson 6 (WIP) will cover normal map lighting for 2D games. See [here](http://www.java-gaming.org/topics/glsl-using-normal-maps-to-illuminate-a-2d-texture-libgdx/27516/view.html) for now.
+  * Lesson 7 (WIP) will cover light scattering, aka "god rays".
 * 4. Creating Your own 2D Renderer
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
   * [Sprite Batching](wiki/SpriteBatch)
