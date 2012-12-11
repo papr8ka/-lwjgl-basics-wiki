@@ -30,6 +30,16 @@ You could also grab a stable JAR of the API from the [downloads page](https://gi
 Here is a simple example of rendering some sprites to the screen with _lwjgl-basics_.
 
 ```java
+import java.io.IOException;
+
+import mdesl.graphics.Color;
+import mdesl.graphics.SpriteBatch;
+import mdesl.graphics.Texture;
+
+import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
+import org.lwjgl.opengl.Display;
+
 public class SpriteBatchExample extends SimpleGame {
 
 	public static void main(String[] args) throws LWJGLException {
