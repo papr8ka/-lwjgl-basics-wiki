@@ -1,5 +1,7 @@
 ### OpenGL & GLSL Tutorials
 
+*lwjgl-basics* hosts a series of tutorials aimed at LWJGL and LibGDX devs looking to learn a bit more about shaders and the programmable pipeline.
+
 * 1. [Display Creation](wiki/Display)
 * 2. [Textures](wiki/Textures)
   * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
@@ -13,7 +15,7 @@
 
 ### The API
 
-*lwjgl-basics* also acts as a minimal shader-based library for 2D LWJGL sprite games. It provides essential utilities for textures, shaders, and sprite rendering.
+You can also use the *lwjgl-basics* source code as a minimal shader-based library for 2D LWJGL sprite games. It provides essential utilities for textures, shaders, and sprite rendering.
 
 For a large game project, a platform like [LibGDX](http://libgdx.badlogicgames.com/) may be more suitable.
 
