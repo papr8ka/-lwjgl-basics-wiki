@@ -107,7 +107,7 @@ public int getUniformLocation(String str) {
 ```
 
 
-## Setting Uniform Valuse
+## Setting Uniform Values
 
 As discussed in the earlier series, we use `glUniform` to pass uniform data to our shaders. A complete ShaderProgram utility may include numerous utilities for getting and setting uniforms (see [here](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/glutils/ShaderProgram.java)). Our simple example will deal with the bare minimum: matrices and integer uniforms (for sampler2D).
 
