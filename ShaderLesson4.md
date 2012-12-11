@@ -69,7 +69,7 @@ void main(void) {
 
 ![Result](http://i.imgur.com/sIOxq.png)
 
-This doesn't cover much new ground, so instead we'll focus on optimization and practical usage.
+This doesn't cover much new ground <sup>(pun!)</sup>, so instead we'll focus on optimization and practical usage.
 
 ## Texture Atlases
 
