@@ -198,6 +198,10 @@ protected void render() throws LWJGLException {
 We can see the result of that here:  
 ![Tint](http://i.imgur.com/RLqav.png)
 
+## On to Lesson 3
+
+Check out [Lesson 3](ShaderLesson3) or go back to the [shaders intro](Shaders).
+
 <a name="Ports" />
 ## Other APIs
 
