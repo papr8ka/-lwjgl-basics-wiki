@@ -6,7 +6,7 @@
   * [Intro](#Intro)
   * [Lesson 1](ShaderLesson1) covers the basics of writing your own vertex and fragment shaders.
   * [Lesson 2](ShaderLesson2) covers texture sampling and basic image processing (inverting a texture).
-  * [Lesson 3](ShaderLesson3) (WIP) covers vignettes, circles, grayscale, and sepia effects.
+  * [Lesson 3](ShaderLesson3) covers vignettes, circles, grayscale, and sepia effects.
   * Lesson 4 (WIP) will cover multiple texture units, blending, and texture splatting. For now, [see here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/TextureBlendTest.java).
   * Lesson 5 (WIP) will cover blurring images.
   * Lesson 6 (WIP) will cover normal map lighting for 2D games. See [here](http://www.java-gaming.org/topics/glsl-using-normal-maps-to-illuminate-a-2d-texture-libgdx/27516/view.html) for now.
