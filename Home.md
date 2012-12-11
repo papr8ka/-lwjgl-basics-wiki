@@ -19,8 +19,6 @@ For a large game project, a platform like [LibGDX](http://libgdx.badlogicgames.c
 
 The [source code](https://github.com/mattdesl/lwjgl-basics) is hosted on GitHub.
 
-### Credits
+### Installing the API
 
-* [PT Font](http://www.fontsquirrel.com/fonts/PT-Sans)
-* [Grass & Water Tileset](http://opengameart.org/content/grass-and-water-tiles)
-* Code written by Matt DesLauriers (aka: davedes or mattdesl) unless otherwise stated.
+-- todo --
