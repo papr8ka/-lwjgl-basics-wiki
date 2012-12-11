@@ -24,3 +24,68 @@ The [source code](https://github.com/mattdesl/lwjgl-basics) is hosted on GitHub.
 The best way to install the API is to use Eclipse and EGit (or another IDE with Git support) to pull the most recent source code. Included in the `lib` and `native` folder is a distribution of LWJGL 2.8.5. You can download newer versions of LWJGL from their [downloads page](http://lwjgl.org/download.php). 
 
 You could also grab a stable JAR of the API from the [downloads page](https://github.com/mattdesl/lwjgl-basics/downloads). Then, you would set up LWJGL and your natives properly in [Eclipse](http://www.lwjgl.org/wiki/index.php?title=Setting_Up_LWJGL_with_Eclipse), [NetBeans](http://www.lwjgl.org/wiki/index.php?title=Setting_Up_LWJGL_with_NetBeans) or [IntelliJ](http://www.lwjgl.org/wiki/index.php?title=Setting_Up_LWJGL_with_IntelliJ_IDEA), and include lwjgl-basics as a class library.
+
+### Hello World
+
+Here is a simple example of rendering some sprites to the screen with _lwjgl-basics_.
+
+```java
+public class SpriteBatchExample extends SimpleGame {
+
+	public static void main(String[] args) throws LWJGLException {
+		Game game = new SpriteBatchExample();
+		game.setDisplayMode(640, 480, false);
+		game.start();
+	}
+
+	Texture tex, tex2;
+	SpriteBatch batch;
+
+	protected void create() throws LWJGLException {
+		super.create();
+
+		//Load some textures
+		try {
+			tex = new Texture(Util.getResource("res/tiles.png"), Texture.NEAREST);
+			tex2 = new Texture(Util.getResource("res/font0.png"));
+		} catch (IOException e) {
+			// ... do something here ...
+			Sys.alert("Error", "Could not decode images!");
+			e.printStackTrace();
+			System.exit(0);
+		}
+		
+		//create our sprite batch
+		batch = new SpriteBatch();
+	}
+
+	protected void render() throws LWJGLException {
+		super.render();		
+		
+		//start the sprite batch
+		batch.begin();
+
+		//draw some tiles from our sprite sheet
+		batch.drawRegion(tex, 64, 64, 64, 64, 	//source X,Y,WIDTH,HEIGHT
+							  0, 0);			//destination X,Y (uses source size)
+		batch.drawRegion(tex, 0, 0, 64, 64,		//source X,Y,WIDTH,HEIGHT
+							  50, 70, 128, 128);//destination X,Y,WIDTH,HEIGHT
+
+		//tint batch red
+		batch.setColor(Color.RED); 
+		batch.draw(tex2, 200, 155);
+		
+		//reset color
+		batch.setColor(Color.WHITE);
+
+		//finish the sprite batch and push the tiles to the GPU
+		batch.end();
+	}
+	
+
+	protected void resize() throws LWJGLException {
+		super.resize();
+		batch.resize(Display.getWidth(), Display.getHeight());
+	}
+}
+```
