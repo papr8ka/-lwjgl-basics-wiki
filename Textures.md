@@ -1,4 +1,4 @@
-##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » textures
+##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » Textures
 ***
 
 This is a short introduction to textures in OpenGL. Our end result will be a Texture class which we can use in our simple sprite engine.
