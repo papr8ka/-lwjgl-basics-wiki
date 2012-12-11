@@ -1,6 +1,12 @@
-this page is a WIP
+**Preface**
 
---
+***
+
+This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics) API for shader and rendering utilities. The code has also been [Ported to LibGDX](#Ports). The concepts should be universal enough that they could be applied to [Love2D](https://love2d.org/), [GLSL Sandbox](http://glsl.heroku.com/), iOS, or any other platforms that support GLSL. 
+
+***
+
+## Set Up
 
 Now that you're familiar with some of the basic ideas behind GLSL, we can start getting into some more interesting effects. First, take a peek at [Lesson 3's source code](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson3.java). As you can see, much of the code is the same as in the earlier lessons.
 
@@ -302,3 +308,10 @@ vec2 position = vTexCoord.xy - vec2(0.5);
 The upside to this is that we could batch many sprites using our post-processing shader, and each one might have different dimensions.
 
 The downside is that not all drivers will support non-power-of-two texture sizes (for example, OpenGL ES 1.1). Typically, non-power-of-two textures will be padded with empty transparent pixels, and then rendered using smaller texture coordinates (i.e. `drawRegion` as we discussed earlier). Since we generally tend to render post-processing effects all using the same screen size, and since our screen size may not be power-of-two, our `resolution` solution is more flexible.
+
+
+<a name="Ports" />
+
+## Other APIs
+
+  * [Ported to LibGDX](https://gist.github.com/4254954)
