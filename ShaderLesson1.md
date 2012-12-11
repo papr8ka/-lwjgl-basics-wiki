@@ -14,7 +14,7 @@ As discussed, we need to write *vertex* and *fragment* scripts in order for our 
 
 Follow along with the full source code [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson1.java). It uses the SimpleGame class within the `mdesl.tests` package for convenience; if you are using the stable releases, you'll need to also include the `lwjgl-basics-test-XX.jar` in your class path.
 
-## Set-Up
+## Setup
 
 Below is our setup code:
 ```java
