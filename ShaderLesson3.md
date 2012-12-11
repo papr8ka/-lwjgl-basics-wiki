@@ -307,7 +307,7 @@ vec2 position = vTexCoord.xy - vec2(0.5);
 
 The upside to this is that we could batch many sprites using our post-processing shader, and each one might have different dimensions.
 
-The downside is that not all drivers will support non-power-of-two texture sizes (for example, OpenGL ES 1.1). Typically, non-power-of-two textures will be padded with empty transparent pixels, and then rendered using smaller texture coordinates (i.e. `drawRegion` as we discussed earlier). Since we generally tend to render post-processing effects all using the same screen size, and since our screen size may not be power-of-two, our `resolution` solution is more flexible.
+The downside is that not all drivers will support non-power-of-two texture sizes. Typically, non-power-of-two textures will be padded with empty transparent pixels, and then rendered using smaller texture coordinates (i.e. `drawRegion` as we discussed earlier). Since we generally tend to render post-processing effects all using the same screen size, and since our screen size may not be power-of-two, our `resolution` solution is more flexible.
 
 ## Lesson 4
 
