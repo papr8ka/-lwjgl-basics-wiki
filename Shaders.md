@@ -3,7 +3,7 @@
 
 ## Contents 
 
-  * [Preface](#Intro)
+  * [Intro](#Intro)
   * [Lesson 1](ShaderLesson1) covers the basics of writing your own vertex and fragment shaders.
   * [Lesson 2](ShaderLesson2) covers texture sampling and basic image processing (inverting a texture).
   * [Lesson 3](ShaderLesson3) (WIP) covers vignettes, circles, grayscale, and sepia effects.
