@@ -229,8 +229,59 @@ Result:
 <a name="Step3" />
 ## Step 3: Reducing strength with `mix()`
 
+Another useful function you should get familiar with is `mix(x, y, a)` which linearly interpolates between the values `x` and `y`. We can use it here to reduce the strength of the vignette, so that it's not so pronounced:
+
+```glsl
+...
+//our vignette effect, using smoothstep
+float vignette = smoothstep(RADIUS, RADIUS-SOFTNESS, len);
+
+//apply our vignette with 50% opacity
+texColor.rgb = mix(texColor.rgb, texColor.rgb * vignette, 0.5);
+	
+gl_FragColor = texColor;
+...
+```
+
+Above we blending the original texture colour with the vignette-applied texture colour based on the given weight, a value between 0.0 and 1.0. Specifying 1.0 would lead to the full vignette effect, whereas 0.0 would give us no change (i.e. output would be the original texture color). We use 0.5 to specify 50% strength/opacity for our vignette effect.
+
 <a name="Step4" />
 ## Step 4: Grayscale & Sepia
+
+To add a sepia tone effect, we first need to convert to grayscale. This is done with the following standard snippet:
+
+```glsl
+//uses NTSC conversion weights
+float gray = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
+```
+
+If we were to output the `gray` value as `vec4(gray, gray, gray, 1.0)`, we would end up with this:  
+![Gray](http://i.imgur.com/Oqo16.png)
+
+Adding the sepia tone is simple enough. Define a SEPIA constant, adjust the red, green and blue values to taste, and then multiply it by our grayscale colour:
+
+```glsl
+const vec3 SEPIA = vec3(1.2, 1.0, 0.8); 
+...
+	gl_FragColor = vec4(vec3(gray) * SEPIA, 1.0);
+```
+
+![Sepia1](http://i.imgur.com/9kjE7.png)
+
+Lastly, we'll use `mix()` with [the previous step](#Step3) so that the sepia is not so pronounced, and multiply our final texture colour by the vertex colour.
+
+```glsl
+//create our sepia tone from some constant value
+vec3 sepiaColor = vec3(gray) * SEPIA;
+	
+//again we'll use mix so that the sepia effect is at 75%
+texColor.rgb = mix(texColor.rgb, sepiaColor, 0.75);
+
+//final colour, multiplied by vertex colour
+gl_FragColor = texColor * vColor;
+```
+
+![After](http://i.imgur.com/EUL4t.png)
 
 <a name="Optimizations" />
 ##A Note on Optimization
