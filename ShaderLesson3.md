@@ -1,4 +1,4 @@
-[Back to Table of Contents](Shaders)
+[home](https://github.com/mattdesl/lwjgl-basics/wiki) >> [shaders](Shaders)
 
 ***
 
