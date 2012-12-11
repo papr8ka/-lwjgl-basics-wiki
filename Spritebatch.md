@@ -1,4 +1,4 @@
-This page is a work in progress.
+## This page is a work in progress.
 
 
 Below is the full source of our simple sprite batcher. See the [repo](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/SpriteBatch.java) for a more complete implementation, including better documentation.
