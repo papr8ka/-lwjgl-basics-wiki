@@ -26,7 +26,7 @@ If we are using the programmable pipeline, the above solution would not be possi
 
 Here is another one that allows you to modify brightness and contrast. 
 
-ShaderBatch:
+ShaderBatch.java  
 https://gist.github.com/4255544
 
 You might use it like so:
