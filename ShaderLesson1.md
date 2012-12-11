@@ -208,7 +208,7 @@ For a nice GLSL cheat sheet, see [here](http://mew.cx/glsl_quickref.pdf).
 
 ## On to Lesson 2
 
-Check out [Lesson 2](ShaderLesson2) or go back to the [Table of Contents](https://github.com/mattdesl/lwjgl-basics/wiki).
+Check out [Lesson 2](ShaderLesson2) or go back to the [shaders intro](Shaders).
 
 <a name="Ports" />
 ## Other APIs
