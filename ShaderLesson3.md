@@ -311,7 +311,7 @@ The downside is that not all drivers will support non-power-of-two texture sizes
 
 ## Lesson 4
 
-Lesson 4 is still a work in progress.
+Lesson 4 is still a work in progress. Check out the [start page](https://github.com/mattdesl/lwjgl-basics/wiki) for now.
 
 <a name="Ports" />
 
