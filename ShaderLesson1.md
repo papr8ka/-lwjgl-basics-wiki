@@ -12,7 +12,7 @@ As discussed, we need to write *vertex* and *fragment* scripts in order for our 
 
 *Note:* In this series, we will use text files (`.vert` and `.frag`) for easier editing. When you go to release and distribute your games, you may want to embed the GLSL in your Java source as a String. Eclipse includes a [feature for pasting multi-line strings](http://www.vasanth.in/2009/03/10/eclipse-tip-escape-text-when-pasting/) which will be helpful.
 
-Follow along with the full source code [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson1.java).
+Follow along with the full source code [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson1.java). It uses the SimpleGame class within the `mdesl.tests` package for convenience; if you are using the stable releases, you'll need to also include the `lwjgl-basics-test-XX.jar` in your class path.
 
 ## Set-Up
 
