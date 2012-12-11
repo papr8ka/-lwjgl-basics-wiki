@@ -50,6 +50,10 @@ void main() {
 }
 ```
 
+## On to Lesson 1
+
+Check out [Lesson 1](ShaderLesson1) to get started.
+
 ## Further Reading
 
 The best way to learn GLSL is through experimentation and practice. Once you've finished the lessons, check out some online GLSL effects to see how they were achieved:
