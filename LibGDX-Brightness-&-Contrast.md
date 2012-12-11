@@ -2,7 +2,7 @@ Here is how to modify the brightness/contrast of sprites and images rendered in 
 
 ## GL11
 
-In OpenGL 1.1 you would use a different texture environment mode. The default is `GL_MODULATE`, i.e. multiply vertex color by texel color. This allows us to easily darken an image, e.g. multiplying it by `0.5`. To brighten an image, we would use `GL_ADD` -- for e.g. vertex color `(0, 0, 0)` does nothing, and `(1, 1, 1)` turns the image pure white. (GL clamps the final value between 0.0 and 1.0)
+In OpenGL 1.1 you simply change the texture environment mode. The default is `GL_MODULATE`, i.e. multiply vertex color by texel color. This allows us to easily darken an image, e.g. multiplying it by `0.5`. To brighten an image, we would use `GL_ADD` -- for e.g. vertex color `(0, 0, 0)` does nothing, and `(1, 1, 1)` turns the image pure white. (GL clamps the final value between 0.0 and 1.0)
 
 It would look like this in code:
 ```java
