@@ -1,6 +1,6 @@
 ### OpenGL & GLSL Tutorials
 
-*lwjgl-basics* hosts a series of tutorials aimed at LWJGL and LibGDX devs looking to learn a bit more about shaders and the programmable pipeline.
+This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn more about OpenGL, shaders and the programmable pipeline.
 
 * 1. [Display Creation](wiki/Display)
 * 2. [Textures](wiki/Textures)
