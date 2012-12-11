@@ -297,7 +297,6 @@ import org.lwjgl.BufferUtils;
 import de.matthiasmann.twl.utils.PNGDecoder;
 
 public class Texture {
-	static int bound = 0;
 
 	public final int target = GL_TEXTURE_2D;
 	public final int id;
@@ -310,10 +309,6 @@ public class Texture {
 	public static final int CLAMP = GL_CLAMP;
 	public static final int CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE;
 	public static final int REPEAT = GL_REPEAT;
-
-	public static void clearLastBind() {
-		bound = 0;
-	}
 
 	public Texture(URL pngRef) throws IOException {
 		this(pngRef, GL_NEAREST);
@@ -375,8 +370,7 @@ public class Texture {
 	}
 
 	public void bind() {
-		if (id != bound)
-			glBindTexture(target, id);
+		glBindTexture(target, id);
 	}
 }
 ```
