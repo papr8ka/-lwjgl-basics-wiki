@@ -6,7 +6,7 @@ This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwj
 
 ***
 
-## Set Up
+## Setup
 
 In this lesson we'll learn how to sample from a texture and invert its colours, similar to Photoshop's Invert Color function.
 
