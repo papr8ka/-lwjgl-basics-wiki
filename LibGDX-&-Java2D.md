@@ -1,4 +1,4 @@
-Complex polygons, strokes, dotted outlines, and various other raster effects are difficult to achieve in OpenGL. Solutions such as `GL_LINES` may lead to different results across platforms, or may be deprecated altogether (in the case of `glLineStipple`). 
+Complex polygons, strokes, dotted outlines, and various other raster effects are difficult to achieve in OpenGL. Solutions such as `GL_LINES` may lead to different results across platforms, while other solutions have been deprecated altogether (e.g. `glLineStipple`). 
 
 If you are targeting desktop, it may be better to use Java2D for rasterization. It's a powerful, flexible and easy to use API that leads to implementation-independent (software) rendering. In order to use Java2D's rasterizer in LibGDX, we need to render it to a Java2D BufferedImage, then copy the pixels to a texture on the GPU.
 
