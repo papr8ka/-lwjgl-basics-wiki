@@ -1,4 +1,4 @@
-#### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [shaders](Shaders)
+#### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [shaders](Shaders) » Lesson 3
 
 ***
 
