@@ -310,6 +310,10 @@ The upside to this is that we could batch many sprites using our post-processing
 The downside is that not all drivers will support non-power-of-two texture sizes (for example, OpenGL ES 1.1). Typically, non-power-of-two textures will be padded with empty transparent pixels, and then rendered using smaller texture coordinates (i.e. `drawRegion` as we discussed earlier). Since we generally tend to render post-processing effects all using the same screen size, and since our screen size may not be power-of-two, our `resolution` solution is more flexible.
 
 
+## Lesson 4
+
+Lesson 4 is a work in progress. Until then, check out the [table of contents](Shaders).
+
 <a name="Ports" />
 
 ## Other APIs
@@ -317,7 +321,3 @@ The downside is that not all drivers will support non-power-of-two texture sizes
 Download the `scene.png` image [here](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/scene.png).
 
   * [Ported to LibGDX](https://gist.github.com/4254954)
-
-***
-
-##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [shaders](Shaders) » Lesson 3
