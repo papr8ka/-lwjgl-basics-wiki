@@ -24,7 +24,9 @@ This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn mo
   * [Outlined Circle](http://glsl.heroku.com/e#4635.0)
   * [Procedural Bricks](http://glsl.heroku.com/e#5215.13)
 
-### lwjgl-basics API
+***
+
+### The API
 
 You can also use the *lwjgl-basics* source code as a minimal shader-based library for 2D LWJGL sprite games. It provides essential utilities for textures, shaders, and sprite rendering.
 
