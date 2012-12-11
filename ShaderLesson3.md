@@ -1,5 +1,3 @@
-**Preface**
-
 [Back to Table of Contents](Shaders)
 
 ***
