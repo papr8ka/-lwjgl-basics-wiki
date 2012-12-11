@@ -20,7 +20,7 @@ batch.end();
 Gdx.gl11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_ADD);
 ```
 
-## GL 2.0+
+## GL20
 
 If we are using the programmable pipeline, the above solution would not be possible. You could use multiple draw calls with a particular blend mode, but that may get expensive. This is where shaders come into use.
 
