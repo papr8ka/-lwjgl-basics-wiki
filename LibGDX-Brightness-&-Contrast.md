@@ -48,6 +48,6 @@ You might use it like so:
 
 The problem with this is that you need to flush the batch (begin/end) every time you want to change the brightness or contrast. If you are doing this per-sprite, then it can become costly and defeats the purpose of a batch. It also means you are using two SpriteBatches in your application, which is generally a heavy object. A more involved solution might be to pass the brightness/contrast as a custom attribute to your shader, and create your own sprite batcher of sorts using LibGDX's Mesh utility. Ultimately it really depends on your game and how you need this feature to be implemented. Also be sure to check out the [Shader Tutorial Series](Shaders) as it will help you understand what's going on a bit better.
 
-If you want more accurate/advanced brightness and contrast algorithms, see here:
-http://www.dfstudios.co.uk/articles/image-processing-algorithms-part-5/#comment-20632
+If you want more accurate/advanced brightness and contrast algorithms, see here:  
+http://www.dfstudios.co.uk/articles/image-processing-algorithms-part-5/#comment-20632  
 http://www.kweii.com/site/color_theory/2007_LV/BrightnessCalculation.pdf
