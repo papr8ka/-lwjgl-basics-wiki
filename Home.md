@@ -1,4 +1,4 @@
-## OpenGL & GLSL Tutorials
+### OpenGL & GLSL Tutorials
 
 * 1. [Display Creation](wiki/Display)
 * 2. [Textures](wiki/Textures)
@@ -11,7 +11,7 @@
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
   * [Sprite Batching](wiki/SpriteBatch)
 
-## The API
+### The API
 
 *lwjgl-basics* also acts as a minimal shader-based library for 2D sprite games. It provides essential utilities for textures, shaders, and sprite rendering.
 
