@@ -1,4 +1,4 @@
-##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [textures](Textures) » Buffers
+##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [Textures](Textures) » Buffers
 ***
 
 This is a short introduction to Java NIO buffers, which are commonly used in LWJGL to handle GL data. For a more detailed look at buffers, [see here](http://tutorials.jenkov.com/java-nio/buffers.html).
