@@ -201,4 +201,6 @@ We can see the result of that here:
 <a name="Ports" />
 ## Other APIs
 
+Grab the `grass.png` texture [here](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/grass.png).
+
   * [Ported to LibGDX](https://gist.github.com/4247043)
