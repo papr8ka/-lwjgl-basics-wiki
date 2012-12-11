@@ -1,4 +1,4 @@
-##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [shaders](Shaders) » Lesson 3
+##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [shaders](Shaders) » Lesson 3: Post-Processing Effects
 
 ***
 
