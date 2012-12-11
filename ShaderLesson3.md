@@ -317,3 +317,7 @@ The downside is that not all drivers will support non-power-of-two texture sizes
 Download the `scene.png` image [here](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/scene.png).
 
   * [Ported to LibGDX](https://gist.github.com/4254954)
+
+***
+
+##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [shaders](Shaders) » Lesson 3
