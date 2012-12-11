@@ -19,6 +19,7 @@ This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn mo
   * [Rendering a Textured Triangle with SpriteBatch](https://gist.github.com/4255476)
   * [Hiding the Mouse Cursor (Desktop)](https://gist.github.com/4255483)
   * [Sprite Brightness/Contrast in GL11 and GL20](wiki/LibGDX-Brightness-&-Contrast)
+  * [Using Java2D For Advanced Shapes & Rasterization (Desktop)](wiki/LibGDX-&-Java2D)
 * GLSL
   * [Outlined Circle](http://glsl.heroku.com/e#4635.0)
   * [Procedural Bricks](http://glsl.heroku.com/e#5215.13)
