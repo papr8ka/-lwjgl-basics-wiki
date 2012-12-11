@@ -1,6 +1,6 @@
 Here is how to modify the brightness/contrast of sprites and images rendered in LibGDX. 
 
-## GL11
+## GL11 Brightness Only
 
 In OpenGL 1.1 you simply change the texture environment mode. The default is `GL_MODULATE` -- i.e. multiply vertex color by texel color. This allows us to easily darken an image, for example multiplying it by `0.5`. To brighten an image, we would use `GL_ADD` -- for e.g. vertex color `(0, 0, 0)` does nothing, and `(1, 1, 1)` turns the image pure white. (GL clamps the final value between 0.0 and 1.0)
 
@@ -20,7 +20,7 @@ batch.end();
 Gdx.gl11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_ADD);
 ```
 
-## GL20
+## GL20 Brightness & Contrast
 
 If we are using the programmable pipeline, the above solution would not be possible. You could use multiple draw calls with a particular blend mode, but that may get expensive. This is where shaders come into use.
 
