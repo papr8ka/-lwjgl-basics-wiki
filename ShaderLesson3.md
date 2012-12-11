@@ -6,7 +6,7 @@ This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwj
 
 ***
 
-## Set Up
+## Setup
 
 Now that you're familiar with some of the basic ideas behind GLSL, we can start getting into some more interesting effects. First, take a peek at [Lesson 3's source code](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson3.java). As you can see, much of the code is the same as in the earlier lessons.
 
