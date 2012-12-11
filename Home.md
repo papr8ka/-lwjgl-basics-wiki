@@ -13,6 +13,14 @@ This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn mo
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
   * [Sprite Batching](wiki/SpriteBatch)
 
+### Snippets
+
+* [LibGDX: Rendering a Textured Triangle with SpriteBatch](https://gist.github.com/4255476)
+* [LibGDX: Hiding the Mouse Cursor (Desktop)](https://gist.github.com/4255483)
+* [LibGDX: Brightness/Contrast in GL11 and GL20](LibGDXBrightnessContrast)
+* [GLSL: Outlined Circle](http://glsl.heroku.com/e#4635.0)
+* [GLSL: Procedural Bricks](http://glsl.heroku.com/e#5215.13)
+
 ### The API
 
 You can also use the *lwjgl-basics* source code as a minimal shader-based library for 2D LWJGL sprite games. It provides essential utilities for textures, shaders, and sprite rendering.
