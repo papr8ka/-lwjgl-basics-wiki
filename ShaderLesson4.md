@@ -35,7 +35,7 @@ glActiveTexture(GL_TEXTURE0);
 tex0.bind();
 ```
 
-`glActiveTexture` specifies the texture unit to use, and `bind()` will bind that texture to the current texture unit. The numbers will line up with the sampler2D uniforms we specified to our fragment shader: e.g. `GL_TEXTURE1 => program.setUniform("u_texture1", 1)`. 
+`glActiveTexture` specifies the texture unit to use, and `bind()` will bind that texture to the current texture unit. The numbers will line up with the sampler2D uniforms we specified to our fragment shader: e.g. `program.setUniform("u_texture1", 1) => GL_TEXTURE1`. 
 
 It's important to remember that OpenGL is a state-based API. So if you make `GL_TEXTURE1` the active texture, and forget to reset to `GL_TEXTURE0` before trying to render, you may run into problems.
 
@@ -55,6 +55,7 @@ uniform sampler2D u_mask;
 void main(void) {
 	//sample the colour from the first texture
 	vec4 texColor0 = texture2D(u_texture, vTexCoord);
+
 	//sample the colour from the second texture
 	vec4 texColor1 = texture2D(u_texture1, vTexCoord);
 
@@ -67,3 +68,9 @@ void main(void) {
 ```
 
 ![Result](http://i.imgur.com/sIOxq.png)
+
+This doesn't cover much new ground, so instead we'll focus on optimization and practical usage.
+
+## Texture Atlases
+
+As discussed in the [Textures](Textures) page, we should always be trying to minimize texture binds and increase batching. 
