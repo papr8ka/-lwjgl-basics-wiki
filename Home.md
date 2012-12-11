@@ -27,7 +27,7 @@ You could also grab a stable JAR of the API from the [downloads page](https://gi
 
 ### Hello World
 
-Here is a simple example of rendering some sprites to the screen with _lwjgl-basics_.
+Here is a simple example of rendering some sprites to the screen with `lwjgl-basics`. For the Display game container, it uses a utility class from the `lwjgl-basics-test` package.
 
 ```java
 import java.io.IOException;
