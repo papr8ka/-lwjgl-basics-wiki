@@ -41,7 +41,7 @@ The [source code](https://github.com/mattdesl/lwjgl-basics) is hosted on GitHub.
 
 ### Installing the API
 
-The best way to install the API is to use Eclipse and EGit (or another IDE with Git support) to pull the most recent source code. Included in the `lib` and `native` folder is a distribution of LWJGL 2.8.5. You can download newer versions of LWJGL from their [downloads page](http://lwjgl.org/download.php). 
+The best way to install the API is to use Eclipse and EGit (or another IDE with Git support) to pull the most recent source code. Included in the `lib` and `native` folder is a distribution of LWJGL 2.8.5, as well as an Eclipse project with class path set up for you. You can download newer versions of LWJGL from their [downloads page](http://lwjgl.org/download.php). 
 
 You could also grab a stable JAR of the API from the [downloads page](https://github.com/mattdesl/lwjgl-basics/downloads). Then, you would set up LWJGL and your natives properly in [Eclipse](http://www.lwjgl.org/wiki/index.php?title=Setting_Up_LWJGL_with_Eclipse), [NetBeans](http://www.lwjgl.org/wiki/index.php?title=Setting_Up_LWJGL_with_NetBeans) or [IntelliJ](http://www.lwjgl.org/wiki/index.php?title=Setting_Up_LWJGL_with_IntelliJ_IDEA), and include lwjgl-basics as a class library. lwjgl-basics also uses PNGDecoder.jar as a dependency, which can be downloaded [here](http://twl.l33tlabs.org/textureloader/).
 
