@@ -24,12 +24,10 @@ Gdx.gl11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_ADD);
 
 If we are using the programmable pipeline, the above solution would not be possible. You could use multiple draw calls with a particular blend mode, but that may get expensive. This is where shaders come into use.
 
-Here is another one that allows you to modify brightness and contrast. 
-
 ShaderBatch.java  
 https://gist.github.com/4255544
 
-You might use it like so:
+This implementation allows you to change brightness and contrast. You might use it like so:
 ```java
 ... create ...
 		shaderBatch = new ShaderBatch(100); //tweak your size to minimize memory waste
