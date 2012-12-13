@@ -76,7 +76,7 @@ int maxUnits = glGetInteger(GL_MAX_TEXTURE_IMAGE_UNITS);
 
 Most drivers support [up to 16](http://feedback.wildfiregames.com/report/opengl/feature/GL_MAX_TEXTURE_IMAGE_UNITS_ARB) active units. However, if you need that many active texture units, you may need to re-think your design.
 
-Since so far we haven't covered much new ground<sup>(pun!)</sup>, we'll focus on practical usage, optimizations, and alternative solutions.
+Since we haven't yet covered much new ground<sup>(pun!)</sup>, we'll focus on practical usage, optimizations, and alternative solutions.
 
 ## Texture Atlases
 
