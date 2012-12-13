@@ -176,7 +176,11 @@ Our circle is squashed because of the aspect ratio. In order to correct for that
 position.x *= resolution.x / resolution.y;
 ```
 
-A variant of the `step` function is `smoothstep(low, high, x)`, which returns 0.0 if x is less than `low` or 1.0 if x is greater than `high`. If x is between the two values, it will ease between zero and one with [cubic Hermite interpolation](http://en.wikipedia.org/wiki/Hermite_interpolation). So we can adjust our circle to the following, to gain finer control over how smooth our vignette will look. Here is our updated code:
+A variant of the `step` function is `smoothstep(low, high, x)`, which returns 0.0 if x is less than `low` or 1.0 if x is greater than `high`. If x is between the two values, it will ease between zero and one with [cubic Hermite interpolation](http://en.wikipedia.org/wiki/Hermite_interpolation). The function looks like this:
+
+![Func](http://i.imgur.com/L4vBX.gif)
+
+So we can adjust our circle to the following, to gain finer control over how smooth our vignette will look. Here is our updated code:
 
 ```glsl
 //the radius of our circle
