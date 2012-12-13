@@ -229,9 +229,13 @@ boolean npotSupported = GLContext.getCapabilities().GL_ARB_texture_non_power_of_
 
 It should be noted that even if the driver does support NPOT textures, it's generally still advisable to stick to POT sizes as it will often lead to better performance and storage. At a later point, this tutorial may include a segment on padding NPOT textures to a power-of-two size, for drivers that don't support NPOT textures.
 
+### Advanced Topics
+
+If you're ready to move onto something more advanced, check out the [shader programming series](Shaders).
+
 ### Full Source Code
 
-Below is the full source of our texture wrapper. See the [repo](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/Texture.java) for a more complete version, including better documentation.
+Below is the full source of our simple texture wrapper. See the [repo](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/Texture.java) for a more complete version, including better documentation.
 
 ```java
 /**
