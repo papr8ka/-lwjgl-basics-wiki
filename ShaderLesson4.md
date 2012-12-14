@@ -82,8 +82,4 @@ int maxUnits = glGetInteger(GL_MAX_TEXTURE_IMAGE_UNITS);
 
 Most drivers support [up to 16](http://feedback.wildfiregames.com/report/opengl/feature/GL_MAX_TEXTURE_IMAGE_UNITS_ARB) active units. However, if you need that many active texture units, you may need to re-think your design.
 
-Since we haven't yet covered much new ground<sup>(pun!)</sup>, we'll focus on practical usage, optimizations, and alternative solutions.
-
-## Texture Atlases
-
-As discussed in the [Textures](Textures) page, we should always be trying to minimize texture binds and increase batching. 
+This doesn't really cover any new ground<sup>(pun!)</sup>, and it's a bit inefficient compared to just baking the mixed terrain as another image (preferably in a texture atlas). However, if we were to modulate the mask texture in real-time, then things would get interesting.
