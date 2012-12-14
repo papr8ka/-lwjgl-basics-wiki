@@ -105,4 +105,4 @@ Still a work in progress. Check out the [other lessons](Shaders) for now.
 
 Grab the `grass.png`, `dirt.png` and `mask.png` from [here](https://github.com/mattdesl/lwjgl-basics/tree/master/test/res).
 
-  * [Ported to LibGDX](https://gist.github.com/4289234)
+  * [Ported to LibGDX](https://gist.github.com/4289250)
