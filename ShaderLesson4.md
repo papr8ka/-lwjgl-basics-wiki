@@ -1,3 +1,9 @@
+***
+
+This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics) API for shader and rendering utilities. The code has also been [Ported to LibGDX](#Ports). The concepts should be universal enough that they could be applied to [Love2D](https://love2d.org/), [GLSL Sandbox](http://glsl.heroku.com/), iOS, or any other platforms that support GLSL. 
+
+***
+
 # Setup
 
 You can see the source for this short demo [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson4.java). The setup looks a lot like previous lessons, with a couple minor differences. First, we load the following three textures:
@@ -93,3 +99,10 @@ The above example uses [simplex noise](https://github.com/ashima/webgl-noise/wik
 ## Lesson 5
 
 Still a work in progress. Check out the [other lessons](Shaders) for now.
+
+<a name="Ports" />
+## Other APIs
+
+Grab the `grass.png`, `dirt.png` and `mask.png` from [here](https://github.com/mattdesl/lwjgl-basics/tree/master/test/res).
+
+  * [Ported to LibGDX](https://gist.github.com/4289234)
