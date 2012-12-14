@@ -1,6 +1,12 @@
 # Setup
 
-You can see the source for this short demo [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson4.java). The setup looks a lot like previous lessons, with a couple minor differences. First, we are loading three textures instead of one. Second, we are setting our uniforms after creating the program, like so:
+You can see the source for this short demo [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson4.java). The setup looks a lot like previous lessons, with a couple minor differences. First, we are loading three textures instead of one:
+
+![Grass](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/grass.png)
+![Dirt](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/dirt.png)
+![Mask](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/mask.png)
+
+Second, we are setting our uniforms after creating the program, like so:
 
 ```java
 //create our shader program -- be sure to pass SpriteBatch's default attributes!
