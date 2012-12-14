@@ -73,7 +73,7 @@ void main(void) {
 }
 ```
 
-![Result](http://i.imgur.com/sIOxq.png)
+![Result](http://i.imgur.com/rSaEw.png)
 
 Note that we are limited by the maximum number of "texture image units" -- we can check with the following:
 ```java
@@ -83,6 +83,12 @@ int maxUnits = glGetInteger(GL_MAX_TEXTURE_IMAGE_UNITS);
 Most drivers support [up to 16](http://feedback.wildfiregames.com/report/opengl/feature/GL_MAX_TEXTURE_IMAGE_UNITS_ARB) active units. However, if you need that many active texture units, you may need to re-think your design.
 
 This doesn't really cover any new ground<sup>(pun!)</sup>, although it's a nice introduction to multiple texture units.
+
+In a 3D game, texture splatting like this may be useful since it can be applied over the entire terrain, which may be made up of tiled grass/dirt/etc. textures. For a 2D game, this kind of texture splatting isn't really necessary, and it would have been better to just save the blended result as a new image (preferably packed into a texture atlas). However, there are some applications for this even in 2D, for example, if we were to modulate the mask (or one of the textures) which would require us to do the blending in real-time:
+
+!(RealTime)[http://i.imgur.com/OAadq.gif]
+
+The above demo uses [simplex noise](https://github.com/ashima/webgl-noise/wiki) to modulate the texture.
 
 ## Lesson 5
 
