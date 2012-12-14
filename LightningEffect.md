@@ -29,6 +29,8 @@ void blur(byte[] px, byte[] out) {
 		final int y = j/4 / WIDTH;
 		final int x = j/4 - WIDTH*y;
 		
+		//this code only blurs the R channel, e.g. for grayscale alpha images
+		//for RGBA you would need sumR, sumG, sumB
 		int sumL = 0;
 		int sumA = 0;
 		for (int off=-4, idx=0; off<=4; off++, idx++) {
