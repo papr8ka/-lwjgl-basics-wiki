@@ -213,4 +213,4 @@ Check out [Lesson 2](ShaderLesson2) or go back to the [shaders intro](Shaders).
 <a name="Ports" />
 ## Other APIs
 
-  * [Ported to LibGDX](https://gist.github.com/4242302).
+  * [Ported to LibGDX](https://gist.github.com/4242302)
