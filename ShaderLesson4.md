@@ -88,7 +88,7 @@ In a 3D game, texture splatting like this may be useful since it can be applied 
 
 ![RealTime](http://i.imgur.com/OAadq.gif)
 
-The above demo uses [simplex noise](https://github.com/ashima/webgl-noise/wiki) to modulate the texture. The effect would be ideal for undulating water textures.
+The above example uses [simplex noise](https://github.com/ashima/webgl-noise/wiki) to modulate the texture coordinates before sampling from the mask. The effect would be ideal for undulating water textures.
 
 ## Lesson 5
 
