@@ -28,6 +28,8 @@ This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn mo
 * GLSL Sandbox
   * [Outlined Circle](http://glsl.heroku.com/e#4635.0)
   * [Procedural Bricks](http://glsl.heroku.com/e#5215.13)
+* Misc
+  * [2D Lightning Effect](wiki/LightningEffect)
 
 ***
 
