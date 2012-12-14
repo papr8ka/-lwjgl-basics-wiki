@@ -86,9 +86,9 @@ This doesn't really cover any new ground<sup>(pun!)</sup>, although it's a nice 
 
 In a 3D game, texture splatting like this may be useful since it can be applied over the entire terrain, which may be made up of tiled grass/dirt/etc. textures. For a 2D game, this kind of texture splatting isn't really necessary, and it would have been better to just save the blended result as a new image (preferably packed into a texture atlas). However, there are some applications for this even in 2D, for example, if we were to modulate the mask (or one of the textures) which would require us to do the blending in real-time:
 
-!(RealTime)[http://i.imgur.com/OAadq.gif]
+![RealTime](http://i.imgur.com/OAadq.gif)
 
-The above demo uses [simplex noise](https://github.com/ashima/webgl-noise/wiki) to modulate the texture.
+The above demo uses [simplex noise](https://github.com/ashima/webgl-noise/wiki) to modulate the texture. The effect would be ideal for undulating water textures.
 
 ## Lesson 5
 
