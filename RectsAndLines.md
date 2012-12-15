@@ -25,4 +25,4 @@ A screenshot of our application:
 
 ![Lines](http://i.imgur.com/C89nu.png)
 
-This is a very simple means of rendering shapes. For more advanced polygons, anti-aliasing, stroke effects, and so forth, we may need to take advantage of fragment and geometry shaders. The technique here relies on the CPU to transform each vertex of the line sprite; and under the hood the sprite is a quad made up of six vertices. That's a lot of work just to render a 1 px line segment! In certain cases `GL_LINES` would be much more effective, at the expense of not being able to include it in your sprite batch.
+This is a very simple means of rendering shapes. For more advanced polygons, anti-aliasing, stroke effects, and so forth, we may need to take advantage of fragment and geometry shaders. The technique here relies on the CPU to transform each vertex of the line sprite; and under the hood the sprite is a quad made up of two triangles, i.e. six vertices. That's a lot of work just to render a 1 px line segment! In certain cases `GL_LINES` would be much more effective, at the expense of not being able to include it in your sprite batch.
