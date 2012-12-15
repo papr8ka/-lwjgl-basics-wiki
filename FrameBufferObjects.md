@@ -92,6 +92,61 @@ You can see the result in the FBOTest example. The output:
 
 ![Output](http://i.imgur.com/KCi3u.png)
 
+## Full-Screen FBOs and Post-Processing
+
+As discussed earlier, some older drivers won't support non-power-of-two textures. This can be a bit of a pain when we're working with full-screen FBO textures, since the screen dimensions are rarely power-of-two.
+
+The solution is to use a TextureRegion to render only a portion of our power-of-two frame buffer. However, since GL assumes lower-left origin and TextureRegion assumes upper-left, we need to flip the Y texcoord in order for it to render correctly. 
+
+```java
+	TextureRegion fboRegion; //the region of our POT frame buffer
+	Framebuffer fbo; //our POT frame buffer with a color texture attached
+
+	...
+		if (Texture.isNPOTSupported()) {
+			fbo = new Framebuffer(width, height);
+			fboRegion = new TextureRegion(fbo.getTexture());
+		} else {
+			int texWidth = Texture.toPowerOfTwo(width);
+			int texHeight = Texture.toPowerOfTwo(height);
+			fbo = new Framebuffer(texWidth, texHeight);
+			fboRegion = new TextureRegion(fbo.getTexture(), 0, texHeight-height, width, height);
+		}
+		fboRegion.flip(false, true);
+	...
+```
+
+Then, our post-processing system would look something like this:
+
+```java
+
+//make offscreen texture active
+fbo.begin(); 
+
+//standard shader
+batch.setShader(DEFAULT_SHADER);
+
+//if FBO size == Display size, we can ommit this
+batch.resize(fbo.getWidth(), fbo.getHeight());
+
+batch.begin();
+... render all sprites here ...
+batch.end();
+
+//unbind FBO
+fbo.end();
+
+//now apply post-processing
+batch.setShader(POST_PROCESS_SCENE);
+
+//resize to display since we are no longer rendering to a FBO texture
+batch.resize(Display.getWidth(), Display.getHeight());
+
+//draw screen, will be affected by shader
+batch.begin();
+batch.draw(fbo, 0, 0);
+batch.end();
+```
+
 ## Under the Hood
 
-A frame
