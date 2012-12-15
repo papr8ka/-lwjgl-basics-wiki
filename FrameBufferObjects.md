@@ -23,14 +23,15 @@ For maximum compatibility and efficiency, you should stick to power-of-two sizes
 
 You can check to see if frame buffer objects are supported in hardware with `Framebuffer.isSupported()`. If it returns `false`, then you will get an error when you try to create a frame buffer. This is generally only a problem on very old drivers, most of which will not work with shaders anyways, and so are not worth our time. To give you an idea of support, about [93% of drivers](http://feedback.wildfiregames.com/report/opengl/) support `GL_EXT_framebuffer_object`. Users that don't support this are probably not going to be able to run shaders, either, and you'd be better off telling them to update their graphics card and drivers.
 
-Here is some pseudo-code to render-to-texture using a frame buffer object:
+Here is some pseudo-code to render sprites to a texture using a frame buffer object:
 
 ```
 //make the FBO the current buffer
 fbo.begin()
 
-//... clear the FBO buffer ...
-glClear(...)
+//... clear the FBO color with transparent black ...
+glClearColor(0f, 0f, 0f, 0f); //transparent black
+glClear(GL_COLOR_BUFFER_BIT); //clear the color buffer
 
 //since the FBO may not be the same size as the display, 
 //we need to give the SpriteBatch our new screen dimensions
@@ -38,7 +39,11 @@ batch.resize(fbo.getWidth(), fbo.getHeight());
 
 //render some sprites 
 batch.begin();
-  ...
+
+//draw our track and thumb button
+batch.draw(track, ...);
+batch.draw(slider, ...);
+
 batch.end(); //flushes data to GL
 
 //now we can unbind the FBO, returning rendering back to the default back buffer (the Display)
@@ -50,11 +55,17 @@ batch.resize(Display.getWidth(), Display.getHeight());
 //now we are rendering to the back buffer (Display) again
 batch.begin();
 
-//draw our offscreen FBO texture to the screen
+//draw our offscreen FBO texture to the screen with the given alpha
+batch.setColor(1f, 1f, 1f, alpha);
 batch.draw(fbo, 0, 0);
 
 batch.end();
 ```
+
+## Blending Woes
+
+If we were to test the above code with an **opaque** track image, all would work nice and dandy:
+
 
 ## Under the Hood
 
