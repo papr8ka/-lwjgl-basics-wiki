@@ -3,12 +3,11 @@
 This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn more about OpenGL, shaders and the programmable pipeline.
 
 
-* OpenGL Tutorials
-  * [Display Creation](wiki/Display)
-  * [Textures](wiki/Textures)
-    * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
-  * [Rendering Sprites and Fonts with lwjgl-basics](wiki/SpriteBatcher)
-  * [Frame Buffer Objects](wiki/FrameBufferObjects)
+* [Display Creation](wiki/Display) 
+* [Textures](wiki/Textures)
+  * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
+* [Rendering Sprites and Fonts with lwjgl-basics](wiki/SpriteBatcher)
+* [Frame Buffer Objects](wiki/FrameBufferObjects)
 * [Intro to Shaders](wiki/Shaders)
   * [Lesson 1: Red Boxes](wiki/ShaderLesson1)
   * [Lesson 2: Inverting a Texture](wiki/ShaderLesson2)
@@ -18,7 +17,6 @@ This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn mo
   * Lesson 6 (WIP) will cover normal map lighting for 2D games. See [here](http://www.java-gaming.org/topics/glsl-using-normal-maps-to-illuminate-a-2d-texture-libgdx/27516/view.html) for now.
   * Lesson 7 (WIP) will cover light scattering, aka "god rays".
 * 5. Creating Your own 2D Renderer
-  * 
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
   * [Sprite Batching](wiki/SpriteBatch)
 
