@@ -72,7 +72,7 @@ Everything will look right at 50%:
 
 ## Blending Woes
 
-Of course, the opaque background behind the slider track looks ugly! But as soon as we get rid of it (using [this]() texture atlas), we get some loss of information in the alpha channel:
+Ok, that opaque background behind the slider looks pretty ugly... But as soon as we get rid of it (using [this]() texture atlas), we get some loss of information in the alpha channel:
 
 ![AlphaLoss](http://i.imgur.com/rava5.png)
 
