@@ -193,8 +193,6 @@ As you can see, the concept here is the same as we described in our earlier imag
 
 One thing I haven't mentioned yet is the importance of texture atlases or "sprite sheets." Since we are only binding one texture at a time, this can be costly if we plan to draw many sprites or tiles per frame. Instead, it's almost always a better idea to place all of your tiles and sprites into a single image, so that you are only binding minimal textures per frame.
 
-You can query the maximum texture size with `glGetInteger(GL_MAX_TEXTURE_SIZE)`. Generally, most modern computers allow for at least 4096x4096 textures, but if you want to be really safe you can limit yourself to 2048x2048. If you think you will be working with old or limiting drivers (or Android, iOS, WebGL), you may want to limit yourself to 1024x1024.
-
 Here is one example of a texture atlas:  
 ![TexAtlas](http://i.imgur.com/0uz31.png)
 
@@ -218,7 +216,20 @@ The above would be better suited in its own method, such as `drawDebugRegion`. L
 
 *Note:* As we discussed earlier, using `GL_LINEAR` will lead to bilinear interpolation when scaling -- i.e. the nearest four pixels will be selected and blended together. This can lead to unwanted effects when scaling a texture atlas, where "bleeding" occurs at the edge of sprites, and so it's often wise to use `GL_NEAREST` and/or pad each sprite in your atlas with a transparent 1-2px border.
 
-### Non-Power of Two Images
+
+<a name="HardwareLimitations" />
+## Hardware Limitations
+
+### Max Texture Size
+
+You can query the maximum texture width and height with the following:
+```java
+int maxSize = glGetInteger(GL_MAX_TEXTURE_SIZE);
+```
+
+Generally, most modern computers allow for at least 4096x4096 textures, but if you want to be really safe, you can limit yourself to 2048x2048. If you think you will be working with old or limiting drivers (or Android, iOS, WebGL), you may want to limit yourself to 1024x1024.
+
+### Power of Two Sizes
 One thing I have yet to note is the use of power-of-two (POT) dimensions. Historically, OpenGL only allowed POT texture dimensions:  
 `1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096... etc`
 
@@ -229,11 +240,11 @@ boolean npotSupported = GLContext.getCapabilities().GL_ARB_texture_non_power_of_
 
 It should be noted that even if the driver does support NPOT textures, it's generally still advisable to stick to POT sizes as it will often lead to better performance and storage. At a later point, this tutorial may include a segment on padding NPOT textures to a power-of-two size, for drivers that don't support NPOT textures.
 
-### Advanced Topics
+## Advanced Topics
 
 If you're ready to move onto something more advanced, check out the [shader programming series](Shaders).
 
-### Full Source Code
+## Full Source Code
 
 Below is the full source of our simple texture wrapper. See the [repo](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/Texture.java) for a more complete version, including better documentation.
 
