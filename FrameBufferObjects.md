@@ -147,6 +147,3 @@ batch.begin();
 batch.draw(fboRegion, 0, 0);
 batch.end();
 ```
-
-## Under the Hood
-
