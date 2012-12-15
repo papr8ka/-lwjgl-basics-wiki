@@ -2,7 +2,7 @@
 
 This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn more about OpenGL, shaders and the programmable pipeline.
 
-* [Intro](wiki/API-Intro)
+* [API Intro](wiki/API-Intro)
   * [Under the Hood: OpenGL Textures](wiki/Textures)
       * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
   * [Under the Hood: Display Creation](wiki/Display) 
