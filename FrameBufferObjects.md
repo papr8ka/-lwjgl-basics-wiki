@@ -62,15 +62,35 @@ batch.draw(fbo, 0, 0);
 batch.end();
 ```
 
-## Blending Woes
-
-If we were to test the above code with an **opaque** track image, all would work nice and dandy:
+Now, if we were to test this with the following sprite sheet:
 
 ![Sprites](http://i.imgur.com/bkXso.png)
 
-And our result at 50%, using render-to-texture:
+Everything will look right at 50%:
 
 ![Result](http://i.imgur.com/PPPWz.png)
+
+## Blending Woes
+
+Of course, the opaque background behind the slider track looks ugly! But as soon as we get rid of it (using [this]() texture atlas), we get some loss of information in the alpha channel:
+
+![AlphaLoss](http://i.imgur.com/rava5.png)
+
+This occurs because we are blending *twice*. When we draw the track and thumb sprites to the FBO, we are blending them with the background. Then, when we draw the sprites to the screen, we are blending again -- this second blend is causing the result to look more transparent than it should.
+
+One solution would be to use `glDisable(GL_BLEND)` before drawing to our FBO, or to use a blend function that does not blend with the destination (background). Unfortunately, since we are rendering one semi-transparent sprite atop another, we need to utilize the destination and blending. Another solution is to do the following:
+
+1. Clear the FBO to transparent black `(0, 0, 0, 0)`.
+2. Set the RGB blend func to `GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA` and the Alpha blend func to `GLONE, GL_ONE`.
+3. Render the sprites at 100% opacity to the FBO.
+4. End the batch and unbind the FBO.
+5. Enable "pre-multipled alpha" blending, `GL_ONE, GL_ONE_MINUS_SRC_ALPHA`.
+6. Use `batch.setColor(alpha, alpha, alpha, alpha)` to adjust opacity.
+7. Render the FBO color texture.
+
+You can see the result in the FBOTest example. The output:
+
+![Output](http://i.imgur.com/KCi3u.png)
 
 ## Under the Hood
 
