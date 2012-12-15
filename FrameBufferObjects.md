@@ -1,4 +1,4 @@
-A common feature in 2D and 3D graphics programming is the ability to render to a texture. For example, say we have a slider GUI component made up of multiple sprites (the track, and the thumb button). Now, what if we wanted to reduce the opacity of the component? If we tried rendering each sprite at 50% opacity, we will notice an ugly looking overlap where the two sprites blend together. One solution to this is to render both sprites at 100% opacity to an "offscreen image", and then render that image to the screen at 50% opacity.
+A common feature in 2D and 3D graphics programming is the ability to render to a texture. For example, say we have a slider GUI component made up of multiple sprites (the track, and the thumb button), and we are trying to fade it in/out. When we render each sprite at 50% opacity, we get some ugly blending where the sprites meet. The solution is to render the entire component at 100% opacity to an "offscreen texture", **then** render the offscreen texture to the screen at 50%.
 
 ![Opacity](http://i.imgur.com/RsM5G.png)
 
