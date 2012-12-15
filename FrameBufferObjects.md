@@ -144,7 +144,7 @@ batch.resize(Display.getWidth(), Display.getHeight());
 
 //draw screen, will be affected by shader
 batch.begin();
-batch.draw(fbo, 0, 0);
+batch.draw(fboRegion, 0, 0);
 batch.end();
 ```
 
