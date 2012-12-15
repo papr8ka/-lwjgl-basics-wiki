@@ -23,9 +23,38 @@ For maximum compatibility and efficiency, you should stick to power-of-two sizes
 
 You can check to see if frame buffer objects are supported in hardware with `Framebuffer.isSupported()`. If it returns `false`, then you will get an error when you try to create a frame buffer. This is generally only a problem on very old drivers, most of which will not work with shaders anyways, and so are not worth our time. To give you an idea of support, about [93% of drivers](http://feedback.wildfiregames.com/report/opengl/) support `GL_EXT_framebuffer_object`. Users that don't support this are probably not going to be able to run shaders, either, and you'd be better off telling them to update their graphics card and drivers.
 
-In your rendering loop, you will use FBOs like so:
+Here is some pseudo-code to render-to-texture using a frame buffer object:
 
+```
+//make the FBO the current buffer
+fbo.begin()
 
+//... clear the FBO buffer ...
+glClear(...)
+
+//since the FBO may not be the same size as the display, 
+//we need to give the SpriteBatch our new screen dimensions
+batch.resize(fbo.getWidth(), fbo.getHeight());
+
+//render some sprites 
+batch.begin();
+  ...
+batch.end(); //flushes data to GL
+
+//now we can unbind the FBO, returning rendering back to the default back buffer (the Display)
+fbo.end();
+
+//reset the batch back to the Display width/height
+batch.resize(Display.getWidth(), Display.getHeight());
+
+//now we are rendering to the back buffer (Display) again
+batch.begin();
+
+//draw our offscreen FBO texture to the screen
+batch.draw(fbo, 0, 0);
+
+batch.end();
+```
 
 ## Under the Hood
 
