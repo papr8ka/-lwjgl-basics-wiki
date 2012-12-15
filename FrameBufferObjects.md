@@ -66,6 +66,11 @@ batch.end();
 
 If we were to test the above code with an **opaque** track image, all would work nice and dandy:
 
+![Sprites](http://i.imgur.com/bkXso.png)
+
+And our result at 50%, using render-to-texture:
+
+![Result](http://i.imgur.com/PPPWz.png)
 
 ## Under the Hood
 
