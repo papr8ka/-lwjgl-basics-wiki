@@ -12,10 +12,18 @@ In OpenGL, in order to render to texture, we need to set up a Frame Buffer Objec
 
 First, we create a new frame buffer object:
 ```java
-fbo = new Framebuffer(512, 512);
+try {
+	fbo = new Framebuffer(width, height, Texture.NEAREST);
+} catch (LWJGLException e) {
+	... if the FBO could not be created ...
+}
 ```
 
 For maximum compatibility and efficiency, you should stick to power-of-two sizes. The frame buffer is backed by a texture, so it has the same hardware limitations discussed in the [Textures tutorial](Textures#wiki-HardwareLimitations).
+
+You can check to see if frame buffer objects are supported in hardware with `Framebuffer.isSupported()`. If it returns `false`, then you will get an error when you try to create a frame buffer. This is generally only a problem on very old drivers, most of which will not work with shaders anyways, and so are not worth our time. To give you an idea of support, about [93% of drivers](http://feedback.wildfiregames.com/report/opengl/) support `GL_EXT_framebuffer_object`. Users that don't support this are probably not going to be able to run shaders, either, and you'd be better off telling them to update their graphics card and drivers.
+
+
 
 ## Under the Hood
 
