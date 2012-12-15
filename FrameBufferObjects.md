@@ -15,7 +15,7 @@ First, we create a new frame buffer object:
 fbo = new Framebuffer(512, 512);
 ```
 
-For maximum compatibility and efficiency, you should stick to power-of-two sizes. The frame buffer is backed by a texture, so it has the same hardware limitations discussed in the [Textures tutorial](Textures#HardwareLimitations).
+For maximum compatibility and efficiency, you should stick to power-of-two sizes. The frame buffer is backed by a texture, so it has the same hardware limitations discussed in the [Textures tutorial](Textures#wiki-HardwareLimitations).
 
 ## Under the Hood
 
