@@ -16,7 +16,7 @@ There are a number of ways an image like this would be stored on a computer, mos
   * **Hex aka RGB int:** `#ff0000` or `0xff0000`
   * **RGBA byte:** `(R=255, G=0, B=0, A=1)`
   * **RGBA float:** `(R=1f, G=0f, B=0f, A=1f)`
-```
+
 
 The RGBA byte array representing the above image (32x16 px) might look something like this:
 ```java
