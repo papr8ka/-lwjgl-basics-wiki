@@ -60,11 +60,11 @@ input = pngURL.openStream();
 //initialize the decoder
 PNGDecoder dec = new PNGDecoder(input);
 
-//set up image dimensions 
+//read image dimensions from PNG header
 width = dec.getWidth();
 height = dec.getHeight();
 
-//we are using RGBA, i.e. 4 components or "bytes per pixel"
+//we will decode to RGBA format, i.e. 4 components or "bytes per pixel"
 final int bpp = 4;
 
 //create a new byte buffer which will hold our pixel data
