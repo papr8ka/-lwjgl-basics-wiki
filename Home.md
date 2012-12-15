@@ -4,7 +4,7 @@ This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn mo
 
 
 * [Display Creation](wiki/Display) 
-* [Textures](wiki/Textures)
+* [OpenGL Textures](wiki/Textures)
   * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
 * [The API](wiki/TheAPI)
 * [Frame Buffer Objects](wiki/FrameBufferObjects)
