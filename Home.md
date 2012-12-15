@@ -6,7 +6,7 @@ This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn mo
 * [Display Creation](wiki/Display) 
 * [OpenGL Textures](wiki/Textures)
   * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
-* [The API](wiki/TheAPI)
+* [Using the SpriteBatcher](wiki/TheAPI)
 * [Frame Buffer Objects](wiki/FrameBufferObjects)
 * [Intro to Shaders](wiki/Shaders)
   * [Lesson 1: Red Boxes](wiki/ShaderLesson1)
