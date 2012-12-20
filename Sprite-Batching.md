@@ -1,7 +1,7 @@
 ##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » Sprite Batching
 ***
 
-If we were to try and render a game with the `debugTexture` method from the [Textures](Textures) tutorial, we would quickly run into performance problems. This is because we are only pushing one sprite at a time to the GPU. What we need is to "batch" many sprites into the same draw call; for this we use a SpriteBatch.
+If we tried using `debugTexture` from the [Textures](Textures) tutorial to render all of our tiles and sprites, chances are we'd quickly run into performance problems. This is because we are only pushing one sprite at a time to the GPU. What we need is to "batch" many sprites into the same draw call; for this we use a SpriteBatch.
 
 ## Intro
 
