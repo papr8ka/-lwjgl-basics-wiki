@@ -7,7 +7,13 @@ If we were to try and render a game with the `debugTexture` method from the [Tex
 
 You can see a minimal implementation of a SpriteBatcher [here](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/SpriteBatch.java) -- it's modeled after the batcher in [LibGDX](http://libgdx.badlogicgames.com/).
 
-As discussed in the [Textures](Textures) tutorial, a sprite is nothing more than a set of vertices that make up a rectangular shape. Each vertex has the attributes `Position(x, y)` (where the vertex lies on the screen), `TexCoord(s, t)` (what region of our Texture we want to render) and `Color(r, g, b, a)` (to specify tinting or transparency). Most sprite batchers are fairly simple to use, and may look like this:
+As discussed in the [Textures](Textures) tutorial, a sprite is nothing more than a set of vertices that make up a rectangular shape. Each vertex can have any number of attributes, but generally SpriteBatchers use the following:
+
+- `Position(x, y)` - where the vertex lies on the screen 
+- `TexCoord(s, t)` - what region of our Texture we want to render
+- `Color(r, g, b, a)` - to specify tinting or transparency
+
+Most sprite batchers are fairly simple to use, and may look like this in your game:
 
 ```java
 //called on game creation
