@@ -5,12 +5,11 @@ A common feature in 2D and 3D graphics programming is the ability to render to a
 
 ![Opacity](http://i.imgur.com/RsM5G.png)
 
-On the far left we see the sprites rendered at 100% opacity, then again rendered to the screen at 50% opacity. The desired effect, on the right, is achieved by rendering the sprites at 100% to an "offscreen texture", *then* render that texture to the screen at 50% opacity.
+(Slider PSD can be downloaded [here](http://files.pixelsdaily.com/download/id/2950))
+
+In the middle we see the problem when we render both sprites to the screen at 50%. The desired effect, on the right, is achieved by rendering the sprites at 100% to an "offscreen texture", *then* render that texture to the screen at 50% opacity.
 
 ![Sketch](http://i.imgur.com/VUHR9.png)
-
-
-(Slider PSD can be downloaded [here](http://files.pixelsdaily.com/download/id/2950))
 
 Another use for render-to-texture is for post-processing effects; i.e. rendering your sprites to an offscreen texture as large as the game window, and then render that texture to the screen 
 
