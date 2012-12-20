@@ -15,7 +15,7 @@ Another use for render-to-texture is for post-processing effects; i.e. rendering
 
 ## A Quick Note
 
-Before continuing, it should be pointed out that using FBOs, especially rendering to them every frame, may not lead to the best performance. This is because they require many state switch, batch flushes, buffer clears, and shader updating (i.e. sending new viewport size). Use them wisely.
+Before continuing, it should be pointed out that using FBOs, especially rendering to them every frame, may not lead to the best performance. This is because they require many state switch, batch flushes, buffer clears, and shader updates (i.e. sending new viewport size). Use them wisely.
 
 ## Frame Buffer Objects
 
