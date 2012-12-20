@@ -42,6 +42,12 @@ spriteBatch.draw(...);
 spriteBatch.end();
 ```
 
+## TextureRegion
+
+As discussed earlier, for best performance we should use a texture atlas, and draw regions of it (AKA sub-images) to make up our game's sprites. For this we have a utility, TextureRegion. It allows us to specify in pixels the upper left position `(x, y)` and size `(width, height)` of our sub-image. Let's take our earlier example, where we want to render the highlighted tile:
+
+![VertexBreakdown](http://i.imgur.com/nwXUM.png)
+
 ## Triangles, not Quads
 
 In the earlier series, we have been thinking of textures as quads, but in reality most sprite batchers will use two adjacent triangles to represent a rectangular sprite. So each sprite has 6 vertices (two triangles), and each vertex has 8 attributes (`X, Y, S, T, R, G, B, A`)
