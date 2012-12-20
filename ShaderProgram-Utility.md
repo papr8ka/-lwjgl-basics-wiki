@@ -144,7 +144,7 @@ public void setUniformMatrix(int loc, boolean transposed, Matrix4f mat) {
 
 ## Full Java Source
 ```java
-public static class ShaderProgram {
+public class ShaderProgram {
 
 	protected static FloatBuffer buf16Pool;
 	
