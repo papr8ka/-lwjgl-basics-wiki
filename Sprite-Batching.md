@@ -90,13 +90,13 @@ spriteBatch.draw(...);
 spriteBatch.end();
 ```
 
-## Triangles, not Quads
+## n.b. Triangles, not Quads!
 
 In the earlier series, we have been thinking of textures as quads, but in reality most sprite batchers will use two adjacent triangles to represent a rectangular sprite. The vertices may be ordered differently depending on the engine (LibGDX tends to use lower-left origin), but the basic idea looks like this:
 
 ![Verts](http://i.imgur.com/5dOga.png)
 
-A single sprite has 2 triangles -- or 6 vertices. Each *vertex* has 8 attributes `(X, Y, S, T, R, G, B, A)` which together make up position, texture coordinates and vertex color. This means that with every sprite, we are pushing 48 floats to the stack. A more optimized sprite batcher might pack the RGBA into a single float, or may forgo vertex colors altogether.
+A single sprite has 2 triangles -- or 6 vertices. Each *vertex* has 8 attributes `(X, Y, S, T, R, G, B, A)` which together make up `Position`, `TexCoord` and `Color`. This means that with every sprite, we are pushing 48 floats to the stack! A more optimized sprite batcher might pack the RGBA into a single float, or may forgo vertex colors altogether.
 
 ## Now where?
 
