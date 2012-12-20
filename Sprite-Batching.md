@@ -1,10 +1,22 @@
+##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » Sprite Batching
+***
+
+Relying on our `debugDraw` method from the [Textures](Textures) tutorial would quickly lead to performance problems and a significant increase in rendering time. This is because we are only pushing one sprite at a time to the GPU. What we need is to "batch" many sprites into the same draw call; for this we use a SpriteBatch.
+
+## Intro
+
 An important feature of any 2D rendering system is a "batcher" -- this will allow us to render many sprites in a single draw call. Using the batcher correctly will allow us to render tens of thousands of sprites per frame at 60+ FPS. You can see a minimal implementation of a SpriteBatcher [here](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/SpriteBatch.java) -- it's modeled after the batcher in [LibGDX](http://libgdx.badlogicgames.com/).
 
 As discussed in the [Textures](Textures) tutorial, a sprite is nothing more than a set of vertices that make up a rectangular shape. Each vertex has the attributes `Position(x, y)` (where the vertex lies), `TexCoord(s, t)` (what region of our Texture we want to render) and `Color(r, g, b, a)` (to specify tinting or transparency). Most sprite batchers are fairly simple to use, and may look like this:
 
 ```java
+////// ... create() ...
+//create a single batcher we will use throughout our application
+spriteBatch = new SpriteBatch();
+
+////// ... render() ...
 //prepare the batch for rendering
-spriteBatch.begin();
+spriteBatch.begin(); 
 
 //draw all of our sprites
 spriteBatch.draw(mySprite1, x, y);
@@ -13,6 +25,11 @@ spriteBatch.draw(mySprite2, x, y);
 
 //end the batch, flushing the data to GPU
 spriteBatch.end();
+
+
+////// ... onResize(width, height) ...
+//notify the sprite batcher whenever the screen changes 
+spriteBatch.resize(width, height);
 ```
 
 When we call `spriteBatch.draw(...)`, this simply pushes the sprite's vertex information (position, texcoord, color) onto a very large stack. The vertices aren't passed to the GPU until one of the following occurs:
