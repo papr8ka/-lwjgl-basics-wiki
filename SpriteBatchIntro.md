@@ -68,6 +68,8 @@ In the earlier series, we have been thinking of textures as quads, but in realit
 
 A single sprite has 2 triangles -- or 6 vertices. Each *vertex* has 8 attributes `(X, Y, S, T, R, G, B, A)` which together make up position, texture coordinates and vertex color. This means that with every sprite, we are pushing 48 floats to the stack. A more optimized sprite batcher might pack the RGBA into a single float, or may forgo vertex colors altogether.
 
-## Advanced
+## Now where?
 
-Creating your own sprite batcher is not easy, and requires understanding of shaders, vertex buffers, and basic matrix math. Before you attempt to dive into these advanced concepts, I'd recommend getting comfortable with the SpriteBatcher provided for you by [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics) or LibGDX. You should also [get comfortable with GLSL](Shaders) before attempting your own sprite batcher. *Then* you can think about writing your own [ShaderProgram](ShaderProgram-Utility) and [SpriteBatcher](SpriteBatch).
+Creating your own sprite batcher is not easy, and requires understanding of shaders, vertex buffers, and basic matrix math. Before diving into these advanced topics, I'd recommend getting comfortable with the SpriteBatcher provided for you by [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics). Alternatively, you can use LibGDX as the SpriteBatcher is very similar. You should also [be comfortable with GLSL](Shaders) before attempting your own sprite batcher.
+
+If you are still keen to learn about how it all works under the hood, see the [ShaderProgram](ShaderProgram-Utility) and [SpriteBatcher](SpriteBatch) articles.
