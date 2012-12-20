@@ -96,7 +96,7 @@ In a 3D game, texture splatting like this may be useful since it can be applied 
 
 ![RealTime](http://i.imgur.com/OAadq.gif)
 
-The above example uses [simplex noise](https://github.com/ashima/webgl-noise/wiki) to modulate the texture coordinates before sampling from the mask. It would be a particularly cool way to blend water and land textures in a wave-like motion.
+The above example uses [simplex noise](https://github.com/ashima/webgl-noise/wiki) to modulate the texture coordinates before sampling from the mask. It would be a particularly cool way to blend water and land textures in a wave-like motion. You can test this with the [ShaderLesson4B code](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson4B.java).
 
 ## Lesson 5
 
