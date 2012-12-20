@@ -1,6 +1,6 @@
 Often you may want to render rectangles, lines, and squares -- be it for debugging or any other visual purpose. In the programmable pipeline there is no longer `glRect` nor can you simply "disable textures" to render a primitive shape. The solution is to find a 1x1 white opaque pixel in your UI texture atlas from which to sample from (or more pixels if you are using `GL_LINEAR`). Then, you can render boxes, lines, and other basic shapes. 
 
-I added a small 4x4 white square in the font sheet and then grabbed that with a TextureRegion. We also could have created a 1x1 white `GL_NEAREST` Texture with a ByteBuffer, but having multiple textures would not allow us to take advantage of SpriteBatcher. 
+I added a small 4x4 white square in the font sheet and then grabbed that with a TextureRegion. We also could have created a 1x1 white `GL_NEAREST` Texture with a ByteBuffer (see [here](https://github.com/mattdesl/lwjgl-basics/wiki/Java-NIO-Buffers)), but having multiple textures would not allow us to take advantage of SpriteBatcher. 
 
 You can see the utility methods used in [RectTest](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/RectTest.java) to draw lines and a rectangle:
 
