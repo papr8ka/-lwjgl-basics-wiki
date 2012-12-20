@@ -42,15 +42,17 @@ spriteBatch.draw(...);
 spriteBatch.end();
 ```
 
+## Triangles, not Quads
+
+In the earlier series, we have been thinking of textures as quads, but in reality most sprite batchers will use two adjacent triangles to represent a rectangular sprite. So each sprite has 6 vertices (two triangles), and each vertex has 8 attributes (`X, Y, S, T, R, G, B, A`)
+
+
+
 We call this "vertex coloring" because the color is an attribute specified with each vertex, along with `Position` and `TexCoord`. We could actually have a sprite fade out from left to right by using `(1, 1, 1, 1)` for the upper left and lower left vertex colors, and `(1, 1, 1, 0)` for the upper right and lower right colors. Since this is not a common task, you would need to specify your sprite's vertices manually in order to do that:
 ```java
+    /* Renders a sprite with custom vertex data.
+    @param tex - the texture to use
+    @param vertices - an array of 6 vertices, each holding 8 attributes (total = 48 elements)
+    @param offset - starting offset to read from vertices array */
 SpriteBatch.draw(Texture tex, float[] vertices, int offset)
-
-    Renders a sprite with custom vertex data.
- 
-    tex - the texture to use
-    vertices - an array of 6 vertices, each holding 8 attributes (total = 48 elements)
-    offset - starting offset to read from vertices array
 ```
-
-In the earlier series, we have been thinking of textures as quads, but in reality most sprite batchers will use two adjacent triangles to represent . So each sprite has 6 vertices (two triangles), and each vertex has 8 attributes (`X, Y, S, T, R, G, B, A`)
