@@ -1,6 +1,6 @@
-An important feature of any 2D rendering system is a "batcher" -- this will allow us to render many sprites in a single draw call. Using the batcher correctly will allow us to render tens of thousands of sprites per frame at 60+ FPS.
+An important feature of any 2D rendering system is a "batcher" -- this will allow us to render many sprites in a single draw call. Using the batcher correctly will allow us to render tens of thousands of sprites per frame at 60+ FPS. You can see a minimal implementation of a SpriteBatcher [here](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/SpriteBatch.java) -- it's modeled after the batcher in [LibGDX](http://libgdx.badlogicgames.com/).
 
-As discussed in the [Textures](Textures) tutorial, a sprite is nothing more than a set of vertices that make up a rectangular shape. Each vertex has the attributes `Position(x, y)` (where the vertex lies), `TexCoord(s, t)` (what region of our Texture we want to render) and `Color(r, g, b, a)` (to specify tinting or transparency). From the outside, most sprite batchers look fairly simple to use:
+As discussed in the [Textures](Textures) tutorial, a sprite is nothing more than a set of vertices that make up a rectangular shape. Each vertex has the attributes `Position(x, y)` (where the vertex lies), `TexCoord(s, t)` (what region of our Texture we want to render) and `Color(r, g, b, a)` (to specify tinting or transparency). Most sprite batchers are fairly simple to use, and may look like this:
 
 ```java
 //prepare the batch for rendering
@@ -18,10 +18,10 @@ spriteBatch.end();
 When we call `spriteBatch.draw(...)`, this simply pushes the sprite's vertex information (position, texcoord, color) onto a very large stack. The vertices aren't passed to the GPU until one of the following occurs:
 
 - The batch is forced to render with `end()` or another call that flushes the batch (like `flush()`)
-- The user tries drawing a sprite that uses a different Texture than the last one.
+- The user tries drawing a sprite that uses a different Texture than the last one. The batch needs to be flushed and the new texture bound before we can continue.
 - We have reached the capacity of our stack, so we need to flush to start over again
 
-This is the basic idea behind a sprite batcher. As you can see, using many textures will lead to many draw calls (as the batch will need to flush for each new texture). This is why a texture atlas (AKA sprite sheet) is always recommended; it allows us to render many sprites (sub-regions of our texture atlas) in a single draw call.
+This is the basic idea behind a sprite batcher. As you can see, using many textures will lead to many draw calls (as the batch will need to flush for each new texture). This is why a texture atlas (AKA sprite sheet) is always recommended; it allows us to render many sprites in a single draw call.
 
 ## Vertex Color
 
@@ -44,21 +44,32 @@ spriteBatch.end();
 
 ## TextureRegion
 
-As discussed earlier, for best performance we should use a texture atlas, and draw regions of it (AKA sub-images) to make up our game's sprites. For this we have a utility, TextureRegion. It allows us to specify in pixels the upper left position `(x, y)` and size `(width, height)` of our sub-image. Let's take our earlier example, where we want to render the highlighted tile:
+As discussed, for best performance we should use a texture atlas, and draw regions of it (AKA sub-images) to make up our game's sprites. For this we have a utility class, [TextureRegion](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/TextureRegion.java). It allows us to specify in pixels the upper left position `(x, y)` and size `(width, height)` of our sub-image. Let's take our earlier example, where we want to render the highlighted tile:
 
 ![VertexBreakdown](http://i.imgur.com/nwXUM.png)
 
+We can get a TextureRegion of the tile with the following:
+```java
+//specify x, y, width, height of tile
+region = new TextureRegion(64, 64, 64, 64);
+```
+
+As you can see, the TextureRegion utility allows us to get sub-images without worrying about calculating the texture coordinates. We can then render the individual tile with our sprite batch like so:
+```java
+... inside SpriteBatch begin / end ...
+spriteBatch.draw(region, x, y);
+```
+
 ## Triangles, not Quads
 
-In the earlier series, we have been thinking of textures as quads, but in reality most sprite batchers will use two adjacent triangles to represent a rectangular sprite. So each sprite has 6 vertices (two triangles), and each vertex has 8 attributes (`X, Y, S, T, R, G, B, A`)
+In the earlier series, we have been thinking of textures as quads, but in reality most sprite batchers will use two adjacent triangles to represent a rectangular sprite. The vertices may be ordered differently depending on the engine (LibGDX tends to use lower-left origin), but the basic idea looks like this:
 
+![Verts](http://i.imgur.com/5dOga.png)
 
+A single sprite has 2 triangles -- or 6 vertices. Each *vertex* has 8 attributes `(X, Y, S, T, R, G, B, A)` which together make up position, texture coordinates and vertex color. This means that with every sprite, we are pushing 48 floats to the stack. A more optimized sprite batcher might pack the RGBA into a single float, or may forgo vertex colors altogether.
 
-We call this "vertex coloring" because the color is an attribute specified with each vertex, along with `Position` and `TexCoord`. We could actually have a sprite fade out from left to right by using `(1, 1, 1, 1)` for the upper left and lower left vertex colors, and `(1, 1, 1, 0)` for the upper right and lower right colors. Since this is not a common task, you would need to specify your sprite's vertices manually in order to do that:
-```java
-    /* Renders a sprite with custom vertex data.
-    @param tex - the texture to use
-    @param vertices - an array of 6 vertices, each holding 8 attributes (total = 48 elements)
-    @param offset - starting offset to read from vertices array */
-SpriteBatch.draw(Texture tex, float[] vertices, int offset)
-```
+## Advanced
+
+Creating your own sprite batcher is no small task, as it requires a basic understanding of some more advanced concepts like GLSL (i.e. shader programs), matrix math, and Vertex Buffer Objects (or vertex arrays). After making your way through the
+
+Creating your own sprite batcher is not easy, and requires understanding of shaders, vertex buffers, and basic matrix math. Before you attempt to dive into these advanced concepts, I'd recommend getting comfortable with the SpriteBatcher provided for you by [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics) or LibGDX. You should also [get comfortable with GLSL](Shaders) before attempting your own sprite batcher. *Then* you can think about writing your own [ShaderProgram](ShaderProgram-Utility) and [SpriteBatcher](SpriteBatch).
