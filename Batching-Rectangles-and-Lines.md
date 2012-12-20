@@ -2,7 +2,7 @@ Often you may want to render rectangles, lines, and squares -- be it for debuggi
 
 I added a small 4x4 white square in the font sheet and then grabbed that with a TextureRegion. We also could have created a 1x1 white `GL_NEAREST` Texture with a ByteBuffer, but having multiple textures would not allow us to take advantage of SpriteBatcher. 
 
-You can see the utility methods used in RectTest to draw lines and a rectangle:
+You can see the utility methods used in [RectTest](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/RectTest.java) to draw lines and a rectangle:
 
 ```java
 void drawRect(int x, int y, int width, int height, int thickness) {
