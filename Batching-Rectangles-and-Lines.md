@@ -2,7 +2,7 @@ Often you may want to render rectangles, lines, and squares -- be it for debuggi
 
 In Photoshop, I added a small 4x4 white square to the corner of my font texture atlas: see [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/ptsans_00.png). I then grabbed it with a TextureRegion. We also could have created a 1x1 white `GL_NEAREST` Texture with a ByteBuffer (see [here](https://github.com/mattdesl/lwjgl-basics/wiki/Java-NIO-Buffers)), but having multiple textures would not allow us to take advantage of our SpriteBatch. 
 
-You can see the utility methods used in [RectTest](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/RectTest.java) to draw lines and a rectangle:
+Here are a couple of utility methods for rendering lines and rectangles:
 
 ```java
 void drawRect(int x, int y, int width, int height, int thickness) {
@@ -21,7 +21,7 @@ void drawLine(int x1, int y1, int x2, int y2, int thickness) {
 }
 ```
 
-A screenshot of our application:
+You can see them in use in [RectTest](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/RectTest.java):
 
 ![Lines](http://i.imgur.com/C89nu.png)
 
