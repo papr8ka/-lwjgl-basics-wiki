@@ -10,26 +10,31 @@ You can see a minimal implementation of a SpriteBatcher [here](https://github.co
 As discussed in the [Textures](Textures) tutorial, a sprite is nothing more than a set of vertices that make up a rectangular shape. Each vertex has the attributes `Position(x, y)` (where the vertex lies), `TexCoord(s, t)` (what region of our Texture we want to render) and `Color(r, g, b, a)` (to specify tinting or transparency). Most sprite batchers are fairly simple to use, and may look like this:
 
 ```java
-////// ... create() ...
-//create a single batcher we will use throughout our application
-spriteBatch = new SpriteBatch();
+//called on game creation
+public void create() {
+    //create a single batcher we will use throughout our application
+    spriteBatch = new SpriteBatch();
+}
 
-////// ... render() ...
-//prepare the batch for rendering
-spriteBatch.begin(); 
+//called on frame render
+public void render() {
+    //prepare the batch for rendering
+    spriteBatch.begin(); 
 
-//draw all of our sprites
-spriteBatch.draw(mySprite1, x, y);
-spriteBatch.draw(mySprite2, x, y);
-...
+    //draw all of our sprites
+    spriteBatch.draw(mySprite1, x, y);
+    spriteBatch.draw(mySprite2, x, y);
+    ...
 
-//end the batch, flushing the data to GPU
-spriteBatch.end();
+    //end the batch, flushing the data to GPU
+    spriteBatch.end();
+}
 
-
-////// ... onResize(width, height) ...
-//notify the sprite batcher whenever the screen changes 
-spriteBatch.resize(width, height);
+//called when the display is resized
+public void resize(int width, int height) {
+    //notify the sprite batcher whenever the screen changes 
+    spriteBatch.resize(width, height);
+}
 ```
 
 When we call `spriteBatch.draw(...)`, this simply pushes the sprite's vertex information (position, texcoord, color) onto a very large stack. The vertices aren't passed to the GPU until one of the following occurs:
