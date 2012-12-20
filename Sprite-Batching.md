@@ -5,8 +5,6 @@ If we tried using `debugTexture` from the [Textures](Textures) tutorial to rende
 
 ## Intro
 
-You can see a minimal implementation of a SpriteBatcher [here](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/SpriteBatch.java) -- it's modeled after the batcher in [LibGDX](http://libgdx.badlogicgames.com/).
-
 As discussed in the [Textures](Textures) tutorial, a sprite is nothing more than a set of vertices that make up a rectangular shape. Each vertex contains a number of attributes that define it, such as:
 
 - `Position(x, y)` - where the vertex lies on the screen 
@@ -50,6 +48,8 @@ When we call `spriteBatch.draw(...)`, this simply pushes the sprite's vertex inf
 - We have reached the capacity of our stack, so we need to flush to start over again
 
 This is the basic idea behind a sprite batcher. As you can see, using many textures will lead to many draw calls (as the batch will need to flush for each new texture). This is why a texture atlas (AKA sprite sheet) is always recommended; it allows us to render many sprites in a single draw call.
+
+The [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics/) API includes a minimal [SpriteBatch](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/SpriteBatch.java) implementation free to use -- it's modeled after the batcher in [LibGDX](http://libgdx.badlogicgames.com/).
 
 ## TextureRegion
 
