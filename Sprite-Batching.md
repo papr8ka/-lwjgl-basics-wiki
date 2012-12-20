@@ -90,7 +90,7 @@ spriteBatch.draw(...);
 spriteBatch.end();
 ```
 
-## n.b. Triangles, not Quads!
+## Triangles, not Quads!
 
 In the earlier series, we have been thinking of textures as quads, but in reality most sprite batchers will use two adjacent triangles to represent a rectangular sprite. The vertices may be ordered differently depending on the engine (LibGDX tends to use lower-left origin), but the basic idea looks like this:
 
