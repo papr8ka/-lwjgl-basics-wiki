@@ -88,7 +88,7 @@ One solution would be to use `glDisable(GL_BLEND)` before drawing to our FBO, or
 6. Use `batch.setColor(alpha, alpha, alpha, alpha)` to adjust opacity.
 7. Render the FBO color texture.
 
-You can see the result in the FBOTest example. The output:
+You can see the resulting code in the [FBOTest](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/FBOTest.java) example. The output:
 
 ![Output](http://i.imgur.com/KCi3u.png)
 
