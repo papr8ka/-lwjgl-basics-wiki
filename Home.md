@@ -7,6 +7,8 @@ The tutorial series uses the lwjgl-basics API to reduce clutter and keep things 
 * [Display Creation](wiki/Display) 
 * [OpenGL Textures](wiki/Textures)
   * [Using Buffers with LWJGL](wiki/Java-NIO-Buffers)
+* [Batching Sprites](wiki/SpriteBatchIntro)
+  * [Batching Rectangles and Lines](wiki/RectsAndLines)
 * [Frame Buffer Objects](wiki/FrameBufferObjects)
 * [Intro to Shaders](wiki/Shaders)
   * [Lesson 1: Red Boxes](wiki/ShaderLesson1)
