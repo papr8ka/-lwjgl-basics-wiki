@@ -11,11 +11,11 @@ In the middle we see the problem when we render both sprites to the screen at 50
 
 ![Sketch](http://i.imgur.com/VUHR9.png)
 
-Another use for render-to-texture is for post-processing effects; i.e. rendering your sprites to an offscreen texture as large as the game window, and then render that texture to the screen 
+Another use for render-to-texture is for post-processing effects; i.e. rendering your sprites to an offscreen texture as large as the game window, and then render that texture to the screen with a shader which applies the effects.
 
 ## Frame Buffer Objects
 
-In OpenGL, in order to render to texture, we need to set up a Frame Buffer Object (FBO). We will use the Framebuffer utility to make things a bit easier. You can loosely think of FBOs as a means of "switching screens" in GL. Generally you render to the default "screen" of the Display (or **back buffer**), but with an FBO you can define other screens to render to. 
+In OpenGL, in order to render-to-texture, we need to set up a Frame Buffer Object (FBO). We will use the Framebuffer utility to make things a bit easier. You can loosely think of FBOs as a means of "switching screens" in GL. Generally you render to the default "screen" of the Display (or **back buffer**), but with an FBO you can define other screens to render to. 
 
 First, we create a new frame buffer object:
 ```java
