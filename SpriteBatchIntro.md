@@ -70,6 +70,4 @@ A single sprite has 2 triangles -- or 6 vertices. Each *vertex* has 8 attributes
 
 ## Advanced
 
-Creating your own sprite batcher is no small task, as it requires a basic understanding of some more advanced concepts like GLSL (i.e. shader programs), matrix math, and Vertex Buffer Objects (or vertex arrays). After making your way through the
-
 Creating your own sprite batcher is not easy, and requires understanding of shaders, vertex buffers, and basic matrix math. Before you attempt to dive into these advanced concepts, I'd recommend getting comfortable with the SpriteBatcher provided for you by [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics) or LibGDX. You should also [get comfortable with GLSL](Shaders) before attempting your own sprite batcher. *Then* you can think about writing your own [ShaderProgram](ShaderProgram-Utility) and [SpriteBatcher](SpriteBatch).
