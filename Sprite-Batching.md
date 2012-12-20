@@ -1,11 +1,11 @@
 ##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » Sprite Batching
 ***
 
-Relying on our `debugDraw` method from the [Textures](Textures) tutorial would quickly lead to performance problems and a significant increase in rendering time. This is because we are only pushing one sprite at a time to the GPU. What we need is to "batch" many sprites into the same draw call; for this we use a SpriteBatch.
+If we were to try and render a game with the `debugTexture` method from the [Textures](Textures) tutorial, we would quickly run into performance problems. This is because we are only pushing one sprite at a time to the GPU. What we need is to "batch" many sprites into the same draw call; for this we use a SpriteBatch.
 
 ## Intro
 
-An important feature of any 2D rendering system is a "batcher" -- this will allow us to render many sprites in a single draw call. Using the batcher correctly will allow us to render tens of thousands of sprites per frame at 60+ FPS. You can see a minimal implementation of a SpriteBatcher [here](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/SpriteBatch.java) -- it's modeled after the batcher in [LibGDX](http://libgdx.badlogicgames.com/).
+You can see a minimal implementation of a SpriteBatcher [here](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/SpriteBatch.java) -- it's modeled after the batcher in [LibGDX](http://libgdx.badlogicgames.com/).
 
 As discussed in the [Textures](Textures) tutorial, a sprite is nothing more than a set of vertices that make up a rectangular shape. Each vertex has the attributes `Position(x, y)` (where the vertex lies), `TexCoord(s, t)` (what region of our Texture we want to render) and `Color(r, g, b, a)` (to specify tinting or transparency). Most sprite batchers are fairly simple to use, and may look like this:
 
