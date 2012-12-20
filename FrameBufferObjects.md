@@ -133,7 +133,7 @@ fbo.begin();
 //standard shader
 batch.setShader(DEFAULT_SHADER);
 
-//if FBO size == Display size, we can ommit this
+//if FBO size == Display size, we can omit this
 batch.resize(fbo.getWidth(), fbo.getHeight());
 
 batch.begin();
