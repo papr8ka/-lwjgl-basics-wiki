@@ -41,7 +41,7 @@ public void resize(int width, int height) {
 }
 ```
 
-When we call `spriteBatch.draw(...)`, this simply pushes the sprite's vertex information (position, texcoord, color) onto a very large stack. The vertices aren't passed to the GPU until one of the following occurs:
+First we `begin()` the batch, we simply tells it that it's in "drawing mode" and calls `use()` on our shader program. Then, calling `spriteBatch.draw(...)` pushes the sprite's vertex information (position, texcoord, color) onto a very large stack. The vertices aren't passed to the GPU until one of the following occurs:
 
 - The batch is forced to render with `end()` or another call that flushes the batch, like `flush()`
 - The user tries drawing a sprite that uses a different Texture than the last one. The batch needs to be flushed and the new texture bound before we can continue.
