@@ -24,7 +24,7 @@ In OpenGL, in order to render-to-texture, we need to set up a Frame Buffer Objec
 First, we create a new frame buffer object:
 ```java
 try {
-	fbo = new Framebuffer(width, height, Texture.NEAREST);
+	fbo = new FrameBuffer(width, height, Texture.NEAREST);
 } catch (LWJGLException e) {
 	... if the FBO could not be created ...
 }
@@ -111,16 +111,16 @@ The solution is to use a TextureRegion to render only a portion of our power-of-
 
 ```java
 	TextureRegion fboRegion; //the region of our POT frame buffer
-	Framebuffer fbo; //our POT frame buffer with a color texture attached
+	FrameBuffer fbo; //our POT frame buffer with a color texture attached
 
 	...
 		if (Texture.isNPOTSupported()) {
-			fbo = new Framebuffer(width, height);
+			fbo = new FrameBuffer(width, height);
 			fboRegion = new TextureRegion(fbo.getTexture());
 		} else {
 			int texWidth = Texture.toPowerOfTwo(width);
 			int texHeight = Texture.toPowerOfTwo(height);
-			fbo = new Framebuffer(texWidth, texHeight);
+			fbo = new FrameBuffer(texWidth, texHeight);
 			fboRegion = new TextureRegion(fbo.getTexture(), 0, texHeight-height, width, height);
 		}
 		fboRegion.flip(false, true);
