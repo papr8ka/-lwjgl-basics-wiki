@@ -244,7 +244,7 @@ Here are various considerations for improving performance:
 
 - If you are only blurring one opaque sprite (i.e. for an image processing application) and you don't care about possible hard edges around the sprite, you can skip the first step of rendering the entire scene to the FBO. Instead, you would apply the horizontal blur in the first step, saving you a pass.
 - If you are only blurring in one direction, you can reduce the number of passes.
-- If your blur does not need to be real-time (every frame), you can "cache" the result in one of the frame buffers whenever the blur needs updating. For this you would "ping-pong" and store the final blurred result back in FBO target A. Our step four, then, would be changed to this:
+- If your blur does not need to be real-time (every frame), you can "cache" the result in one of the frame buffers whenever the blur needs updating. For this you would "ping-pong" and store the final blurred result back in FBO target A. Our step four, then, would be changed to this:  
 ![NewStep4](http://i.imgur.com/jC6xn.png)
 
 
