@@ -15,8 +15,8 @@ The tutorial series uses the lwjgl-basics API to reduce clutter and keep things 
   * [Lesson 2: Inverting a Texture](wiki/ShaderLesson2)
   * [Lesson 3: Circles, vignette, sepia and grayscale effects](wiki/ShaderLesson3)
   * [Lesson 4: Multiple Texture Units](wiki/ShaderLesson4)
-  * [Lesson 5: Gaussian Blurs](ShaderLesson5)
-      * Appendix: Blurs on Android, iOS and WebGL
+  * [Lesson 5: Gaussian Blurs](wiki/ShaderLesson5)
+      * [Appendix: Blurs on Android, iOS and WebGL](wiki/OpenGL-ES-Blurs)
   * Lesson 6 (WIP) will cover normal map lighting for 2D games. See [here](http://www.java-gaming.org/topics/glsl-using-normal-maps-to-illuminate-a-2d-texture-libgdx/27516/view.html) for now.
   * Lesson 7 (WIP) will cover light scattering, aka "god rays".
 * 5. Creating Your own 2D Renderer
