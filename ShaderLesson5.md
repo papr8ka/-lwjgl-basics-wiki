@@ -21,8 +21,8 @@ You can follow along with the source [here](https://github.com/mattdesl/lwjgl-ba
 
 ```java
 //create our FBOs
-blurTargetA = new FrameBuffer(FBO_SIZE, FBO_SIZE, Texture.NEAREST);
-blurTargetB = new FrameBuffer(FBO_SIZE, FBO_SIZE, Texture.NEAREST);
+blurTargetA = new FrameBuffer(FBO_SIZE, FBO_SIZE, Texture.LINEAR);
+blurTargetB = new FrameBuffer(FBO_SIZE, FBO_SIZE, Texture.LINEAR);
 ```
 
 We use a square power-of-two size for simplicity as well as maximum compatibility, and take advantage of linear filtering for a smoother blur. I am using `1024` which should encompass most display sizes, but if you plan to support larger resolutions you may need a larger buffer. Keep in mind that we are limited by the maximum texture size. 
@@ -52,7 +52,7 @@ blurShader.setUniformf("radius", radius); //radius of blur
 
 The `dir` uniform will be a `vec2` defining which direction to blur along. `(1.0, 0.0)` represents the X-axis, and `(0.0, 1.0)` represents the Y-axis. The `resolution` will be used to determine the pixel size in the fragment shader, so we need to give it the `FBO_SIZE`. The last uniform, `radius`, determines the strength of the blur.
 
-Lastly, we set up a sprite batcher initialized with the *default shader*, which we will use in Step 2 (rendering the game entities without any blur).
+Lastly, we set up a sprite batcher initialized with the *default shader*, which we will use in Step 2 (rendering the game entities to FBO A without any blur).
 
 ```java
 batch = new SpriteBatch();
@@ -109,6 +109,8 @@ void main() {
 	gl_FragColor = vColor * vec4(sum.rgb, 1.0);
 }
 ```
+
+A *true* gaussian blur filter would [calculate the weights](http://theinstructionlimit.com/gaussian-blur-experiments) as well as perform a variable number of texture samples, depending on how strong we wish to blur. However, for performance reasons, we will use pre-defined weights (`0.05, 0.09, 0.12, 0.15, etc`) and a fixed number of "taps" or texture samples.
 
 <a name="Ports" />
 
