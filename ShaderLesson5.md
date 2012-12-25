@@ -93,24 +93,32 @@ void main() {
     
 	//apply blurring, using a 9-tap filter with predefined gaussian weights
     
-	sum += texture2D(u_texture, vec2(tc.x - 4.0*blur*hstep, tc.y - 4.0*blur*vstep)) * 0.05;
-	sum += texture2D(u_texture, vec2(tc.x - 3.0*blur*hstep, tc.y - 3.0*blur*vstep)) * 0.09;
-	sum += texture2D(u_texture, vec2(tc.x - 2.0*blur*hstep, tc.y - 2.0*blur*vstep)) * 0.12;
-	sum += texture2D(u_texture, vec2(tc.x - 1.0*blur*hstep, tc.y - 1.0*blur*vstep)) * 0.15;
+	sum += texture2D(u_texture, vec2(tc.x - 4.0*blur*hstep, tc.y - 4.0*blur*vstep)) * 0.0162162162;
+	sum += texture2D(u_texture, vec2(tc.x - 3.0*blur*hstep, tc.y - 3.0*blur*vstep)) * 0.0540540541;
+	sum += texture2D(u_texture, vec2(tc.x - 2.0*blur*hstep, tc.y - 2.0*blur*vstep)) * 0.1216216216;
+	sum += texture2D(u_texture, vec2(tc.x - 1.0*blur*hstep, tc.y - 1.0*blur*vstep)) * 0.1945945946;
 	
-	sum += texture2D(u_texture, vec2(tc.x, tc.y)) * 0.16;
+	sum += texture2D(u_texture, vec2(tc.x, tc.y)) * 0.2270270270;
 	
-	sum += texture2D(u_texture, vec2(tc.x + 1.0*blur*hstep, tc.y + 1.0*blur*vstep)) * 0.15;
-	sum += texture2D(u_texture, vec2(tc.x + 2.0*blur*hstep, tc.y + 2.0*blur*vstep)) * 0.12;
-	sum += texture2D(u_texture, vec2(tc.x + 3.0*blur*hstep, tc.y + 3.0*blur*vstep)) * 0.09;
-	sum += texture2D(u_texture, vec2(tc.x + 4.0*blur*hstep, tc.y + 4.0*blur*vstep)) * 0.05;
+	sum += texture2D(u_texture, vec2(tc.x + 1.0*blur*hstep, tc.y + 1.0*blur*vstep)) * 0.1945945946;
+	sum += texture2D(u_texture, vec2(tc.x + 2.0*blur*hstep, tc.y + 2.0*blur*vstep)) * 0.1216216216;
+	sum += texture2D(u_texture, vec2(tc.x + 3.0*blur*hstep, tc.y + 3.0*blur*vstep)) * 0.0540540541;
+	sum += texture2D(u_texture, vec2(tc.x + 4.0*blur*hstep, tc.y + 4.0*blur*vstep)) * 0.0162162162;
 
 	//discard alpha for our simple demo, multiply by vertex color and return
 	gl_FragColor = vColor * vec4(sum.rgb, 1.0);
 }
 ```
 
-A *true* gaussian blur filter would [calculate the weights](http://theinstructionlimit.com/gaussian-blur-experiments) as well as perform a variable number of texture samples, depending on how strong we wish to blur. However, for performance reasons, we will use pre-defined weights (`0.05, 0.09, 0.12, 0.15, etc`) and a fixed number of "taps" or texture samples.
+This is a "9-tap" filter, since we sample the texture 9 times for every fragment. For example, if we were to use the shader along the horizontal axis -- `dir = (1.0, 0.0)` -- it would sample four pixels to the left, four pixels to the right, and the original pixel at the current texture coords. With each sample, we multiply it by a predefined "kernel weight" (which decreases as we get further from the center pixel) and add it to our RGBA sum.
+
+The kernel weights are calculated using a gaussian function (see [here](http://haishibai.blogspot.com/2009/09/image-processing-c-tutorial-4-gaussian.html) and [here](http://theinstructionlimit.com/gaussian-blur-revisited-part-one)). You can also use a Pascal triangle to determine the kernel weights, as described [here](http://rastergrid.com/blog/2010/09/efficient-gaussian-blur-with-linear-sampling/). 
+
+### Why the second pass?!
+
+You might wonder why we don't just blur all in one pass. If we did that, we would need to sample every pixel within our blur radius. However, with a two-pass (vertical + horizontal) blur, we only need to sample 9 pixels on the horizontal axis, and 9 pixels on the vertical axis. In the end, this leads to far fewer texture fetches. The following image demonstrates the benefit of separating the blur into two passes:
+
+![Blur](http://i.imgur.com/W7rNo.png)
 
 <a name="Ports" />
 
