@@ -14,9 +14,8 @@ The lesson will demonstrate a [gaussian blur](http://en.wikipedia.org/wiki/Gauss
 
 Here is a visual overview of the two-pass blurring process:
 
-![Overview1](http://i.imgur.com/8jkTJ.png)
+![Overview](http://i.imgur.com/8jkTJ.png)
 
-(click for full view)
 
 You can follow along with the source [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson5.java). We first load some textures, as usual, then we set up our frame buffers:
 
