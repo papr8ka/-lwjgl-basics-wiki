@@ -242,15 +242,16 @@ We then draw `blurTargetB` -- since no FBOs are bound, it will be rendered to th
 
 Here are various considerations for improving performance:
 
-- If you are only blurring one opaque sprite (i.e. for an image processing application) and you don't care about possible hard edges around the sprite, you can skip the first step of rendering the entire scene to the FBO. Instead, you would apply the horizontal blur in the first step, saving you a pass.
-- If you are only blurring in one direction, you can reduce the number of passes.
+- If you only need to blur one image instead of a series of entities (i.e. for an image processing application), and you don't care about possible hard edges around the sprite, you can skip the first step of rendering the entire scene to the FBO. Instead, you would apply the horizontal blur in the first step, saving you a pass.
 - If your blur does not need to be real-time (every frame), you can "cache" the result in one of the frame buffers whenever the blur needs updating. For this you would "ping-pong" and store the final blurred result back in FBO target A. Our step four, then, would be changed to this:  
 ![NewStep4](http://i.imgur.com/jC6xn.png)
-
-
+- If you are only blurring in one direction, you can reduce the number of passes and simplify the fragment shader.
+- If you have a fixed display, and your device supports non-power-of-two textures, you can make the FBO the same size as your display. This means you don't need to call `batch.resize`, thus leading to fewer uniform sends per frame.
+- You can use `setShader(shader, false)` to swap shaders without uploading any data to the shader. Then you can upload your own projection matrices, caching the value from `shader.getUniformLocation` for a slight performance boost.
+- For a more extreme optimization, you can "downsample" when blurring by rendering to a smaller sized FBO. Then, before rendering to the screen, you would up-scale the image. This leads to less fill rate, less texture fetches, and generally faster results. This will be discussed in more detail in the Android section.
 
 <a name="Ports" />
 
 ## Other APIs
 
-work in progress
+* [LibGDX Port](https://gist.github.com/4372018). Unfortunately, performance is poor on Android because of high fill rate, texture swapping, and multiple blur passes necessary per frame. Soon, we will cover some other techniques for practical blurring on Android, including a basic software solution for GL11.
