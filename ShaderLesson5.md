@@ -12,9 +12,9 @@ This lesson requires understanding the Frame Buffer Object (FBO), so [read up on
 
 The lesson will demonstrate a [gaussian blur](http://en.wikipedia.org/wiki/Gaussian_blur) technique in GLSL inspired by [this article](http://www.gamerendering.com/2008/10/11/gaussian-blur-filter-shader/). The blur is applied in two passes -- horizontally and vertically -- however, our implementation will only require a single fragment shader. 
 
-Here is an overview of the two-pass blurring process:
+Here is a visual overview of the two-pass blurring process:
 
-[!Overview1](http://i.imgur.com/8jkTJ.png)
+![Overview1](http://i.imgur.com/8jkTJ.png)
 
 (click for full view)
 
