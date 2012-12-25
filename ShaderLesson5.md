@@ -8,9 +8,15 @@ This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwj
 
 ## Setup
 
-This lesson requires understanding the Frame Buffer Object (FBO), so [read up on it](FrameBufferObjects) if you haven't already. Also ensure you are well-versed on the basics of [Sprite Batching](Sprite-Batching).
+This lesson requires understanding the Frame Buffer Object (FBO), so [read up on them](FrameBufferObjects) if you haven't already. Also ensure you are well-versed on the basics of [sprite batching](Sprite-Batching).
 
-The lesson will demonstrate a [gaussian blur](http://en.wikipedia.org/wiki/Gaussian_blur) technique in GLSL inspired by [this article](http://www.gamerendering.com/2008/10/11/gaussian-blur-filter-shader/). The blur is applied in two passes: horizontally, then vertically -- however, unlike the article, we will use a single fragment shader instead of two. This will simplify the process and potentially make our application a little faster. But before we get into the shader, let's examine the set up code.
+The lesson will demonstrate a [gaussian blur](http://en.wikipedia.org/wiki/Gaussian_blur) technique in GLSL inspired by [this article](http://www.gamerendering.com/2008/10/11/gaussian-blur-filter-shader/). The blur is applied in two passes -- horizontally and vertically -- however, our implementation will only require a single fragment shader. 
+
+Here is an overview of the two-pass blurring process:
+
+[!Overview1](http://i.imgur.com/8jkTJ.png)
+
+(click for full view)
 
 You can follow along with the source [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson5.java). We first load some textures, as usual, then we set up our frame buffers:
 
