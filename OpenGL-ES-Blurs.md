@@ -20,7 +20,7 @@ I have implemented Romain Guy's box blur for LibGDX in the following utility cla
 
 Note that this utility isn't very performant -- it requires a lot of unnecessary data copies from ByteBuffer to int[] and back. A more involved solution would be to blur a RGB or RGBA ByteBuffer directly; however, for the purpose of our small demo (since our blurs are only created during initialization) it runs fast enough. 
 
-## Usage
+### BlurUtils Usage
 
 To blur an image, you would do it in software before uploading the data to a GL texture:
 
@@ -45,18 +45,24 @@ The result:
 
 Note that the resulting texture is not managed, so you will have to re-load it using the above code after GL context loss.
 
-# Fast Blurring with Mip-Maps
+# Faking Real-Time Blurring
 
 The simple software solution above only gives us a single blur strength to work with. If we wanted to use a different blur strength, we would need to blur the original image again, then re-upload the newly blurred data. This is very costly and would destroy our framerate if done frequently. 
 
-Another solution is create multiple textures of varying blur strengths, and to "linearly interpolate" between them while rendering to create a faux-realtime blurring. 
+Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to create a faux-realtime blurring. 
 
 Given our original texture:  
 ![Orig](http://i.imgur.com/9ePyD.png)
 
-We would create an array of increasingly blurry images, preferably using TextureRegions in the same Texture (to reduce texture binds and increase batching). Here we use a smaller size for our blurred images in order to reduce memory and improve rendering. When we upscale with bilinear filtering, the difference will not be very significant. 
+We would create an array of increasingly blurry images, preferably using TextureRegions in the same Texture (to reduce texture binds and increase batching). Here we use a smaller size for our blurred images in order to reduce memory usage and improve rendering. When we upscale with bilinear filtering, the difference will not be very significant. 
 
-![Blurred](http://i.imgur.com/Nr8lU.png)
+Using 4 different blurs: (100% extra memory space)
+![4x](http://i.imgur.com/ylMdU.png)
+
+Using 8 different blurs: (150% extra memory space)
+![8x](http://i.imgur.com/JL3yQ.png)
+
+
 
 In the shader, we would use `mix` 
 
