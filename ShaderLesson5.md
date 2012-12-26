@@ -125,9 +125,9 @@ You might wonder why we don't just blur all in one pass. If we did that, we woul
 
 ## Rendering Process
 
-Let's visit the rendering process, following the same steps that we outlined in our [earlier diagram](#Overview). We've already created the FBOs in Step 1, so let's jump to Step 2:
+Let's visit the rendering process, following the same steps that we outlined in our [earlier diagram](#Overview). We've already set up our FBOs, so here are the next three steps:
 
-### 1. Rendering The Scene to FBO A
+### 1. Render The Scene to FBO A
 
 Since we want to apply the blur at once to our entire scene (instead of applying it per-object), we need to render all of our sprites and tiles into an offscreen texture. Even if we are only blurring a single object, it's often necessary to perform this step in order for the background to blur properly with the semi-transparent sprites. More importantly, we want the blur effect to "spill over" outside of the region of our textures; if we were to only blur per-object, we may see a harsh cut-off where the blurring meets the edge of a texture.
 
