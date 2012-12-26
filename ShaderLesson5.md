@@ -242,8 +242,8 @@ We then draw `blurTargetB` -- since no FBOs are bound, it will be rendered to th
 
 Here are various considerations for improving performance:
 
-- If you only need to blur one image instead of a series of entities (i.e. for an image processing application), and you don't care about possible hard edges around the sprite, you can skip the first step of rendering the entire scene to the FBO. Instead, you would apply the horizontal blur in the first step, saving you a pass.
-- If your blur does not need to be real-time (every frame), you can "cache" the result in one of the frame buffers whenever the blur needs updating. For this you would "ping-pong" and store the final blurred result back in FBO target A. Our step four, then, would be changed to this:  
+- Say you're developing an image processing application and you don't need to blur an entire scene of entities, but instead just one image at a time. If you don't care about possible hard edges around the image, you can skip the first step of rendering the entire scene to the FBO. Instead, you would apply the horizontal blur in the first step, saving you a pass.
+- If your blur does not need to be real-time (every frame), you can "cache" the result in one of the frame buffers whenever the blur needs updating. For this you would "ping-pong" and store the final blurred result back in FBO target A. Our last step, then, would be changed to this:  
 ![NewStep4](http://i.imgur.com/jC6xn.png)
 - If you are only blurring in one direction, you can reduce the number of passes and simplify the fragment shader.
 - If you have a fixed display, and your device supports non-power-of-two textures, you can make the FBO the same size as your display. This means you don't need to call `batch.resize`, thus leading to fewer uniform sends per frame.
