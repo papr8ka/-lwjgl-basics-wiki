@@ -28,6 +28,6 @@ You can see them in use in [RectTest](https://github.com/mattdesl/lwjgl-basics/b
 This is a very simple means of rendering shapes. The technique in this article relies on the CPU to transform each vertex of the line sprite; and under the hood it's made up of two triangles, i.e. 6 vertices. That's a lot of work just to render a 1 px line segment! For filled polygons, anti-aliasing, stroke effects, and so forth, we may need to take advantage of fragment and geometry shaders. In other cases, `GL_LINES` would be much more effective.
 
 
-## Further Reading:
+## Further Reading
 
 - [Smoothed and rounded end-cap lines in iOS](http://programming4.us/multimedia/3348.aspx)
