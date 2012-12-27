@@ -45,7 +45,7 @@ The result:
 
 Note that the resulting texture is not managed, so you will have to re-load it using the above code after GL context loss.
 
-# Faking Real-Time Blurring
+# "Lerp Blur" - Fake Real-Time Blurring
 
 The software solution above only gives us a single blur strength to work with. If we wanted to use a different blur strength, we would need to blur the original image again, then re-upload the newly blurred pixmap data. This is very costly and would destroy our framerate if done frequently. 
 
@@ -62,6 +62,7 @@ Notice that each is half the size of our original; this "downsampling" reduces m
 
 To fake the real-time blurring, we use `mix()` in GLSL to linearly interpolate (lerp) between two different blur strengths. 
 
+## Implementation
 
 
 # Bloom
