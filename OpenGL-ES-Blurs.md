@@ -60,7 +60,13 @@ We would create an array of increasingly blurry images, like so:
 
 Notice that each is half the size of our original; this "downsampling" reduces memory usage and improves performance, and the differences will be minor when we upscale with linear filtering. Since we're working on phones and small screens, we could probably get away with even further downsampling.
 
-To fake the real-time blurring, we use `mix()` in GLSL to linearly interpolate (lerp) between two different blur strengths. 
+To fake the real-time blurring, we use `mix()` in GLSL to linearly interpolate (lerp) between two different blur strengths. It looks like this:
+
+![AnimatedBlur](http://i.imgur.com/yU3xF.gif)
+
+(In grayscale for the sake of GIF quality)
+
+
 
 ## Implementation
 
