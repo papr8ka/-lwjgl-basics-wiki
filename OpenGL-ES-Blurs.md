@@ -47,26 +47,20 @@ Note that the resulting texture is not managed, so you will have to re-load it u
 
 # Faking Real-Time Blurring
 
-The simple software solution above only gives us a single blur strength to work with. If we wanted to use a different blur strength, we would need to blur the original image again, then re-upload the newly blurred data. This is very costly and would destroy our framerate if done frequently. 
+The software solution above only gives us a single blur strength to work with. If we wanted to use a different blur strength, we would need to blur the original image again, then re-upload the newly blurred pixmap data. This is very costly and would destroy our framerate if done frequently. 
 
-Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to create a faux-realtime blurring. 
+Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to mimic realtime blurring. This is more practical for 2D games, e.g. for a depth of field effect, as it requires no extra passes or FBOs.
 
 Given our original texture:  
 ![Orig](http://i.imgur.com/9ePyD.png)
 
-We would create an array of increasingly blurry images, preferably using TextureRegions in the same Texture (to reduce texture binds and increase batching). Here we use a smaller size for our blurred images in order to reduce memory usage and improve rendering. When we upscale with bilinear filtering, the difference will not be very significant. 
+We would create an array of increasingly blurry images, like so:
 
-Using 4 different blurs: (100% extra memory space)  
-![4x](http://i.imgur.com/ylMdU.png)
-
-Using 8 different blurs: (150% extra memory space)  
 ![8x](http://i.imgur.com/JL3yQ.png)
 
-To fake a real-time blurring, we would use `mix()` in GLSL to linearly interpolate (lerp) between two different blur strengths. Since the different blur strengths are contained in the same texture, we end up with very fast rendering, no extra draw passes, no FBOs, no bath flushes, etc. The downsides:
+Notice that each is half the size of our original; this "downsampling" reduces memory usage and improves performance, and the differences will be minor when we upscale with linear filtering. Since we're working on phones and small screens, we could probably get away with even further downsampling.
 
-- Requires more memory
-- Larger distribution filesize. This can be avoided by blurring in software during creation time, i.e. using BlurUtils.
-- Requires tweaking your shaders and atlases.
+To fake the real-time blurring, we use `mix()` in GLSL to linearly interpolate (lerp) between two different blur strengths. 
 
 
 
