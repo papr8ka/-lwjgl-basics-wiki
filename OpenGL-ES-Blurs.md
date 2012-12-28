@@ -149,7 +149,7 @@ Try setting different filters on your texture. MipMapNearestLinear leads to an i
 
 The upsides to this solution is that we only need to set it up once, then we can forget about it. It also works with SpriteBatch, so it doesn't require very much refactoring. The downside is that `bias` is not a commonly used or well tested feature, thus may not act as expected on certain drivers. It also seems rather arbitrary how much our maximum bias should be. Another obvious downside is that this solution requires 33% more texture space.
 
-You might notice the transition from mipmap 0 (unblurred) to 1 (blurred slightly) looks a little strange. This is because the difference is rather dramatic (full size unblurred to half-size blurred), and when we interpolate between them it's rather obvious. If you need a smoother blur transition, you can try playing with the blur radius at varying mipmap levels, or you can try Implementation B, which intends to fix this problem.
+You might also notice the transition from mipmap 0 (unblurred) to 1 (blurred slightly) looks a little strange. This is because the difference between the two is so dramatic -- full size unblurred to half-size blurred. If you need a smoother blur transition, you can try playing with the blur radius at varying mipmap levels, or you can try Implementation B, which attempts to fix this problem.
 
 <a name="ImplementationB" />
 
@@ -182,7 +182,7 @@ Firstly, decode our image into a Pixmap. Then we need to build a larger pixmap, 
 
 ![Layout2](http://i.imgur.com/TLXvO.png)
 
-The first leads to a smoother and wider transition of blurs, but the second requires less texture space.
+The first layout leads to a smoother and wider transition of blurs, while the second uses less texture space.
 
 
 
