@@ -250,6 +250,11 @@ Here are various considerations for improving performance:
 - You can use `setShader(shader, false)` to swap shaders without uploading any data to the shader. Then you can upload your own projection matrices, caching the value from `shader.getUniformLocation` for a slight performance boost.
 - For a more extreme optimization, you can "downsample" when blurring by rendering to a smaller sized FBO. Then, before rendering to the screen, you would up-scale the image. This leads to less fill rate, less texture fetches, and generally faster results. This will be discussed in more detail in the Android section.
 
+## OpenGL ES and Low-End Hardware
+
+This solution is impractical on low end hardware (such as Android or iOS) due to the fill-rate and number of passes involved. For tricks on blurring efficiently in Android (using LibGDX), check out my ["Lerp Blur" for OpenGL ES](OpenGL-ES-Blurs) tutorial.
+
+
 <a name="Ports" />
 
 ## Other APIs
