@@ -147,7 +147,9 @@ void main() {
 
 ![MipmapBlur](http://i.imgur.com/FAROj.gif)
 
-Try setting different filters on your texture. MipMapNearestLinear leads to an interesting pixelated effect. MipMapLinearNearest leads to a "stepping" effect between mipmap levels, but with smooth interpolation. MipMapNearestNearest leads to both a "stepping" and pixelated effect.
+_(Using grayscale for the sake of GIF quality)_
+
+You can also play with the texture filter. MipMapNearestLinear leads to an interesting pixelated effect. MipMapLinearNearest leads to a "stepping" effect between mipmap levels, but with smooth interpolation. MipMapNearestNearest leads to both a "stepping" and pixelated effect.
 
 The upsides to this solution is that we only need to set it up once, then we can forget about it. It also works with SpriteBatch, so it doesn't require very much refactoring. The downside is that `bias` is not a commonly used or well tested feature, thus may not act as expected on certain drivers. It also seems rather arbitrary how much our maximum bias should be. Another obvious downside is that this solution requires 33% more texture space.
 
