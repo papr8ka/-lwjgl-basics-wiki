@@ -147,7 +147,7 @@ void main() {
 
 ![MipmapBlur](http://i.imgur.com/FAROj.gif)
 
-_(Shown in grayscale better GIF quality)_
+<sup>(Shown in grayscale for better GIF quality)</sup>
 
 You can also play with the texture filter. MipMapNearestLinear leads to an interesting pixelated effect. MipMapLinearNearest leads to a "stepping" effect between mipmap levels, but with smooth interpolation. MipMapNearestNearest leads to both a "stepping" and pixelated effect.
 
@@ -174,7 +174,7 @@ To fake the real-time blurring, we use `mix()` in GLSL to lerp between two diffe
 
 ![AnimatedBlur](http://i.imgur.com/yU3xF.gif)
 
-_(Shown in grayscale better GIF quality)_
+<sup>(Shown in grayscale for better GIF quality)</sup>
 
 There are a number of ways we could implement this in practice. One would be to layout your sprites along a single column in your sprite sheet, and have the successive blur strengths placed to the right of each respective sprite. Then the shader would offset the S (i.e. x-axis) texture coordinate based on the desired blur strength.
 
