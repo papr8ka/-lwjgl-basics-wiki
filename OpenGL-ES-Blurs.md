@@ -143,19 +143,19 @@ void main() {
 }
 ```
 
-MipMapNearestLinear leads to an interesting pixelated effect.
-MipMapLinearNearest leads to a "stepping" effect between mipmap levels, but with smooth interpolation.
-MipMapNearestNearest leads to a "stepping" and pixelated effect.
-
-The upsides to this solution is that we only need to set it up once, and we can forget it. It also works with SpriteBatch, so it doesn't require very much refactoring. The downside is that `bias` is not a commonly used or well tested feature, thus may not act as expected on certain drivers. It also appears rather arbitrary how much our maximum bias should be. Another obvious downside is that this solution requires 33% more texture space.
-
 ![MipmapBlur](http://i.imgur.com/FAROj.gif)
+
+Try setting different filters on your texture. MipMapNearestLinear leads to an interesting pixelated effect. MipMapLinearNearest leads to a "stepping" effect between mipmap levels, but with smooth interpolation. MipMapNearestNearest leads to both a "stepping" and pixelated effect.
+
+The upsides to this solution is that we only need to set it up once, then we can forget about it. It also works with SpriteBatch, so it doesn't require very much refactoring. The downside is that `bias` is not a commonly used or well tested feature, thus may not act as expected on certain drivers. It also seems rather arbitrary how much our maximum bias should be. Another obvious downside is that this solution requires 33% more texture space.
+
+You might notice the transition from mipmap 0 (unblurred) to 1 (blurred slightly) looks a little strange. This is because the difference is rather dramatic (full size unblurred to half-size blurred), and when we interpolate between them it's rather obvious. If you need a smoother blur transition, you can try playing with the blur radius at varying mipmap levels, or you can try Implementation B, which intends to fix this problem.
 
 <a name="ImplementationB" />
 
 ## Implementation B: Manual Lerping with `mix()`
 
-Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to mimic realtime blurring. Since no FBOs or extra draw passes are required, this is very fast to render.
+Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to mimic realtime blurring. This doesn't require the `bias` parameter (which is not thoroughly tested), and allows for a slightly smoother transition from unblurred to blurred.
 
 Given our original texture:  
 ![Orig](http://i.imgur.com/9ePyD.png)
@@ -172,19 +172,17 @@ To fake the real-time blurring, we use `mix()` in GLSL to linearly interpolate (
 
 (In grayscale for the sake of GIF quality)
 
-## Implementation
+There are a number of ways we could implement this in practice. One would be to layout your sprites along a single column in your sprite sheet, and have the successive blur strengths placed to the right of each respective sprite. Then the shader would offset the S (i.e. x-axis) texture coordinate based on the desired blur strength.
 
-There are a number of ways we could implement this in practice. One would be to layout your sprites along a single column in your sprite sheet, and leave space for the increasing blur strengths. Then the shader would offset the S texture coordinate based on the desired blur strength (i.e. a uniform).
+Instead, we'll use another solution to demonstrate how to work with a custom mesh and pass our own attributes to a shader. The downside is that we won't be able to use SpriteBatch, and will need to create our own. 
 
-Instead, we'll use another solution that demonstrates how to work with a custom mesh and pass our own attributes to a shader. The downside is that we won't be able to use SpriteBatch (at least not until LibGDX's architecture is changed to use interfaces or allow custom vertex attributes). First, we will load our 256x256 image. This might be a single sprite, or more suitably, it may be a large texture atlas.
-
-Then, we'll blur in software to produce different strengths, and "pack" the blurred pixmaps into a large texture twice the size of our original:
+Firstly, decode our image into a Pixmap. Then we need to build a larger pixmap, made up of our image at varying sizes and blur strengths. Here are two ideas for laying out your sheet:
 
 ![Layout1](http://i.imgur.com/P1mta.png)
 
-On the top left, we have the un-blurred sprite. The top right is a very slightly blurred sprite (we will get to this in a bit). Then, below, at half size (128x128), we continue our blurs.
+![Layout2](http://i.imgur.com/TLXvO.png)
 
-
+The first leads to a smoother and wider transition of blurs, but the second requires less texture space.
 
 
 
