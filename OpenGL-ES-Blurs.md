@@ -188,12 +188,123 @@ Firstly, decode our image into a Pixmap. Then we need to build a larger pixmap, 
 
 ![Layout2](http://i.imgur.com/p2AY0.png)
 
-The first layout leads to a smoother and wider transition of blurs, while the second uses less texture space.
+The first layout leads to a smoother and wider transition of blurs, while the second uses less texture space. Note that the second layout uses a non-power-of-two texture width, which may be a problem for various devices (e.g. Samsung Tab II does not seem to support NPOT very well).
 
+After creating our "blur map" and texture regions, we need to set up our shaders. Since we aren't using SpriteBatch, we need to explicitly pass the `u_texture` and `u_projTrans` uniforms. This is not much different than previous lessons. The next step, however, is a bit new:
+
+```java
+//mesh of our sprite; holds a single "quad" made up of two triangles
+mesh = new Mesh(false, 4 * 6, 6, new VertexAttribute(Usage.Position, 2, ShaderProgram.POSITION_ATTRIBUTE),
+								 new VertexAttribute(Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE+"0"),
+								 new VertexAttribute(Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE+"1"));
+
+// we send the following attributes: Position, TexCoord0, and TexCoord1
+// vertices are laid out like so: { x, y, u, v, u2, v2 }
+verts = new float[6*4]; // 4 vertices per "quad" and 6 attributes
+
+// we use element indices to reduce the number of vertices we send to the GPU
+mesh.setIndices(new short[] {
+	0, 1, 2, 
+	2, 3, 0
+});
+```
+
+As explained in the [Sprite Batching](Sprite-Batching) tutorial, we need to pass data as `GL_TRIANGLES`, not quads. See the image for reference:  
+![Verts](http://i.imgur.com/5dOga.png)
+
+As we can see, there are some repeating elements in our image. This is why we use "vertex indices". This way, we only need to pass 4 vertices when giving the data to the GPU, and OpenGL will evaluate it to 6 vertices to make up our triangles.
+
+Our system will be rather simple: give our shader two different TextureRegions, and how much to interpolate from A to B. It looks like this:
+```glsl
+#ifdef GL_ES
+precision mediump float;
+#endif
+varying vec2 vTexCoordA;
+varying vec2 vTexCoordB;
+uniform sampler2D u_texture;
+uniform float lerp;
+
+void main() {
+	//sample the two texture regions
+	vec4 texColorA = texture2D(u_texture, vTexCoordA);
+	vec4 texColorB = texture2D(u_texture, vTexCoordB);
+	
+	//lerp between them
+	gl_FragColor = mix(texColorA, texColorB, lerp);
+}
+```
+
+To draw our Mesh, we need to define our vertices (position, texture coordinates) before rendering:
+```java
+void draw(int x, int y, int width, int height, float blurStrength) {
+	//get integer (i.e. index of blur texture region)
+	int iblurStrength = (int)blurStrength;
+	//get fractional (i.e. amount to mix between the two regions)
+	float lerp = blurStrength - iblurStrength;
+	TextureRegion A, B;
+	if (iblurStrength<=0) {
+		//make both texcoords the same
+		A = B = blurs[0];
+	} else {
+		//the previous strength
+		A = blurs[iblurStrength-1];
+		//the current strength
+		B = blurs[iblurStrength];
+	}
+	int idx = 0;
+	//bottom left
+	verts[idx++] = x;
+	verts[idx++] = y;
+	verts[idx++] = A.getU();
+	verts[idx++] = A.getV2();
+	verts[idx++] = B.getU();
+	verts[idx++] = B.getV2();
+	
+	//top left
+	verts[idx++] = x;
+	verts[idx++] = y + height;
+	verts[idx++] = A.getU();
+	verts[idx++] = A.getV();
+	verts[idx++] = B.getU();
+	verts[idx++] = B.getV();
+	
+	//top right
+	verts[idx++] = x + width;
+	verts[idx++] = y + height;
+	verts[idx++] = A.getU2();
+	verts[idx++] = A.getV();
+	verts[idx++] = B.getU2();
+	verts[idx++] = B.getV();
+	
+	//bottom right
+	verts[idx++] = x + width;
+	verts[idx++] = y;
+	verts[idx++] = A.getU2();
+	verts[idx++] = A.getV2();
+	verts[idx++] = B.getU2();
+	verts[idx++] = B.getV2();
+	
+	//set the vertices to the above
+	mesh.setVertices(verts);
+	
+	//bind our blur map texture
+	blurMap.bind();
+	
+	//begin our shader and set the "lerp" value
+	shader.begin();
+	shader.setUniformf("lerp", lerp);
+	
+	//render our mesh with the shader
+	mesh.render(shader, GL10.GL_TRIANGLES);
+	shader.end();
+}
+```
+
+As you can see, this implementation requires a little more setup, more texture space, and doesn't allow us to take advantage of SpriteBatch in LibGDX. However, if you are running into issues with the `bias` parameter on particular drivers, or if you need a slightly more accurate blur between different strengths, this technique may be more appropriate.
 
 # Post Script
 
-_In theory_, GL_TEXTURE_3D is an ideal candidate for our Lerp Blur. Unfortunately, it has two major drawbacks: first, it's hardly supported on Android and OpenGL ES, and second, it does not allow for the flexibility of image size that our earlier techniques do. However, it still may be a viable solution for desktop (if typical two-pass GLSL blurs are not an option).
+_In theory_, GL_TEXTURE_3D is an ideal candidate for our Lerp Blur, especially because it interpolates _between_ different textures. Unfortunately, it has two major drawbacks: first, it's hardly supported on Android and OpenGL ES, and second, it does not allow for the flexibility of image size that our earlier techniques do. However, it still may be a viable solution for desktop (if typical two-pass GLSL blurs are not an option).
 
 # Bloom
 http://www.curious-creature.org/2007/02/20/fast-image-processing-with-jogl/
