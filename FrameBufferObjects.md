@@ -1,6 +1,10 @@
 ##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » Frame Buffer Objects
 ***
 
+This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics) API for FrameBuffer and rendering utilities. The code has also been [Ported to LibGDX](#Ports). The concepts should be universal enough that they could be applied to SDL, Android, iOS, WebGL, or any other platforms that support OpenGL. 
+
+***
+
 A common feature in 2D and 3D graphics programming is the ability to render to a texture. For example, say we have a slider GUI component made up of multiple sprites (the track, and the thumb button), and we are trying to fade it in/out. When we render each sprite at 50% opacity, we get some ugly blending where the sprites meet.
 
 ![Opacity](http://i.imgur.com/RsM5G.png)
@@ -160,3 +164,9 @@ batch.begin();
 batch.draw(fboRegion, 0, 0);
 batch.end();
 ```
+
+## Other APIs
+
+The `slider.png` sheet can be downloaded [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/slider.png).
+
+- [Ported to LibGDX](https://gist.github.com/4393861)
