@@ -128,6 +128,28 @@ Gdx.gl.glTexImage2D(GL10.GL_TEXTURE_2D, mipmapLevel,
 		pixmap.getGLType(), pixmap.getPixels());
 ```
 
+Then, on the GLSL side, we'll use the optional `bias` parameter of `texture2D`, which allows us to influence which mipmap level is sampled from. Depending on the given bias, the driver will choose the most appropriate mipmap level. With MipMapLinearLinear, we actually end up with "trilinear" filtering, where the driver interpolates between the two nearest mipmap levels. 
+
+```glsl
+...
+
+//bias to influence LOD picking; e.g. "blur strength"
+uniform float bias;
+
+void main() {
+	//sample from the texture using bias to influence LOD
+	vec4 texColor = texture2D(u_texture, vTexCoord, bias);
+	gl_FragColor = texColor * vColor;
+}
+```
+
+MipMapNearestLinear leads to an interesting pixelated effect.
+MipMapLinearNearest leads to a "stepping" effect between mipmap levels, but with smooth interpolation.
+MipMapNearestNearest leads to a "stepping" and pixelated effect.
+
+The upsides to this solution is that we only need to set it up once, and we can forget it. It also works with SpriteBatch, so it doesn't require very much refactoring. The downside is that `bias` is not a commonly used or well tested feature, thus may not act as expected on certain drivers. It also appears rather arbitrary how much our maximum bias should be. Another obvious downside is that this solution requires 33% more texture space.
+
+![MipmapBlur](http://i.imgur.com/FAROj.gif)
 
 <a name="ImplementationB" />
 
