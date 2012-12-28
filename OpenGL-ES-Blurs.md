@@ -40,7 +40,7 @@ blurTex = new Texture(blurred);
 blurred.dispose();
 ```
 
-The result:  
+The result, using the notorious [Lenna](http://en.wikipedia.org/wiki/Lenna):    
 ![Blurred](http://i.imgur.com/kA3gW.png)
 
 Note that the resulting texture is not managed, so you will have to re-load it using the above code after GL context loss.
@@ -49,7 +49,7 @@ Note that the resulting texture is not managed, so you will have to re-load it u
 
 The software solution above only gives us a single blur strength to work with. If we wanted to use a different blur strength, we would need to blur the original image again, then re-upload the newly blurred pixmap data. This is very costly and would destroy our framerate if done frequently. 
 
-Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to mimic realtime blurring. This is a practical solution for 2D games, e.g. for a depth of field effect, as it requires no extra passes or FBOs.
+Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to mimic realtime blurring. Since no FBOs or extra draw passes are required, this is very fast to render.
 
 Given our original texture:  
 ![Orig](http://i.imgur.com/9ePyD.png)
@@ -58,7 +58,7 @@ We would create an array of increasingly blurry images, like so:
 
 ![8x](http://i.imgur.com/JL3yQ.png)
 
-Notice that each is half the size of our original; this "downsampling" reduces memory usage and improves performance, and the differences will be minor when we upscale with linear filtering. Since we're working on phones and small screens, we could probably get away with even further downsampling.
+Notice that each is half the size of our original; this "downsampling" reduces memory usage, and the differences will be minor when we upscale with linear filtering. Since we're working on phones and small screens, we could probably get away with even further downsampling.
 
 To fake the real-time blurring, we use `mix()` in GLSL to linearly interpolate (lerp) between two different blur strengths. It looks like this:
 
@@ -66,9 +66,44 @@ To fake the real-time blurring, we use `mix()` in GLSL to linearly interpolate (
 
 (In grayscale for the sake of GIF quality)
 
+We will look at two different ways of implementing this "lerp blur" in practice:
 
+- [Mipmaps and LOD `bias`](#MipMap)
+- Custom Mesh and GLSL `mix()`
+
+<a name="MipMap" />
+# Mipmap Blurring
+
+An old-school trick for cheap blurs is to down-sample your image with high quality interpolation (such as those employed by most drivers for mip-mapping), and then up-scale the image with linear filtering. 
+
+![Crap](http://i.imgur.com/e7zb4.png)
+
+Here we downsample Lenna to 64x64, then drawn the image at 256x256 with linear filtering. Looks pretty crappy, but this is a quick and dirty way to get a blurry result.
+
+Now, let's do the above, but after downsampling to 64x64, we'll apply a nice quality gaussian blur to the downsized image. When we render at 256x256, we get a much smoother blur:
+
+![Nice](http://i.imgur.com/ZOPd1.png)
+
+
+_Note:_ I'll assume you understand the basics of mipmapping. If not, read [this primer]() before continuing. 
+
+
+ Automatic mipmap generation means we get a quick series of downscaled images (often using hardware and high-quality filtering), where each lower resolution will lead to a higher "blurriness."
 
 ## Implementation
+
+There are a number of ways we could implement this in practice. One would be to layout your sprites along a single column in your sprite sheet, and leave space for the increasing blur strengths. Then the shader would offset the S texture coordinate based on the desired blur strength (i.e. a uniform).
+
+Instead, we'll use another solution that demonstrates how to work with a custom mesh and pass our own attributes to a shader. The downside is that we won't be able to use SpriteBatch (at least not until LibGDX's architecture is changed to use interfaces or allow custom vertex attributes). First, we will load our 256x256 image. This might be a single sprite, or more suitably, it may be a large texture atlas.
+
+Then, we'll blur in software to produce different strengths, and "pack" the blurred pixmaps into a large texture twice the size of our original:
+
+![Layout1](http://i.imgur.com/P1mta.png)
+
+On the top left, we have the un-blurred sprite. The top right is a very slightly blurred sprite (we will get to this in a bit). Then, below, at half size (128x128), we continue our blurs.
+
+
+
 
 
 # Bloom
