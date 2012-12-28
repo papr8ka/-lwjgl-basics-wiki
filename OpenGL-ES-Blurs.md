@@ -49,9 +49,9 @@ Note that the resulting texture is not managed, so you will have to re-load it u
 
 The software solution above only gives us a single blur strength to work with. If we wanted to use a different blur strength, we would need to blur the original image again, then re-upload the newly blurred pixmap data. This is very costly and would destroy our framerate if done frequently. 
 
-Below I describe a trick to achieve blurs of varying strengths without much impact on rendering performance, especially suitable for mobile devices and low-end hardware. The idea is to "lerp" (linearly interpolate) between different pre-calculated blur strengths.
+Below I describe a trick to achieve blurs of varying strengths without much impact on rendering performance, especially suitable for mobile devices and low-end hardware. The idea is to "lerp" (linearly interpolate) between different pre-calculated blur strengths, hence the name. I have not found much written on this technique, although I'm surely not the first to try it.
 
-We will look at two different ways of implementing this "lerp blur" in practice:
+We'll look at two different means of implementing the effect:
 
 - [Using Mipmaps and `bias`](#ImplementationA)
 - [Manual Lerp with `mix()`](#ImplementationB)
@@ -189,6 +189,9 @@ Firstly, decode our image into a Pixmap. Then we need to build a larger pixmap, 
 The first layout leads to a smoother and wider transition of blurs, while the second uses less texture space.
 
 
+# Post Script
+
+An ideal candidate for our "Lerp Blur" might be GL_TEXTURE_3D, although it has two major drawbacks: firstly, it is hardly supported on Android and OpenGL ES, and secondly, it does not allow for the flexibility of image size that our earlier techniques do. However, this may be a viable solution for desktop, if typical two-pass GLSL blurs are not an option.
 
 # Bloom
 http://www.curious-creature.org/2007/02/20/fast-image-processing-with-jogl/
