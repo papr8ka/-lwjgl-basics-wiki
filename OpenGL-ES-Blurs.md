@@ -180,7 +180,7 @@ There are a number of ways we could implement this in practice. One would be to 
 
 Instead, we'll use another solution to demonstrate how to work with a custom mesh and pass our own attributes to a shader. The downside is that we won't be able to use SpriteBatch. In future, LibGDX will likely use abstraction to support custom batches and renderers, or provide some other means of plugging in generic vertex attributes.
 
-Firstly, decode our image into a Pixmap. Then we need to build a larger pixmap, made up of our image at varying sizes and blur strengths. Here are two ideas for laying out your sheet:
+Firstly, decode our image into a Pixmap. Then we need to build a larger pixmap, made up of our image at varying sizes and blur strengths. Here are two ideas for laying out your sheet, although you can use your own layout that suits your needs:
 
 ![Layout1](http://i.imgur.com/P1mta.png)
 
