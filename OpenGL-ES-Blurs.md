@@ -94,6 +94,8 @@ tex.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 
 //dispose blur after uploading
 blurred.dispose();
+
+//then render tex with size origWidth, origHeight
 ```
 
 Now, maybe you can see how mipmaps would help us here. The further we downscale, the stronger the blur will appear. Each successive downsample in our mipmap chain acts as the next level up of "blur strength." Our effect only works if we generate custom mipmaps, though, as we need to blur at each mipmap level after downsampling. Here is the set up code:
