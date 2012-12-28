@@ -57,7 +57,9 @@ We will look at two different ways of implementing this "lerp blur" in practice:
 - [Manual Lerp with `mix()`](#ImplementationB)
 
 <a name="ImplementationA" />
-# Implementation A: Using Mipmaps
+## Implementation A: Using Mipmaps
+
+_Note:_ I'll assume you understand the basics of mipmapping. If not, read [this primer]() before continuing. 
 
 An old-school trick for cheap blurs is to down-sample your image with high quality interpolation (such as those employed by most drivers for mip-mapping), and then up-scale the image with linear filtering. 
 
@@ -80,7 +82,7 @@ int blurRadius = 4;
 int iterations = 3;
 
 //blur the image at 25% of original size
-//also specify disposePixmap=true to dispose orig
+//also specify disposePixmap=true to dispose the original Pixmap
 Pixmap blurred = BlurUtils.blur(orig, 0, 0, origWidth, origHeight,
 						0, 0, origWidth/4, origHeight/4,
 						blurRadius, iterations, true);
@@ -94,15 +96,42 @@ tex.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 blurred.dispose();
 ```
 
-_Note:_ I'll assume you understand the basics of mipmapping. If not, read [this primer]() before continuing. 
+Now, maybe you can see how mipmaps would help us here. The further we downscale, the stronger the blur will appear. Each successive downsample in our mipmap chain acts as the next level up of "blur strength." Our effect only works if we generate custom mipmaps, though, as we need to blur at each mipmap level after downsampling. Here is the set up code:
 
+```java
+//load the original image, can be in any format
+Pixmap pixmap = new Pixmap(Gdx.files.internal("data/lenna.png"));
 
- Automatic mipmap generation means we get a quick series of downscaled images (often using hardware and high-quality filtering), where each lower resolution will lead to a higher "blurriness."
+//upload the (unblurred) data, this will be put to mipmap level 0
+//NOTE: we need to ensure RGBA8888 format is used, otherwise it may not render correctly
+tex = new Texture(pixmap, Format.RGBA8888, false);
+
+//bind before we generate mipmaps
+tex.bind();
+
+//generate our blurred mipmaps
+BlurUtils.generateBlurredMipmaps(pixmap, pixmap.getWidth(), pixmap.getHeight(), 1, 3, true);
+
+//clamping to edge seems to work best
+tex.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
+
+//any mipmap filter setting will work; but this will give us the smoothest result
+tex.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
+```
+
+The generateBlurredMipmaps essentially just draws successively halved Pixmaps, then applies a software blur on them, then uploads the Pixmap data to that mipmap level with the following:
+```java
+//upload Pixmap to currently bound texture 
+Gdx.gl.glTexImage2D(GL10.GL_TEXTURE_2D, mipmapLevel,
+		pixmap.getGLInternalFormat(), pixmap.getWidth(),
+		pixmap.getHeight(), 0, pixmap.getGLFormat(),
+		pixmap.getGLType(), pixmap.getPixels());
+```
 
 
 <a name="ImplementationB" />
 
-# Implementation B: Manual Lerping with `mix()`
+## Implementation B: Manual Lerping with `mix()`
 
 Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to mimic realtime blurring. Since no FBOs or extra draw passes are required, this is very fast to render.
 
