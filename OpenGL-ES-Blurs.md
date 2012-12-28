@@ -184,7 +184,7 @@ Firstly, decode our image into a Pixmap. Then we need to build a larger pixmap, 
 
 ![Layout1](http://i.imgur.com/P1mta.png)
 
-![Layout2](http://i.imgur.com/TLXvO.png)
+![Layout2](http://i.imgur.com/p2AY0.png)
 
 The first layout leads to a smoother and wider transition of blurs, while the second uses less texture space.
 
