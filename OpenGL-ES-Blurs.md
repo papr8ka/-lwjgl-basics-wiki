@@ -61,20 +61,22 @@ We'll look at two different means of implementing the effect:
 <a name="ImplementationA" />
 ## Implementation A: Using Mipmaps
 
-_Note:_ I'll assume you understand the basics of mipmapping. If not, read [this primer]() before continuing. 
+You can follow along with source code here: [LerpBlurA.java](https://gist.github.com/4401290)
+
+_Note:_ I'll assume you understand the basics of mipmapping. If not, [read up on them](http://en.wikipedia.org/wiki/Mipmap) before continuing. 
 
 An old-school trick for cheap blurs is to down-sample your image with high quality interpolation (such as those employed by most drivers for mip-mapping), and then up-scale the image with linear filtering. 
 
 ![Crap](http://i.imgur.com/e7zb4.png)
 
-Downscaled to 64x64, upscaled to 256x256. Looks crappy. Now, let's do the above, but after downsampling to 64x64, we'll apply a nice quality gaussian blur to the downsized image. Rendered at 256x256:
+Downscaled to 64x64, upscaled to 256x256. Looks pretty crappy. Now, let's do the above, but after downsampling to 64x64, we'll apply a nice quality gaussian blur to the downsized image. Rendered at 256x256:
 
 ![Nice](http://i.imgur.com/ZOPd1.png)
 
 Holy shiza, it looks like a blur. The code for that:
 
 ```java
-Pixmap orig = new Pixmap(Gdx.files.internal("data/lenna2.png"));
+Pixmap orig = new Pixmap(Gdx.files.internal("data/lenna.png"));
 
 int origWidth = orig.getWidth();
 int origHeight = orig.getHeight();
@@ -97,10 +99,10 @@ tex.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 //dispose blur after uploading
 blurred.dispose();
 
-//then render tex with size origWidth, origHeight
+//... then render tex with size origWidth, origHeight ...
 ```
 
-Now, maybe you can see how mipmaps would help us here. The further we downscale, the stronger the blur will appear. Each successive downsample in our mipmap chain acts as the next level up of "blur strength." Our effect only works if we generate custom mipmaps, though, as we need to blur at each mipmap level after downsampling. Here is the set up code:
+Now, maybe you can see how mipmaps would help us here. The further we downscale, the stronger the blur will appear. Each successive downsample in our mipmap chain acts as the next level up in "blur strength." Our effect only works if we generate custom mipmaps, though, as we need to blur at each mipmap level after downsampling. Here is the set up code:
 
 ```java
 //load the original image, can be in any format
@@ -123,7 +125,9 @@ tex.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
 tex.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
 ```
 
-The generateBlurredMipmaps essentially just draws successively halved Pixmaps, then applies a software blur on them, then uploads the Pixmap data to that mipmap level with the following:
+*Note:* If a texture is invalidated from context loss, we can re-upload Pixmap data with `texture.draw(Pixmap, x, y)`.
+
+The `generateBlurredMipmaps` essentially just draws successively halved Pixmaps, then applies a software blur on them, then uploads the Pixmap data to that mipmap level with the following:
 ```java
 //upload Pixmap to currently bound texture 
 Gdx.gl.glTexImage2D(GL10.GL_TEXTURE_2D, mipmapLevel,
@@ -132,7 +136,7 @@ Gdx.gl.glTexImage2D(GL10.GL_TEXTURE_2D, mipmapLevel,
 		pixmap.getGLType(), pixmap.getPixels());
 ```
 
-Then, on the GLSL side, we'll use the optional `bias` parameter of `texture2D`, which allows us to influence which mipmap level is sampled from. Depending on the given bias, the driver will choose the most appropriate mipmap level. With MipMapLinearLinear, we actually end up with "trilinear" filtering, where the driver interpolates between the two nearest mipmap levels. 
+Then, on the GLSL side, we'll use the optional `bias` parameter of `texture2D`, which allows us to influence which mipmap level we sample from. Depending on the given bias, the driver will choose the most appropriate mipmap level. With MipMapLinearLinear, we actually end up with "trilinear" filtering, where the driver interpolates between the two nearest mipmap levels. 
 
 ```glsl
 ...
@@ -160,6 +164,9 @@ You might also notice the transition from mipmap 0 (unblurred) to 1 (blurred sli
 <a name="ImplementationB" />
 
 ## Implementation B: Manual Lerping with `mix()`
+
+You can follow along with the source code here: [LerpBlurB.java](https://gist.github.com/4401311)
+It requires the [BlurUtils](https://gist.github.com/4383372) class mentioned earlier, and uses [this](http://i.imgur.com/X0NET.png) Lenna image.
 
 Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to mimic realtime blurring. This doesn't require the `bias` parameter (which is not thoroughly tested), and allows for a slightly smoother transition from unblurred to blurred.
 
