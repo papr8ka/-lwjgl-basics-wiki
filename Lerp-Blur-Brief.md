@@ -4,7 +4,7 @@ The basic idea of the "Lerp Blur" is to, in software, create a series of images 
 
 ![8x](http://i.imgur.com/JL3yQ.png)
 
-We can employ mipmapping and the `bias` parameter to make this a bit more efficient.
+The technique becomes more interesting and more efficient when we employ custom mipmap levels, as described below.
 
 ## Mipmapping
 
@@ -16,7 +16,7 @@ Downscaled to 64x64, upscaled to 256x256. Looks pretty crappy. Now, let's do the
 
 ![Nice](http://i.imgur.com/ZOPd1.png)
 
-That looks better. Now, if we applied a gaussian blur to each mipmap level, we can use this to simulate a variable blur. Since each mipmap level is smaller than the last, it will lead to a greater blur effect when scaled up. This means we need to build our mipmaps manually, in software:
+That looks better. Now, if we apply a gaussian blur to each mipmap level, we can use this to simulate variable blur strengths. Since each mipmap level is smaller than the last, it will lead to a greater blur effect when scaled up. This means we need to build our mipmaps manually, in software:
 
 ```java
 for each mipmap level:
@@ -36,7 +36,7 @@ for each mipmap level:
 
 Our texture will use `GL_LINEAR_MIPMAP_LINEAR` as the filter, and `GL_CLAMP_TO_EDGE` for wrap mode.
 
-Our fragment shader is only changed slightly. We specify a `bias` amount (0.0 or greater) to influence which mipmap level the driver picks from. 
+Now, when rendering, we need to tell GL which mipmap level to sample from, based on how strong we want our blur to appear. We can do this with the optional `bias` parameter for `texture2D`, in order to influence which mipmap level the driver picks from. 
 
 ```glsl
 ...
@@ -51,11 +51,13 @@ void main() {
 }
 ```
 
-The result is that we can "fake" a real-time blur without any extra draw passes or FBOs. The blur is by no means accurate, but on small resolutions it looks good.
+We can also achieve the same on GL 1.0+ devices with `GL_TEXTURE_LOD_BIAS`, `GL_TEXTURE_MIN_LOD` and `GL_TEXTURE_MAX_LOD`.
+
+The result is that we can "fake" a real-time blur without any extra draw passes or FBOs. The blur is by no means accurate, but on small resolutions it looks pretty good.
 
 ![MipmapBlur](http://i.imgur.com/FAROj.gif)
 
 <sup>(Shown in grayscale for better GIF quality)</sup>
 
-You can see a full implementation of the above technique, as well as a solution that doesn't rely on `bias`, in the following article:  
+You can see a full implementation of the above technique, as well as a solution that doesn't rely on `bias` parameter, in the following article:  
 [OpenGL ES Blurs](OpenGL-ES-Blurs)
