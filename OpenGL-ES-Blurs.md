@@ -191,7 +191,7 @@ The first layout leads to a smoother and wider transition of blurs, while the se
 
 # Post Script
 
-An ideal candidate for our "Lerp Blur" might be GL_TEXTURE_3D, although it has two major drawbacks: firstly, it is hardly supported on Android and OpenGL ES, and secondly, it does not allow for the flexibility of image size that our earlier techniques do. However, this may be a viable solution for desktop, if typical two-pass GLSL blurs are not an option.
+_In theory_, GL_TEXTURE_3D is an ideal candidate for our Lerp Blur. Unfortunately, it has two major drawbacks: first, it's hardly supported on Android and OpenGL ES, and second, it does not allow for the flexibility of image size that our earlier techniques do. However, it still may be a viable solution for desktop (if typical two-pass GLSL blurs are not an option).
 
 # Bloom
 http://www.curious-creature.org/2007/02/20/fast-image-processing-with-jogl/
