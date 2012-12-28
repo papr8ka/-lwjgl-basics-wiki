@@ -49,6 +49,61 @@ Note that the resulting texture is not managed, so you will have to re-load it u
 
 The software solution above only gives us a single blur strength to work with. If we wanted to use a different blur strength, we would need to blur the original image again, then re-upload the newly blurred pixmap data. This is very costly and would destroy our framerate if done frequently. 
 
+Below I describe a trick to achieve blurs of varying strengths without much impact on rendering performance, especially suitable for mobile devices and low-end hardware. The idea is to "lerp" (linearly interpolate) between different pre-calculated blur strengths.
+
+We will look at two different ways of implementing this "lerp blur" in practice:
+
+- [Using Mipmaps and `bias`](#ImplementationA)
+- [Manual Lerp with `mix()`](#ImplementationB)
+
+<a name="ImplementationA" />
+# Implementation A: Using Mipmaps
+
+An old-school trick for cheap blurs is to down-sample your image with high quality interpolation (such as those employed by most drivers for mip-mapping), and then up-scale the image with linear filtering. 
+
+![Crap](http://i.imgur.com/e7zb4.png)
+
+Downscaled to 64x64, upscaled to 256x256. Looks crappy. Now, let's do the above, but after downsampling to 64x64, we'll apply a nice quality gaussian blur to the downsized image. Rendered at 256x256:
+
+![Nice](http://i.imgur.com/ZOPd1.png)
+
+Holy shiza, it looks like a blur. The code for that:
+
+```java
+Pixmap orig = new Pixmap(Gdx.files.internal("data/lenna2.png"));
+
+int origWidth = orig.getWidth();
+int origHeight = orig.getHeight();
+
+//blur parameters
+int blurRadius = 4;
+int iterations = 3;
+
+//blur the image at 25% of original size
+//also specify disposePixmap=true to dispose orig
+Pixmap blurred = BlurUtils.blur(orig, 0, 0, origWidth, origHeight,
+						0, 0, origWidth/4, origHeight/4,
+						blurRadius, iterations, true);
+					
+//uplaod the blurred texture to GL
+tex = new Texture(blurred);
+tex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+tex.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+
+//dispose blur after uploading
+blurred.dispose();
+```
+
+_Note:_ I'll assume you understand the basics of mipmapping. If not, read [this primer]() before continuing. 
+
+
+ Automatic mipmap generation means we get a quick series of downscaled images (often using hardware and high-quality filtering), where each lower resolution will lead to a higher "blurriness."
+
+
+<a name="ImplementationB" />
+
+# Implementation B: Manual Lerping with `mix()`
+
 Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to mimic realtime blurring. Since no FBOs or extra draw passes are required, this is very fast to render.
 
 Given our original texture:  
@@ -65,30 +120,6 @@ To fake the real-time blurring, we use `mix()` in GLSL to linearly interpolate (
 ![AnimatedBlur](http://i.imgur.com/yU3xF.gif)
 
 (In grayscale for the sake of GIF quality)
-
-We will look at two different ways of implementing this "lerp blur" in practice:
-
-- [Mipmaps and LOD `bias`](#MipMap)
-- Custom Mesh and GLSL `mix()`
-
-<a name="MipMap" />
-# Mipmap Blurring
-
-An old-school trick for cheap blurs is to down-sample your image with high quality interpolation (such as those employed by most drivers for mip-mapping), and then up-scale the image with linear filtering. 
-
-![Crap](http://i.imgur.com/e7zb4.png)
-
-Here we downsample Lenna to 64x64, then drawn the image at 256x256 with linear filtering. Looks pretty crappy, but this is a quick and dirty way to get a blurry result.
-
-Now, let's do the above, but after downsampling to 64x64, we'll apply a nice quality gaussian blur to the downsized image. When we render at 256x256, we get a much smoother blur:
-
-![Nice](http://i.imgur.com/ZOPd1.png)
-
-
-_Note:_ I'll assume you understand the basics of mipmapping. If not, read [this primer]() before continuing. 
-
-
- Automatic mipmap generation means we get a quick series of downscaled images (often using hardware and high-quality filtering), where each lower resolution will lead to a higher "blurriness."
 
 ## Implementation
 
