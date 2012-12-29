@@ -309,10 +309,13 @@ void draw(int x, int y, int width, int height, float blurStrength) {
 
 As you can see, this implementation requires a little more setup, more texture space, and doesn't allow us to take advantage of SpriteBatch in LibGDX. However, if you are running into issues with the `bias` parameter on particular drivers, or if you need a slightly more accurate blur between different strengths, this technique may be more appropriate.
 
-# Post Script
+# An idea: GL_TEXTURE_3D
 
 _In theory_, GL_TEXTURE_3D is an ideal candidate for our Lerp Blur, especially because it interpolates _between_ different textures. Unfortunately, it has two major drawbacks: first, it's hardly supported on Android and OpenGL ES, and second, it does not allow for the flexibility of image size that our earlier techniques do. However, it still may be a viable solution for desktop (if typical two-pass GLSL blurs are not an option).
 
-# Bloom
+# Bloom & Other Applications
+
+As described in [ShaderLesson5](ShaderLesson5), a bloom is achieved by blurring the bright areas of the 
+
 http://www.curious-creature.org/2007/02/20/fast-image-processing-with-jogl/
 - [Further reading on GL bloom/blur](http://prideout.net/archive/bloom/) 
