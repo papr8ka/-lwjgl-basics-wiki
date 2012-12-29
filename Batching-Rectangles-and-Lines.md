@@ -31,3 +31,9 @@ This is a very simple means of rendering shapes. The technique in this article r
 ## Further Reading
 
 - [Smoothed and rounded end-cap lines in iOS](http://programming4.us/multimedia/3348.aspx)
+- [Drawing Nearly Perfect 2D Line Segments in OpenGL](http://www.codeproject.com/Articles/199525/Drawing-nearly-perfect-2D-line-segments-in-OpenGL)
+- [Drawing Lines with Tessellated Polygons](http://www.codeproject.com/Articles/226569/Drawing-polylines-by-tessellation) 
+- [Drawing lines with GL 3.0+ Geometry Shaders](http://prideout.net/blog/?p=61)
+- [FXAA](http://developer.download.nvidia.com/assets/gamedev/files/sdk/11/FXAA_WhitePaper.pdf) is a good alternative to built-in hardware anti-aliasing, which is often unreliable
+- [Bezier Curves in 2D](http://www.codeproject.com/Articles/25237/Bezier-Curves-Made-Simple)
+- [Resolution-Independent Curve Rendering on the GPU](http://research.microsoft.com/en-us/um/people/cloop/loopblinn05.pdf) - also see [here](http://www.pixelnerve.com/v/2010/05/11/evaluate-a-cubic-bezier-on-gpu/) and [here](http://web.engr.oregonstate.edu/~mjb/glman/ClassNotes/geometry_shader.pdf)
