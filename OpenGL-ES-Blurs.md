@@ -8,9 +8,9 @@ This is not really acceptable, though, considering we'd like to target some lowe
 
 - [Software Blurring](#SoftwareBlur)
 - ["Lerp Blur" - Faking Real-Time Blurs](#LerpBlur)
-    - [Using Mipmaps and `bias`](#ImplementationA)
-    - [Manual Lerp with `mix()`](#ImplementationB)
-    - [An Idea: GL_TEXTURE_3D](#GL_TEXTURE_3D)
+    - [Option A: Using Mipmaps and `bias`](#ImplementationA)
+    - [Option B: Manual Lerp with `mix()`](#ImplementationB)
+    - [Afterthought: GL_TEXTURE_3D](#GL_TEXTURE_3D)
     - [Bloom & Other Applications](#Bloom)
 
 <a href="SoftwareBlur" />
@@ -64,11 +64,11 @@ Below I describe a trick to achieve blurs of varying strengths without much impa
 
 We'll look at two different means of implementing the effect:
 
-- [Using Mipmaps and `bias`](#ImplementationA)
-- [Manual Lerp with `mix()`](#ImplementationB)
+- [Option A: Using Mipmaps and `bias`](#ImplementationA)
+- [Option B: Manual Lerp with `mix()`](#ImplementationB)
 
 <a name="ImplementationA" />
-## Implementation A: Using Mipmaps
+## Option A: Using Mipmaps
 
 You can follow along with source code here: [LerpBlurA.java](https://gist.github.com/4401290)
 
@@ -172,7 +172,7 @@ You might also notice the transition from mipmap 0 (unblurred) to 1 (blurred sli
 
 <a name="ImplementationB" />
 
-## Implementation B: Manual Lerping with `mix()`
+## Option B: Manual Lerping with `mix()`
 
 You can follow along with the source code here: [LerpBlurB.java](https://gist.github.com/4401311)
 It requires the [BlurUtils](https://gist.github.com/4383372) class mentioned earlier, and uses [this](http://i.imgur.com/X0NET.png) Lenna image.
@@ -319,12 +319,12 @@ void draw(int x, int y, int width, int height, float blurStrength) {
 As you can see, this implementation requires a little more setup, more texture space, and doesn't allow us to take advantage of SpriteBatch in LibGDX. However, if you are running into issues with the `bias` parameter on particular drivers, or if you need a slightly more accurate blur between different strengths, this technique may be more appropriate.
 
 <a name="GL_TEXTURE_3D" />
-# An Idea: GL_TEXTURE_3D
+## Afterthought: GL_TEXTURE_3D
 
 _In theory_, GL_TEXTURE_3D is an ideal candidate for our Lerp Blur, especially because it interpolates _between_ different textures. Unfortunately, it has two major drawbacks: first, it's hardly supported on Android and OpenGL ES, and second, it does not allow for the flexibility of image size that our earlier techniques do. However, it still may be a viable solution for desktop (if typical two-pass GLSL blurs are not an option).
 
 <a name="Bloom" />
-# Bloom & Other Applications
+## Bloom & Other Applications
 
 As described in [ShaderLesson5](ShaderLesson5), a bloom is achieved by blurring [only the bright areas](http://www.curious-creature.org/2007/02/20/fast-image-processing-with-jogl/) of a scene and rendering it back with screen or add blending. This would be straight-forward with our above solutions, since our fragment shader can sample both the blurred and non-blurred regions.
 
