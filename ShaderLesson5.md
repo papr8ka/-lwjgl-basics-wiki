@@ -1,4 +1,4 @@
-##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [Shaders](Shaders) » Lesson 5: Blurring & Bloom
+##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [Shaders](Shaders) » Lesson 5: Blurs
 
 ***
 
@@ -237,6 +237,14 @@ Next, we update the `dir` and `radius` uniforms for the Y-axis, similar to what 
 
 We then draw `blurTargetB` -- since no FBOs are bound, it will be rendered to the screen. Lastly, we call `end()` on the batch as we've reached the end of the frame.
 
+## Bloom
+
+Bloom is achieved in a similar fashion; however, on the first pass (render scene to FBO), we use a "threshold" shader which only draws bright areas of the image, and then we blur the bright areas with a vertical and horizontal pass. The result is then drawn atop the scene, using add or screen blending.
+
+![Bloom](http://i.imgur.com/XCNec.jpg)
+
+Described in this series:  
+[iPhone 3D Programming - Bloom](http://ofps.oreilly.com/titles/9780596804824/chadvanced.html)
 
 ## Optimizations & Performance
 
