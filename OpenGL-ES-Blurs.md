@@ -23,7 +23,7 @@ This is not really acceptable, though, considering we'd like to target some lowe
     - [Afterthought: GL_TEXTURE_3D](#GL_TEXTURE_3D)
     - [Bloom & Other Applications](#Bloom)
 
-<a href="SoftwareBlur" />
+<a name="SoftwareBlur" />
 # Software Blur
 
 Modifying pixel data in software is slow since we need to transfer texture data to and from the GPU. This can lead to pipeline stalls, and generally isn't something you'd want to do every frame. However, if all we need is a fixed blur, or if our blur rarely ever changes, this may be a viable solution. Blurring in software also allows for a bit more flexibility, and we can employ a "true" gaussian blur or any other type of blur. This should work on all GL 1.0+ devices.
@@ -65,7 +65,7 @@ The result, using the notorious [Lenna](http://en.wikipedia.org/wiki/Lenna):
 
 Note that the resulting texture is not managed, so you will have to re-load it using the above code after GL context loss.
 
-<a href="LerpBlur" />
+<a name="LerpBlur" />
 # "Lerp Blur" - Faking Real-Time Blurs
 
 The software solution above only gives us a single blur strength to work with. If we wanted to use a different blur strength, we would need to blur the original image again, then re-upload the newly blurred pixmap data. This is very costly and would destroy our framerate if done frequently. 
