@@ -2,16 +2,16 @@ Our blurring technique described in [Shader Lesson 5](ShaderLesson5) is fairly e
 
 By downsampling the frame buffer object to 50% of the screen size, we can achieve a frame rate of ~30 FPS on the Samsung Galaxy Tab II (7"). Another optimization is to use constants or varyings for our texture offsets, as described [here](http://xissburg.com/faster-gaussian-blur-in-glsl/) and implemented [here for iOS](https://github.com/BradLarson/GPUImage/blob/master/framework/Source/GPUImageFastBlurFilter.m). Yet another consideration is to sample _between_ texel centers, to exploit hardware filtering and reduce texture fetches: [see here](http://prideout.net/archive/bloom/#Sneaky).
 
-This is not really acceptable, though, considering we'd like to target some lower end hardware, and our current technique is not very practical for games. 
+This is not really acceptable, though, considering we'd like to target some lower end hardware, and our current technique is not very practical for games. Here we describe some other solutions.
 
-There are a few other options, and which to choose depends on the requirements of your game/application.
+## Contents
 
 - [Software Blurring](#SoftwareBlur)
 - ["Lerp Blur" - Faking Real-Time Blurs](#LerpBlur)
     - [Using Mipmaps and `bias`](#ImplementationA)
     - [Manual Lerp with `mix()`](#ImplementationB)
     - [An Idea: GL_TEXTURE_3D](#GL_TEXTURE_3D)
-- [Bloom & Other Applications](#Bloom)
+    - [Bloom & Other Applications](#Bloom)
 
 <a href="SoftwareBlur" />
 # Software Blur
@@ -323,9 +323,11 @@ As you can see, this implementation requires a little more setup, more texture s
 
 _In theory_, GL_TEXTURE_3D is an ideal candidate for our Lerp Blur, especially because it interpolates _between_ different textures. Unfortunately, it has two major drawbacks: first, it's hardly supported on Android and OpenGL ES, and second, it does not allow for the flexibility of image size that our earlier techniques do. However, it still may be a viable solution for desktop (if typical two-pass GLSL blurs are not an option).
 
+<a name="Bloom" />
 # Bloom & Other Applications
 
-As described in [ShaderLesson5](ShaderLesson5), a bloom is achieved by blurring the bright areas of the 
+As described in [ShaderLesson5](ShaderLesson5), a bloom is achieved by blurring [only the bright areas](http://www.curious-creature.org/2007/02/20/fast-image-processing-with-jogl/) of a scene and rendering it back with screen or add blending. This would be straight-forward with our above solutions, since our fragment shader can sample both the blurred and non-blurred regions.
 
-http://www.curious-creature.org/2007/02/20/fast-image-processing-with-jogl/
-- [Further reading on GL bloom/blur](http://prideout.net/archive/bloom/) 
+We can also apply some of the ideas we learned in earlier lessons. For example, we could create a vignette blur by using a [circle or oval](ShaderLesson3) as the third parameter to `mix`, having it increase in strength as we move away from the center.
+
+We could also use the "texture splat" techniques in [Lesson 4](ShaderLesson4) to blur the image based on a separate depth map; similar to Photoshop's Lens Blur filter.
