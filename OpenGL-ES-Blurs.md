@@ -8,11 +8,11 @@ This article relies on [LibGDX](http://libgdx.badlogicgames.com/) for pixmap, sh
 
 # Intro
 
-Our blurring technique described in [Shader Lesson 5](ShaderLesson5) is fairly efficient on desktop, but won't hold up on more limited devices such as Android and iOS. This is largely because of the fill-rate and multiple passes involved, as well as other factors such as sending uniform data.
+Our blurring technique described in [Shader Lesson 5](ShaderLesson5) is fairly efficient on desktop, but won't hold up on more limited devices such as Android and iOS. This is largely because of the fill-rate and multiple passes involved.
 
 By downsampling the frame buffer object to 50% of the screen size, we can achieve a frame rate of ~30 FPS on the Samsung Galaxy Tab II (7"). Another optimization is to use constants or varyings for our texture offsets, as described [here](http://xissburg.com/faster-gaussian-blur-in-glsl/) and implemented [here for iOS](https://github.com/BradLarson/GPUImage/blob/master/framework/Source/GPUImageFastBlurFilter.m). Yet another consideration is to sample _between_ texel centers, to exploit hardware filtering and reduce texture fetches: [see here](http://prideout.net/archive/bloom/#Sneaky).
 
-This is not really acceptable, though, considering we'd like to target some lower end hardware, and our current technique is not very practical for games. Here we describe some other solutions.
+This is not really acceptable, though, considering we'd like to target some lower end hardware, and even with these optimizations we'll have a hard time getting high performant rendering. Below we describe some other solutions for blurring on OpenGL ES.
 
 ## Contents
 
