@@ -1,3 +1,11 @@
+##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [Shaders](Shaders) » [Lesson 5: Blurs](ShaderLesson5) » OpenGL ES Blurs
+
+***
+
+This article relies on [LibGDX](http://libgdx.badlogicgames.com/) for pixmap, shader and rendering utilities. The concepts should be universal enough that they could be applied to LWJGL, iOS, or any other platforms built on OpenGL. 
+
+***
+
 Our blurring technique described in [Shader Lesson 5](ShaderLesson5) is fairly efficient on desktop, but won't hold up on more limited devices such as Android and iOS. This is largely because of the fill-rate and multiple passes involved, as well as other factors such as sending uniform data.
 
 By downsampling the frame buffer object to 50% of the screen size, we can achieve a frame rate of ~30 FPS on the Samsung Galaxy Tab II (7"). Another optimization is to use constants or varyings for our texture offsets, as described [here](http://xissburg.com/faster-gaussian-blur-in-glsl/) and implemented [here for iOS](https://github.com/BradLarson/GPUImage/blob/master/framework/Source/GPUImageFastBlurFilter.m). Yet another consideration is to sample _between_ texel centers, to exploit hardware filtering and reduce texture fetches: [see here](http://prideout.net/archive/bloom/#Sneaky).
