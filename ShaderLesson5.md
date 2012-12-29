@@ -239,7 +239,7 @@ We then draw `blurTargetB` -- since no FBOs are bound, it will be rendered to th
 
 ## Bloom
 
-Bloom is achieved in a similar fashion; however, on the first pass (render scene to FBO), we use a "threshold" shader which only draws bright areas of the image, and then we blur the bright areas with a vertical and horizontal pass. The result is then drawn atop the scene, using add or screen blending.
+Bloom is achieved in a similar fashion; however, on the first pass (render scene to FBO), we use a ["threshold" shader](http://www.curious-creature.org/2007/02/20/fast-image-processing-with-jogl/) which only draws bright areas of the image, and then we blur the bright areas with a vertical and horizontal pass. The result is then drawn atop the scene, using add or screen blending.
 
 ![Bloom](http://i.imgur.com/XCNec.jpg)
 
