@@ -70,7 +70,7 @@ We'll look at two different means of implementing the effect:
 <a name="ImplementationA" />
 ## Option A: Using Mipmaps
 
-You can follow along with source code here: [LerpBlurA.java](https://gist.github.com/4401290)
+You can follow along with source code here: [LerpBlurA.java](https://gist.github.com/4401290). It requires the [BlurUtils](https://gist.github.com/4383372) class mentioned earlier, and uses [this](http://i.imgur.com/X0NET.png) Lenna image.
 
 _Note:_ I'll assume you understand the basics of mipmapping. If not, [read up on them](http://en.wikipedia.org/wiki/Mipmap) before continuing. 
 
@@ -205,6 +205,8 @@ Firstly, decode our image into a Pixmap. Then we need to build a larger pixmap, 
 ![Layout2](http://i.imgur.com/p2AY0.png)
 
 The first layout leads to a smoother and wider transition of blurs, while the second uses less texture space. Note that the second layout uses a non-power-of-two texture width, which may be a problem for various devices (e.g. Samsung Tab II does not seem to support NPOT very well).
+
+The [code for the layout](https://gist.github.com/4401311#file-lerpblurb-java-L260) setup looks long and frightening, but actually it's just a series of simple 2D graphics operations with Pixmap. Those familiar with Java2D or any other image rendering API will have no trouble with this spot.
 
 After creating our "blur map" and texture regions, we need to set up our shaders. Since we aren't using SpriteBatch, we need to explicitly pass the `u_texture` and `u_projTrans` uniforms. This is not much different than previous lessons. The next step, however, is a bit new:
 
