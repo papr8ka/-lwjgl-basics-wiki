@@ -260,11 +260,10 @@ Here are various considerations for improving performance:
 
 ## OpenGL ES and Low-End Hardware
 
-This solution is impractical on low end hardware (such as Android or iOS) due to the fill-rate and number of passes involved. For tricks on blurring efficiently in Android (using LibGDX), check out my ["Lerp Blur" for OpenGL ES](OpenGL-ES-Blurs) tutorial.
-
+This solution is impractical on low end hardware (such as Android or iOS) due to the fill-rate and multiple passes involved. For tricks on blurring efficiently on mobile (using LibGDX), check out the [OpenGL ES Blurs](OpenGL-ES-Blurs) tutorial.
 
 <a name="Ports" />
 
 ## Other APIs
 
-* [LibGDX Port](https://gist.github.com/4372018). 
+* [LibGDX Port](https://gist.github.com/4372018)
