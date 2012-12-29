@@ -14,7 +14,7 @@ By downsampling the frame buffer object to 50% of the screen size, we can achiev
 
 This is not really acceptable, though, considering we'd like to target some lower end hardware, and even with these optimizations we'll have a hard time getting high performant rendering. Below we describe some other solutions for blurring on OpenGL ES.
 
-## Contents
+### Contents
 
 - [Software Blurring](#SoftwareBlur)
 - ["Lerp Blur" - Faking Real-Time Blurs](#LerpBlur)
