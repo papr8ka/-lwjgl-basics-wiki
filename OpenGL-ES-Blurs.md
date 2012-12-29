@@ -180,6 +180,8 @@ The upsides to this solution is that we only need to set it up once, then we can
 
 You might also notice the transition from mipmap 0 (unblurred) to 1 (blurred slightly) looks a little strange. This is because the difference between the two is so dramatic -- full size unblurred to half-size blurred. If you need a smoother blur transition, you can try playing with the blur radius at varying mipmap levels, or you can try Implementation B, which attempts to fix this problem.
 
+_Note:_ This solution would also be possible to employ on GL 1.0 devices, using `GL_TEXTURE_LOD_BIAS`, `GL_TEXTURE_MIN_LOD` and `GL_TEXTURE_MAX_LOD`.
+
 <a name="ImplementationB" />
 
 ## Option B: Manual Lerping with `mix()`
