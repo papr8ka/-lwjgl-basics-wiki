@@ -267,4 +267,4 @@ This solution is impractical on low end hardware (such as Android or iOS) due to
 
 ## Other APIs
 
-* [LibGDX Port](https://gist.github.com/4372018). Unfortunately, performance is poor on Android because of high fill rate, texture swapping, and multiple blur passes necessary per frame. Soon, we will cover some other techniques for practical blurring on Android, including a basic software solution for GL11.
+* [LibGDX Port](https://gist.github.com/4372018). 
