@@ -58,7 +58,7 @@ The result is that we can "fake" a real-time blur without any extra draw passes 
 
 <sup>(Shown in grayscale for better GIF quality)</sup>
 
-The downside, of course, is that it's not truly real-time, and has to be blurred in software while loading textures. It also increases texture memory by 33%, and makes regular mipmapping moot. But maybe it will be suitable for various effects, e.g. implementing depth of field in a top-down 2D space shooter.
+The downside, of course, is that it's not truly real-time, and has to be blurred in software while loading textures. It also increases texture memory by 33%, and makes regular mipmapping moot. Further, the `bias` parameter is not thoroughly tested, and may perform strangely on certain devices. Nevertheless, maybe it will prove useful for certain effects, such as adding depth of field in a top-down 2D space shooter.
 
 You can see a full implementation of the above technique, as well as another solution that doesn't rely on `bias` parameter, in the following article:  
 [OpenGL ES Blurs](OpenGL-ES-Blurs)
