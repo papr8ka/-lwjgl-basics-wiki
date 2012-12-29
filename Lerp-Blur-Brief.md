@@ -1,10 +1,9 @@
-The "Lerp Blur" is a name I've given to a technique for cheap blurring, suitable for Android, iOS and other fill-rate limited devices that can't rely on multiple render passes and FBOs. 
+"Lerp Blur" is a name I've given to a technique to simulate a variable blur in real-time. It's suitable for Android, iOS and other fill-rate limited devices that can't rely on multiple render passes and FBOs. 
 
-The basic idea of the "Lerp Blur" is to, in software, create a series of images of increasing blur strengths, and use some form of interpolation between two varying strengths in order to simulate a real-time adjustable blur:
-
+The basic idea of the "Lerp Blur" is to, in software, create a series of images of increasing blur strengths, and use some form of interpolation between two varying strengths in order to simulate a real-time adjustable blur. See the below image for reference:  
 ![8x](http://i.imgur.com/JL3yQ.png)
 
-The technique becomes more interesting and more efficient when we employ custom mipmap levels, as described below.
+The technique becomes more interesting (and more efficient) when we take advantage of mipmapping and trilinear filtering.
 
 ## Mipmapping
 
@@ -16,7 +15,7 @@ Downscaled to 64x64, upscaled to 256x256. Looks pretty crappy. Now, let's do the
 
 ![Nice](http://i.imgur.com/ZOPd1.png)
 
-That looks better. Now, if we apply a gaussian blur to each mipmap level, we can use this to simulate variable blur strengths. Since each mipmap level is smaller than the last, it will lead to a greater blur effect when scaled up. This means we need to build our mipmaps manually, in software:
+That looks better. Now, if we apply a gaussian blur to each mipmap level, we can use this to simulate variable blur strengths. Since each mipmap level is smaller than the last, each successive mipmap level will lead to a greater blur effect when scaled up. This means we need to build our mipmaps manually, in software:
 
 ```java
 for each mipmap level:
@@ -51,7 +50,7 @@ void main() {
 }
 ```
 
-We can also achieve the same on GL 1.0+ devices with `GL_TEXTURE_LOD_BIAS`, `GL_TEXTURE_MIN_LOD` and `GL_TEXTURE_MAX_LOD`.
+We can also achieve the same on GL 1.0 devices with `GL_TEXTURE_LOD_BIAS`, `GL_TEXTURE_MIN_LOD` and `GL_TEXTURE_MAX_LOD`.
 
 The result is that we can "fake" a real-time blur without any extra draw passes or FBOs. The blur is by no means accurate, but on small resolutions it looks pretty good.
 
@@ -59,5 +58,7 @@ The result is that we can "fake" a real-time blur without any extra draw passes 
 
 <sup>(Shown in grayscale for better GIF quality)</sup>
 
-You can see a full implementation of the above technique, as well as a solution that doesn't rely on `bias` parameter, in the following article:  
+The downside, of course, is that it's not truly real-time, and has to be blurred in software while loading textures. It also increases texture memory by 33%, and makes regular mipmapping moot. But maybe it will be suitable for various effects, e.g. implementing depth of field in a top-down 2D space shooter.
+
+You can see a full implementation of the above technique, as well as another solution that doesn't rely on `bias` parameter, in the following article:  
 [OpenGL ES Blurs](OpenGL-ES-Blurs)
