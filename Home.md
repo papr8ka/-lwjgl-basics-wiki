@@ -34,6 +34,7 @@ The tutorial series uses the lwjgl-basics API to reduce clutter and keep things 
 * GLSL Sandbox
   * [Outlined Circle](http://glsl.heroku.com/e#4635.0)
   * [Procedural Bricks](http://glsl.heroku.com/e#5215.13)
+  * [Spotlight WIP](http://glsl.heroku.com/e#5700.4)
 * Misc
   * [2D Lightning Effect](wiki/LightningEffect)
 
