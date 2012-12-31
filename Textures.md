@@ -145,7 +145,9 @@ To render the above object, we need to give OpenGL four **vertices**. As you can
 
 *Note:* This depends on our coordinate system having an origin in the upper-left ("Y-down"). Some libraries, like LibGDX, will use lower-left origin ("Y-up"), and so the values for Position and TexCoord may be in a different order.
 
-So what happens if we use values less than 0.0, or greater than 1.0? This is where the *wrap mode* comes into play. We tell OpenGL how to handle values outside of the texture coordinates. The two most common modes are `GL_CLAMP_TO_EDGE`, which simply samples the edge color, and `GL_REPEAT`, which will lead to a repeating pattern. For example, using 2.0 and `GL_REPEAT` will lead to the image being repeated twice within the *width* and *height* we specified. Here is an image to demonstrate the differences between clamping and repeat wrap modes:
+Sometimes programmers and modelers use `UV` and `ST` interchangeably -- "UV Mapping" is another way to describe how textures are applied to a 3D mesh.
+
+So what happens if we use texture coordinate values less than 0.0, or greater than 1.0? This is where the *wrap mode* comes into play. We tell OpenGL how to handle values outside of the texture coordinates. The two most common modes are `GL_CLAMP_TO_EDGE`, which simply samples the edge color, and `GL_REPEAT`, which will lead to a repeating pattern. For example, using 2.0 and `GL_REPEAT` will lead to the image being repeated twice within the *width* and *height* we specified. Here is an image to demonstrate the differences between clamping and repeat wrap modes:
 
 ![WrapModes](http://i.imgur.com/lflHc.png)
 
