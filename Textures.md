@@ -169,6 +169,7 @@ public static void debugTexture(Texture tex, float x, float y, float width, floa
 	tex.bind();
 
 	//setup our texture coordinates
+	//(u,v) is another common way of writing (s,t)
 	float u = 0f;
 	float v = 0f;
 	float u2 = 1f;
