@@ -1,8 +1,16 @@
 - preface
 
-# Intro to Normals
-
 There is already lots of reading online about normal mapping in 3D, but this article will focus on applications for 2D games.
+
+Here we see an example of lighting in action on a 2D image, using blue-tinted lights. The effect is much more impressive in real-time.
+
+![Img1](http://i.imgur.com/9BPFI.png)
+
+Here is a more subtle result of normal mapping, but for a low-res game:
+
+![Pixels](http://i.imgur.com/S6ElW.gif)
+
+# Intro to Normals
 
 As we've discussed in past lessons, a GLSL "vector" is a float container that typically holds values such as position; `(x, y, z)`. In mathematics, vectors mean quite a bit more, and are used to denote length (i.e. magnitude) and direction. If you're new to vectors and want to learn a bit more about them, check out some of these links:
 
@@ -10,7 +18,7 @@ As we've discussed in past lessons, a GLSL "vector" is a float container that ty
 - [Vector Math for Graphics](http://programmedlessons.org/VectorLessons/index.html)
 - [Mathematics of Vectors Applied to Graphics](http://3dgep.com/?p=359)
 
-We calculate lighting in 3D with the ["normal" vectors](http://en.wikipedia.org/wiki/Normal_(geometry)) of a mesh. A surface normal is a vector perpendicular to the tangent plane. In simpler terms, it's a vector that is perpendicular to the mesh at a given vertex. Below we see a mesh with the normal for each vertex.  
+To calculate lighting, we need to use the "normal" vectors of a mesh. A surface normal is a vector perpendicular to the tangent plane. In simpler terms, it's a vector that is perpendicular to the mesh at a given vertex. Below we see a mesh with the normal for each vertex.  
 ![Mesh1](http://i.imgur.com/QnfZ4.png)
 
 Each vector points outward, following the curvature of the mesh. Here is another example, this time a simplified 2D side view:  
