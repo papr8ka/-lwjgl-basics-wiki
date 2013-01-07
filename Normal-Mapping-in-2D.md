@@ -1,12 +1,27 @@
+- preface
+
 # Intro to Normals
 
-There is lots of information on the web regarding 3D normal mapping, but this article will put more emphasis on applying the technique to 2D games. A "surface normal" is a vector perpendicular to the tangent plane. In simpler terms, it's a vector that is perpendicular to the mesh at a given vertex. It's easier to explain with a picture:  
+There is already lots of reading online about normal mapping in 3D, but this article will focus on applications for 2D games.
+
+As we've discussed in past lessons, a GLSL "vector" is a float container that typically holds values such as position; `(x, y, z)`. In mathematics, vectors mean quite a bit more, and are used to denote length (i.e. magnitude) and direction. If you're new to vectors and want to learn a bit more about them, check out some of these links:
+
+- [Basic 3D Math](http://www.matrix44.net/cms/notes/opengl-3d-graphics/basic-3d-math-vectors)
+- [Vector Math for Graphics](http://programmedlessons.org/VectorLessons/index.html)
+- [Mathematics of Vectors Applied to Graphics](http://3dgep.com/?p=359)
+
+We calculate lighting in 3D with the ["normal" vectors](http://en.wikipedia.org/wiki/Normal_(geometry)) of a mesh. A surface normal is a vector perpendicular to the tangent plane. In simpler terms, it's a vector that is perpendicular to the mesh at a given vertex. Below we see a mesh with the normal for each vertex.  
 ![Mesh1](http://i.imgur.com/QnfZ4.png)
 
-Each vector points outward, following the curvature of the mesh. Here is another example, this time a 2D side view:
+Each vector points outward, following the curvature of the mesh. Here is another example, this time a simplified 2D side view:  
+![LightLow](http://i.imgur.com/MLTGx.png)
+
+<sub>(Images from [this great normal mapping tutorial](http://acko.net/blog/making-worlds-3-thats-no-moon/))</sub>
 ![Light](http://i.imgur.com/5EH9m.png)
 
-We use this information to calculate lighting on a 3D shape. Many 3D games use normal mapping to give high quailty shading to a low poly mesh. The artist needs to create two models: low and high poly (the high poly is often called a "sculpt"). The normal information of the high poly mesh is encoded into a texture. Then, in game, you render the low poly mesh, but light each fragment using the high poly surface normals. The result:  
+
+
+Many 3D games use normal mapping to give high quailty shading to a low poly mesh. The artist needs to create two models: low and high poly (the high poly is often called a "sculpt"). The normal information of the high poly mesh is encoded into a texture. Then, in game, you render the low poly mesh, but light each fragment using the high poly surface normals. The result:  
 ![RealTime](http://i.imgur.com/17dVa.png)
 
 ## Encoding Normals
