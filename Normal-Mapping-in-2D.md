@@ -1,12 +1,6 @@
 - preface
 
-There is already lots of reading online about normal mapping in 3D, but this article will focus on applications for 2D games.
-
-Here we see an example of lighting in action on a 2D image, using blue-tinted lights. The effect is much more impressive in real-time.
-
-![Img1](http://i.imgur.com/9BPFI.png)
-
-Here is a more subtle result of normal mapping, but for a low-res game:
+This article will focus on 3D lighting and normal mapping techniques and how we can apply them to 2D games.
 
 ![Pixels](http://i.imgur.com/S6ElW.gif)
 
@@ -24,17 +18,17 @@ To calculate lighting, we need to use the "normal" vectors of a mesh. A surface 
 Each vector points outward, following the curvature of the mesh. Here is another example, this time a simplified 2D side view:  
 ![LightLow](http://i.imgur.com/MLTGx.png)
 
-<sub>(Images from [this great normal mapping tutorial](http://acko.net/blog/making-worlds-3-thats-no-moon/))</sub>
+"Normal Mapping" is a game programming trick that allows us to render the same number of polygons (i.e. a low-res mesh), but use the normals of our high-res mesh when calculating the lighting. This gives us a much greater sense of depth, realism and smoothness:  
 ![Light](http://i.imgur.com/5EH9m.png)
 
+<sub>(Images from [this great blog post](http://acko.net/blog/making-worlds-3-thats-no-moon/))</sub>
 
-
-Many 3D games use normal mapping to give high quailty shading to a low poly mesh. The artist needs to create two models: low and high poly (the high poly is often called a "sculpt"). The normal information of the high poly mesh is encoded into a texture. Then, in game, you render the low poly mesh, but light each fragment using the high poly surface normals. The result:  
+The normals of the high poly mesh or "sculpt" are encoded into a texture (AKA normal map), which we sample from in our fragment shader while rendering the low poly mesh. The results speak for themselves:  
 ![RealTime](http://i.imgur.com/17dVa.png)
 
 ## Encoding Normals
 
-Our surface normals are typically in the range -1.0 to 1.0. We can store the normal vector `(x, y, z)` in a RGB texture by converting the normal to the range 0.0 to 1.0. Here is some pseudo-code:
+Our surface normals are unit vectors typically in the range -1.0 to 1.0. We can store the normal vector `(x, y, z)` in a RGB texture by converting the normal to the range 0.0 to 1.0. Here is some pseudo-code:
 ```glsl
 Color.rgb = Normal.xyz / 2.0 + 0.5;
 ```
@@ -45,7 +39,7 @@ For example, a normal of `(-1, 0, 1)` would be encoded as RGB `(0, 0.5, 1)`. The
 It's clearer to look at each channel individually:  
 ![Channels](http://i.imgur.com/ppXbS.png)
 
-Looking at the green channel, we see the brighter parts (values closer to `1.0`) define areas where the normal would point upward, whereas darker areas (values closer to `0.0`) define areas where the normal would point downward. Most normal maps will have a bluish tint because the Z axis (blue channel) is generally pointing toward us (i.e. value of `1.0`). 
+Looking at, say, the green channel, we see that the brighter parts (values closer to `1.0`) define areas where the normal would point upward, whereas darker areas (values closer to `0.0`) define areas where the normal would point downward. Most normal maps will have a bluish tint because the Z axis (blue channel) is generally pointing toward us (i.e. value of `1.0`). 
 
 In our game's fragment shader, we can "decode" the normals in our fragment shader by doing the reverse of what we did earlier, expanding the color value to the range -1.0 to 1.0:
 ```glsl
@@ -55,6 +49,8 @@ NormalMap = texture2D(NormalMapTex, TexCoord);
 //convert to range -1.0 to 1.0
 Normal.xyz = NormalMap.rgb * 2.0 - 1.0;
 ```
+
+*Note:* Keep in mind that different engines and programs will use different coordinate systems, and the green channel may need to be inverted.
 
 # Lambert Shading
 
