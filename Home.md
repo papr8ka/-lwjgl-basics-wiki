@@ -35,6 +35,7 @@ The tutorial series uses the lwjgl-basics API to reduce clutter and keep things 
   * [Outlined Circle](http://glsl.heroku.com/e#4635.0)
   * [Procedural Bricks](http://glsl.heroku.com/e#5215.13)
   * [Spotlight WIP](http://glsl.heroku.com/e#5700.4)
+  * [Flying Lotus' Cosmogramma in Code (Album Artwork)](http://glsl.heroku.com/e#5928.5)
 * Misc
   * [2D Lightning Effect](wiki/LightningEffect)
 
