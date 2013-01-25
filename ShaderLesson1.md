@@ -213,4 +213,4 @@ Check out [Lesson 2](ShaderLesson2) or go back to the [shaders intro](Shaders).
 <a name="Ports" />
 ## Other APIs
 
-  * [Ported to LibGDX](https://gist.github.com/4242302)
+  * [Ported to LibGDX](https://gist.github.com/4242302) - Note that you can also pass a FileHandle to LibGDX's ShaderProgram, to avoid having to hardcode the source in a .java file.
