@@ -100,7 +100,7 @@ The above example uses [simplex noise](https://github.com/ashima/webgl-noise/wik
 
 ## Lesson 5
 
-Still a work in progress. Check out the [other lessons](Shaders) for now.
+Move on to [Lesson 5](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson5) or back to [the contents](Shaders).
 
 <a name="Ports" />
 ## Other APIs
