@@ -100,7 +100,6 @@ glBindTexture(GL_TEXTURE_2D, id);
 //use an alignment of 1 to be safe
 //this tells OpenGL how to unpack the RGBA bytes we will specify
 glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
 //set up our texture parameters
 glTexParameteri(...);
@@ -112,6 +111,8 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_B
 The call to `glTexImage2D` is what sets up the actual texture in OpenGL. We can call this again later if we decide to change the width and height of our image, or if we need to change the RGBA pixel data.
 If we only want to change a portion of the RGBA data (i.e. a sub-image), we can use `glTexSubImage2D`. For per-pixel modifications, however, we will generally rely on fragment shaders, which we will look into later.
 
+
+*Note:* You can read about why we use GL_UNPACK_ALIGNMENT [here](http://www.opengl.org/wiki/Common_Mistakes#Texture_upload_and_pixel_reads).
 
 ### Texture Parameters
 
@@ -370,7 +371,6 @@ public class Texture {
 
 			//setup unpack mode
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-			glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
 			//setup parameters
 			glTexParameteri(target, GL_TEXTURE_MIN_FILTER, filter);
