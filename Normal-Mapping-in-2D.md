@@ -59,7 +59,6 @@ In computer graphics, we have a number of algorithms that can be combined to cre
 Our entire illumination model looks like this:
 
 ```
-Normal.xyz = NormalMap.rgb * 2.0 - 1.0
 N = normalize(Normal.xyz)
 L = normalize(LightDir.xyz)
 
@@ -74,7 +73,7 @@ Intensity = Ambient + Diffuse * Attenuation
 FinalColor = DiffuseColor.rgb * Intensity.rgb
 ```
 
-Although this looks daunting, it's actually very basic. You don't need to understand why this works mathematically, but if you are interested you can read more about "N dot L" shading [here](http://www.lighthouse3d.com/tutorials/glsl-core-tutorial/directional-lights/) and [here](http://en.wikipedia.org/wiki/Lambertian_reflectance).
+You don't need to understand why this works mathematically, but if you are interested you can read more about "N dot L" shading [here](http://www.lighthouse3d.com/tutorials/glsl-core-tutorial/directional-lights/) and [here](http://en.wikipedia.org/wiki/Lambertian_reflectance).
 
 Now let's try to apply this to model GLSL. Note that we will only be working with 2D, and there are some [extra considerations in 3D](http://www.ozone3d.net/tutorials/bump_mapping_p3.php#tangent_space) that are not covered by this tutorial.
 
