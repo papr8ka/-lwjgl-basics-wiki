@@ -117,6 +117,20 @@ You can see the Java code example [here](). It's relatively straight-forward, an
 
 Our example adjusts the `LightPos.xy` based on the mouse position (normalized to resolution), and `LightPos.z` (depth) based on the mouse wheel (click to reset light Z). With certain coordinate systems, like LibGDX, you may need to flip the Y value. 
 
+Note that our example uses the following constants, which you can play with to get a different look:
+```java
+public static final float DEFAULT_LIGHT_Z = 0.075f;
+...
+//Light RGB and intensity (alpha)
+public static final Vector4f LIGHT_COLOR = new Vector4f(1f, 0.8f, 0.6f, 1f);
+
+//Ambient RGB and intensity (alpha)
+public static final Vector4f AMBIENT_COLOR = new Vector4f(0.6f, 0.6f, 1f, 0.2f);
+
+//Attenuation coefficients for light falloff
+public static final Vector3f FALLOFF = new Vector3f(.4f, 3f, 20f);
+```
+
 Below is our rendering code. Like in [Lesson 4](ShaderLesson4), we will use multiple texture units when rendering.
 ```java
 ...
@@ -140,20 +154,6 @@ rock.bind();
 
 //draw the texture unit 0 with our shader effect applied
 batch.draw(rock, 50, 50);
-```
-
-Note that our example uses the following constants, which you can play with to get a different look:
-```java
-public static final float DEFAULT_LIGHT_Z = 0.075f;
-...
-//Light RGB and intensity (alpha)
-public static final Vector4f LIGHT_COLOR = new Vector4f(1f, 0.8f, 0.6f, 1f);
-
-//Ambient RGB and intensity (alpha)
-public static final Vector4f AMBIENT_COLOR = new Vector4f(0.6f, 0.6f, 1f, 0.2f);
-
-//Attenuation coefficients for light falloff
-public static final Vector3f FALLOFF = new Vector3f(.4f, 3f, 20f);
 ```
 
 The resulting "shaded" texture:  
