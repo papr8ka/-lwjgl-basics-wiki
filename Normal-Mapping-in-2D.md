@@ -112,7 +112,7 @@ Now let's try to apply this to model GLSL. Note that we will only be working wit
 
 You can see the Java code example [here](). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. We'll use the following two textures:
 
-![Rock](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock.png)  
+![Rock](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock.png)
 ![RockN](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock_n.png)  
 
 Our example adjusts the `LightPos.xy` based on the mouse position (normalized to resolution), and `LightPos.z` (depth) based on the mouse wheel (click to reset light Z). With certain coordinate systems, like LibGDX, you may need to flip the Y value. 
