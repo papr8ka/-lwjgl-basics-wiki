@@ -93,10 +93,88 @@ As you can see, it's rather "modular" in the sense that we can take away parts o
 
 Now let's try to apply this to model GLSL. Note that we will only be working with 2D, and there are some [extra considerations in 3D](http://www.ozone3d.net/tutorials/bump_mapping_p3.php#tangent_space) that are not covered by this tutorial. We will break the model down into separate parts, each one building on the next.
 
+## The Code
 
-## GLSL Code
+You can see the Java code example [here](). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. Note that before drawing, we need to update our `LightPos` uniform, normalized based on the display width and height. With certain coordinate systems, like LibGDX, you may need to flip the Y value. 
 
-First, we will sample from our two textures. Like in [Lesson 4](ShaderLesson4), we will use multiple texture units. The diffuse color will be bound to `GL_TEXTURE0`, and the normal map bound to `GL_TEXTURE1`. They will be sampled like so, where `u_normals` is set up when creating our ShaderProgram:
+Like in [Lesson 4](ShaderLesson4), we will use multiple texture units when rendering:
+```java
+//update light position, normalized to screen resolution
+float x = Mouse.getX() / (float)Display.getWidth();
+float y = Mouse.getY() / (float)Display.getHeight();
+LIGHT_POS.x = x;
+LIGHT_POS.y = y;
+
+//send a Vector4f to GLSL
+shader.setUniformf("LightPos", LIGHT_POS);
+
+//bind normal map to texture unit 1
+glActiveTexture(GL_TEXTURE1);
+rockNormals.bind();
+
+//bind diffuse color to texture unit 0
+glActiveTexture(GL_TEXTURE0);
+rock.bind();
+
+//draw the texture unit 0 with our shader effect applied
+batch.draw(rock, 50, 50);
+```
+
+## Fragment Shader
+
+Here is our full fragment shader, which we will break down in the next section:
+
+```glsl
+//attributes from vertex shader
+varying vec4 vColor;
+varying vec2 vTexCoord;
+
+//our texture samplers
+uniform sampler2D u_texture;   //diffuse map
+uniform sampler2D u_normals;   //normal map
+
+//values used for shading algorithm...
+uniform vec2 Resolution;      //resolution of screen
+uniform vec3 LightPos;        //light position, normalized
+uniform vec4 LightColor;      //light RGBA -- alpha is intensity
+uniform vec4 AmbientColor;    //ambient RGBA -- alpha is intensity 
+uniform vec3 Falloff;         //attenuation coefficients
+
+void main() {
+	//RGBA of our diffuse color
+	vec4 DiffuseColor = texture2D(u_texture, vTexCoord);
+	
+	//RGB of our normal map
+	vec3 NormalMap = texture2D(u_normals, vTexCoord).rgb;
+	
+	//The delta position of light
+	vec3 LightDir = vec3(LightPos.xy - (gl_FragCoord.xy / Resolution.xy), LightPos.z);
+		
+	//normalize our vectors
+	vec3 N = normalize(NormalMap * 2.0 - 1.0);
+	vec3 L = normalize(LightDir);
+	
+	//Pre-multiply light color with intensity
+	//Then perform "N dot L" to determine our diffuse term
+	vec3 Diffuse = (LightColor.rgb * LightColor.a) * max(dot(N, L), 0.0);
+
+	//pre-multiply ambient color with intensity
+	vec3 Ambient = AmbientColor.rgb * AmbientColor.a;
+	
+	//The magnitude of our light vector, which we'll use for distance falloff (attenuation)
+	float D = length(LightDir);
+	float Attenuation = 1.0 / ( Falloff.x + (Falloff.y*D) + (Falloff.z*D*D) );
+	
+	//the calculation which brings it all together
+	vec3 Intensity = Ambient + Diffuse * Attenuation;
+	vec3 FinalColor = DiffuseColor.rgb * Intensity;
+	gl_FragColor = vColor * vec4(FinalColor, DiffuseColor.a);
+}
+```
+
+### Breakdown
+
+First, we will sample from our two textures:
 
 ```glsl
 //RGBA of our diffuse color
@@ -142,38 +220,6 @@ vec3 Intensity = Ambient + Diffuse * Attenuation;
 vec3 FinalColor = DiffuseColor.rgb * Intensity;
 gl_FragColor = vColor * vec4(FinalColor, DiffuseColor.a);
 ```
-
-Firstly, we need to determine the light vector from the current fragment (i.e. pixel). This is done very simply, like so:
-
-```glsl
-vec3 LightDir = vec3(LightPos.xy - (gl_FragCoord.xy / resolution.xy), LightPos.z);
-```
-
-LightPos is the X and Y position of our light, normalized based on the resolution. So, for example, if the screen size is `320x240`, and the light is at screen-space position `(60, 30)`, we would send the value to the shader like so:
-```java
-
-``` 
-
-The first line should be familiar; here we decode the high-quality normal from our normal map, and convert it to the range `-1.0 to 1.0`. 
-
-```
-Normal.xyz = NormalMap.rgb * 2.0 - 1.0
-```
-
-Then we normalize (convert to unit vector) our vectors before continuing. 
-
-```
-N = normalize(Normal.xyz)
-L = normalize(LightDir.xyz)
-```
-
-*Note:* For a 3D application, we would need to first convert our light direction from camera space into tangent space. This is explained in further detail [here](http://www.ozone3d.net/tutorials/bump_mapping_p3.php#tangent_space). However, for the purposes of 2D, we do not need to do this calculation as our light direction is already in tangent space (0.0 to 1.0).
-
-The image below demonstrates our vectors. We have normalized L, which is the direction from the surface to the light source, and normalized N, which is the normal of our high-quality mesh, sampled from our normal map.
-
-![NDotL](http://www.lighthouse3d.com/wp-content/uploads/2012/12/lambert.jpg)
-
-
 
 
 http://www.upvector.com/?section=Tutorials&subsection=Intro%20to%20Shaders
