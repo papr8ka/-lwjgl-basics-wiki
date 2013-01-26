@@ -87,7 +87,7 @@ Intensity = Ambient + Diffuse * Attenuation
 FinalColor = DiffuseColor.rgb * Intensity.rgb
 ```
 
-You don't need to understand why this works mathematically, but if you are interested you can read more about "N dot L" shading [here](http://www.lighthouse3d.com/tutorials/glsl-core-tutorial/directional-lights/) and [here](http://en.wikipedia.org/wiki/Lambertian_reflectance).
+In truth, you don't need to understand why this works mathematically, but if you are interested you can read more about "N dot L" shading [here](http://www.lighthouse3d.com/tutorials/glsl-core-tutorial/directional-lights/) and [here](http://en.wikipedia.org/wiki/Lambertian_reflectance).
 
 Some key terms:
 
