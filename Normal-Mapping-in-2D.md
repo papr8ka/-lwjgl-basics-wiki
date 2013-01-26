@@ -6,7 +6,7 @@ This article will focus on 3D lighting and normal mapping techniques and how we 
 
 ![Pixels](http://i.imgur.com/S6ElW.gif)
 
-# Contents [&#9650;](#Top)
+# Contents [<sup>&#9650;</sup>](#Top)
 
 - [Intro to Vectors & Normals](#VectorsNormals)
 
