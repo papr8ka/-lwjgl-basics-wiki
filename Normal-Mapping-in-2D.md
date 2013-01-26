@@ -1,10 +1,12 @@
 - preface
 
+<a name="Top" />
+
 This article will focus on 3D lighting and normal mapping techniques and how we can apply them to 2D games.
 
 ![Pixels](http://i.imgur.com/S6ElW.gif)
 
-# Contents
+# Contents [Top](#Top)
 
 - [Intro to Vectors & Normals](#VectorsNormals)
 
