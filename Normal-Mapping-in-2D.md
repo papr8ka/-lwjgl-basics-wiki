@@ -6,9 +6,14 @@ This article will focus on 3D lighting and normal mapping techniques and how we 
 
 ![Pixels](http://i.imgur.com/S6ElW.gif)
 
-# Contents [<sup>&#9652;</sup>](#Top)
+# Contents
 
 - [Intro to Vectors & Normals](#VectorsNormals)
+- [Encoding & Decoding Normals](#EncDecNormals)
+- [Lambertian Illumination Model](#IlluminationModel)
+- [Java Code Example](#JavaCode)
+  - [Fragment Shader](#FragmentShader)
+  - [GLSL Breakdown](#Breakdown)
 
 <a name="VectorsNormals" />
 # Intro to Vectors & Normals
@@ -103,7 +108,7 @@ As you can see, it's rather "modular" in the sense that we can take away parts o
 Now let's try to apply this to model GLSL. Note that we will only be working with 2D, and there are some [extra considerations in 3D](http://www.ozone3d.net/tutorials/bump_mapping_p3.php#tangent_space) that are not covered by this tutorial. We will break the model down into separate parts, each one building on the next.
 
 <a name="JavaCode" />
-## Java Code Example
+# Java Code Example
 
 You can see the Java code example [here](). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. 
 
@@ -188,7 +193,7 @@ void main() {
 ```
 
 <a name="Breakdown" />
-### GLSL Breakdown 
+## GLSL Breakdown 
 
 Now, to break it down. First, we sample from our two textures:
 
