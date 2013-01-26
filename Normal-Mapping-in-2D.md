@@ -14,6 +14,8 @@ This article will focus on 3D lighting and normal mapping techniques and how we 
 - [Java Code Example](#JavaCode)
   - [Fragment Shader](#FragmentShader)
   - [GLSL Breakdown](#Breakdown)
+- [Gotchas](#Gotchas)
+- [Generating Normal Maps](#GeneratingNormals)
 
 <a name="VectorsNormals" />
 # Intro to Vectors & Normals
@@ -49,7 +51,9 @@ Color.rgb = Normal.xyz / 2.0 + 0.5;
 For example, a normal of `(-1, 0, 1)` would be encoded as RGB `(0, 0.5, 1)`. The x-axis (left/right) is stored in the red channel, the y-axis (up/down) stored in the green channel, and the z-axis (forward/backward) is stored in the blue channel. The resulting "normal map" looks ilke this:  
 ![NormalMap](http://i.imgur.com/pgfKp.png)
 
-It's clearer to look at each channel individually:  
+Typically, we use a program to [generate our normal map](#GeneratingNormals) rather than painting them by hand.
+
+To understand the normal map, it's clearer to look at each channel individually:  
 ![Channels](http://i.imgur.com/ppXbS.png)
 
 Looking at, say, the green channel, we see that the brighter parts (values closer to `1.0`) define areas where the normal would point upward, whereas darker areas (values closer to `0.0`) define areas where the normal would point downward. Most normal maps will have a bluish tint because the Z axis (blue channel) is generally pointing toward us (i.e. value of `1.0`). 
@@ -279,6 +283,23 @@ gl_FragColor = vColor * vec4(FinalColor, DiffuseColor.a);
 - The `LightDir` and attenuation in our implementation depends on the resolution. This means that changing the resolution will affect the falloff of our light. Depending on your game, a different implementation may be required that is resolution-independent.
 - A common problem has to do with differences between your game's Y coordinate system and that employed by your normal-map generation program (such as CrazyBump). The following image explains this:  
 ![FlipY](http://i.imgur.com/u3vDDfP.png)
+
+<a name="GeneratingNormals" />
+## Generating Normal Maps
+
+There are a number of ways of generating a normal map from an image. Common applications and filters for converting 2D images to normal maps include:
+- [CrazyBump](http://www.crazybump.com/)
+- [NVIDIA Texture Tools for Photoshop](https://developer.nvidia.com/nvidia-texture-tools-adobe-photoshop)
+- [gimp-normalmap](http://code.google.com/p/gimp-normalmap/)
+- [SSBump Generator](http://ssbump-generator.yolasite.com/)
+- [njob](http://charles.hollemeersch.net/njob)
+- [ShaderMap](http://shadermap.com/home/)
+
+You can also use 3D modeling software like [Blender](http://www.blender.org/) or [ZBrush](http://www.pixologic.com/) to sculpt high-quality normal maps. 
+
+Soon I will include an appendix on "Workflow for 2D Normal Maps", which includes a simple Blender tool to get you started. This allows us to produce a 2D tangent-space normal map for any image from the camera angle.
+
+
 
 http://www.upvector.com/?section=Tutorials&subsection=Intro%20to%20Shaders
 http://acko.net/blog/making-worlds-3-thats-no-moon/
