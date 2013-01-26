@@ -115,7 +115,7 @@ You can see the Java code example [here](). It's relatively straight-forward, an
 ![Rock](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock.png)  
 ![RockN](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock_n.png)  
 
-Our example adjusts the `LightPos.xy` based on the mouse position (normalized to resolution), and change `LightPos.z` (depth) based on the mouse wheel (click to reset light Z). With certain coordinate systems, like LibGDX, you may need to flip the Y value. 
+Our example adjusts the `LightPos.xy` based on the mouse position (normalized to resolution), and `LightPos.z` (depth) based on the mouse wheel (click to reset light Z). With certain coordinate systems, like LibGDX, you may need to flip the Y value. 
 
 Below is our rendering code. Like in [Lesson 4](ShaderLesson4), we will use multiple texture units when rendering.
 ```java
