@@ -110,9 +110,12 @@ Now let's try to apply this to model GLSL. Note that we will only be working wit
 <a name="JavaCode" />
 # Java Code Example
 
-You can see the Java code example [here](). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. 
+You can see the Java code example [here](). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. We'll use the following two textures:
 
-We set the `LightPos.xy` based on the mouse (normalized to resolution), and change `LightPos.z` (depth) based on the mouse wheel (click to reset light Z). With certain coordinate systems, like LibGDX, you may need to flip the Y value. 
+![Rock](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock_.png)  
+![RockN](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock_n.png)  
+
+Our example adjusts the `LightPos.xy` based on the mouse position (normalized to resolution), and change `LightPos.z` (depth) based on the mouse wheel (click to reset light Z). With certain coordinate systems, like LibGDX, you may need to flip the Y value. 
 
 Below is our rendering code. Like in [Lesson 4](ShaderLesson4), we will use multiple texture units when rendering.
 ```java
@@ -138,6 +141,21 @@ rock.bind();
 //draw the texture unit 0 with our shader effect applied
 batch.draw(rock, 50, 50);
 ```
+
+Note that our example uses the following constants, which you can play with to get a different look:
+```java
+public static final float DEFAULT_LIGHT_Z = 0.075f;
+...
+//Light RGB and intensity (alpha)
+public static final Vector4f LIGHT_COLOR = new Vector4f(1f, 0.8f, 0.6f, 1f);
+
+//Ambient RGB and intensity (alpha)
+public static final Vector4f AMBIENT_COLOR = new Vector4f(0.6f, 0.6f, 1f, 0.2f);
+
+//Attenuation coefficients for light falloff
+public static final Vector3f FALLOFF = new Vector3f(.4f, 3f, 20f);
+```
+
 
 <a name="FragmentShader" />
 ## Fragment Shader
@@ -216,7 +234,7 @@ vec3 N = normalize(NormalMap * 2.0 - 1.0);
 vec3 L = normalize(LightDir);
 ```
 
-The next step is to calculate the `Diffuse` term. For this, we need to use `LightColor`. In our case, we will multiply the light color (RGB) by intensity (alpha): `LightColor.rgb * LightColor.a`. So together it looks like this:
+The next step is to calculate the `Diffuse` term. For this, we need to use `LightColor`. In our case, we will multiply the light color (RGB) by intensity (alpha): `LightColor.rgb * LightColor.a`. So, together it looks like this:
 ```glsl
 //Pre-multiply light color with intensity
 //Then perform "N dot L" to determine our diffuse term
