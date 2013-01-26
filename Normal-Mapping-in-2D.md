@@ -94,14 +94,54 @@ As you can see, it's rather "modular" in the sense that we can take away parts o
 Now let's try to apply this to model GLSL. Note that we will only be working with 2D, and there are some [extra considerations in 3D](http://www.ozone3d.net/tutorials/bump_mapping_p3.php#tangent_space) that are not covered by this tutorial. We will break the model down into separate parts, each one building on the next.
 
 
-## Basic Illumination
+## GLSL Code
 
+First, we will sample from our two textures. Like in [Lesson 4](ShaderLesson4), we will use multiple texture units. The diffuse color will be bound to `GL_TEXTURE0`, and the normal map bound to `GL_TEXTURE1`. They will be sampled like so, where `u_normals` is set up when creating our ShaderProgram:
 
+```glsl
+//RGBA of our diffuse color
+vec4 DiffuseColor = texture2D(u_texture, vTexCoord);
 
+//RGB of our normal map
+vec3 NormalMap = texture2D(u_normals, vTexCoord).rgb;
+```
 
+Next, we need to determine the light vector from the current fragment:
+```glsl
+vec3 LightDir = vec3(LightPos.xy - (gl_FragCoord.xy / Resolution.xy), LightPos.z);
+```
 
+As in our illumination model, we need to decode the `Normal.xyz` from our `NormalMap.rgb`, and then normalize our vectors:
+```glsl
+vec3 N = normalize(NormalMap * 2.0 - 1.0);
+vec3 L = normalize(LightDir);
+```
 
+The next step is to calculate the `Diffuse` term. For this, we need to use `LightColor`. In our case, we will multiply the light color (RGB) by intensity (alpha): `LightColor.rgb * LightColor.a`. So together it looks like this:
+```glsl
+//Pre-multiply light color with intensity
+//Then perform "N dot L" to determine our diffuse term
+vec3 Diffuse = (LightColor.rgb * LightColor.a) * max(dot(N, L), 0.0);
+```
 
+Next, we pre-multiply our ambient color with intensity:
+```glsl
+vec3 Ambient = AmbientColor.rgb * AmbientColor.a;
+```
+
+The next step is to determine the length or distance from our light, and then use that value to calculate `Attenuation`. The `Falloff` uniform defines our Constant, Linear, and Quadratic attenuation coefficients.
+```glsl
+float D = length(LightDir);
+float Attenuation = 1.0 / ( Falloff.x + (Falloff.y*D) + (Falloff.z*D*D) );
+```
+
+Next, we calculate the `Intensity` and `FinalColor`, and pass it to `gl_FragCoord`. Note that we keep the alpha of the `DiffuseColor` in tact.
+
+```glsl
+vec3 Intensity = Ambient + Diffuse * Attenuation;
+vec3 FinalColor = DiffuseColor.rgb * Intensity;
+gl_FragColor = vColor * vec4(FinalColor, DiffuseColor.a);
+```
 
 Firstly, we need to determine the light vector from the current fragment (i.e. pixel). This is done very simply, like so:
 
