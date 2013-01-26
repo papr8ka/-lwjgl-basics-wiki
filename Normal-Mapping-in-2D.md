@@ -4,7 +4,12 @@ This article will focus on 3D lighting and normal mapping techniques and how we 
 
 ![Pixels](http://i.imgur.com/S6ElW.gif)
 
-# Intro to Normals
+# Contents
+
+- [Intro to Vectors & Normals]()
+
+<a name="VectorsNormals" />
+# Intro to Vectors & Normals
 
 As we've discussed in past lessons, a GLSL "vector" is a float container that typically holds values such as position; `(x, y, z)`. In mathematics, vectors mean quite a bit more, and are used to denote length (i.e. magnitude) and direction. If you're new to vectors and want to learn a bit more about them, check out some of these links:
 
@@ -26,7 +31,8 @@ Each vector points outward, following the curvature of the mesh. Here is another
 The normals of the high poly mesh or "sculpt" are encoded into a texture (AKA normal map), which we sample from in our fragment shader while rendering the low poly mesh. The results speak for themselves:  
 ![RealTime](http://i.imgur.com/17dVa.png)
 
-## Encoding Normals
+<a name="EncDecNormals" />
+## Encoding & Decoding Normals
 
 Our surface normals are unit vectors typically in the range -1.0 to 1.0. We can store the normal vector `(x, y, z)` in a RGB texture by converting the normal to the range 0.0 to 1.0. Here is some pseudo-code:
 ```glsl
@@ -52,6 +58,7 @@ Normal.xyz = NormalMap.rgb * 2.0 - 1.0;
 
 *Note:* Keep in mind that different engines and programs will use different coordinate systems, and the green channel may need to be inverted.
 
+<a name="IlluminationModel" />
 # Lambertian Illumination Model
 
 In computer graphics, we have a number of algorithms that can be combined to create different shading results for a 3D object. In this article we will focus on Lambert shading, without any specular (i.e. "gloss" or "shininess"). Other techniques, like Phong, Cook-Torrance, and Oren–Nayar can be used to produce different visual results (rough surfaces, shiny surfaces, etc).
@@ -93,12 +100,17 @@ As you can see, it's rather "modular" in the sense that we can take away parts o
 
 Now let's try to apply this to model GLSL. Note that we will only be working with 2D, and there are some [extra considerations in 3D](http://www.ozone3d.net/tutorials/bump_mapping_p3.php#tangent_space) that are not covered by this tutorial. We will break the model down into separate parts, each one building on the next.
 
-## The Code
+<a name="JavaCode" />
+## Java Code Example
 
-You can see the Java code example [here](). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. Note that before drawing, we need to update our `LightPos` uniform, normalized based on the display width and height. With certain coordinate systems, like LibGDX, you may need to flip the Y value. 
+You can see the Java code example [here](). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. 
 
-Like in [Lesson 4](ShaderLesson4), we will use multiple texture units when rendering:
+We set the `LightPos.xy` based on the mouse (normalized to resolution), and change `LightPos.z` (depth) based on the mouse wheel (click to reset light Z). With certain coordinate systems, like LibGDX, you may need to flip the Y value. 
+
+Below is our rendering code. Like in [Lesson 4](ShaderLesson4), we will use multiple texture units when rendering.
 ```java
+...
+
 //update light position, normalized to screen resolution
 float x = Mouse.getX() / (float)Display.getWidth();
 float y = Mouse.getY() / (float)Display.getHeight();
@@ -120,6 +132,7 @@ rock.bind();
 batch.draw(rock, 50, 50);
 ```
 
+<a name="FragmentShader" />
 ## Fragment Shader
 
 Here is our full fragment shader, which we will break down in the next section:
@@ -172,9 +185,10 @@ void main() {
 }
 ```
 
-### Breakdown
+<a name="Breakdown" />
+### GLSL Breakdown 
 
-First, we will sample from our two textures:
+Now, to break it down. First, we sample from our two textures:
 
 ```glsl
 //RGBA of our diffuse color
