@@ -75,12 +75,19 @@ FinalColor = DiffuseColor.rgb * Intensity.rgb
 
 You don't need to understand why this works mathematically, but if you are interested you can read more about "N dot L" shading [here](http://www.lighthouse3d.com/tutorials/glsl-core-tutorial/directional-lights/) and [here](http://en.wikipedia.org/wiki/Lambertian_reflectance).
 
+Some key terms:
+
+- **Diffuse Color:** This is the RGB of our texture, unlit.
+- **Diffuse:** The light color multiplied by Lambertian reflection. This is the "meat" of our lighting equation.
+- **Ambient:** The color and intensity when in shadow. For example, an outdoor scene may have a higher ambient intensity than a dimly lit indoor scene. 
+- **Attenuation:** This is the "distance falloff" of the light; i.e. the loss of intensity/brightness as we move further from the point light. There are a number of ways of calculating attenuation -- for our purposes we will use ["Constant-Linear-Quadratic" attenuation](https://developer.valvesoftware.com/wiki/Constant-Linear-Quadratic_Falloff). The attenuation is calculated with three "coefficients" which we can change to affect how the light falloff looks.
+- **Intensity:** This is the intensity of our shading algorithm -- closer to 1.0 means "lit" while closer to 0.0 means "unlit."
+
 The following image will help you visualize our illumination model:
 
 ![Illu](http://i.imgur.com/bSbNxRh.png)
 
-- **Diffuse:** This describes how the light will be diffused over the surface
-- **
+As you can see, it's rather "modular" in the sense that we can take away parts of it that we might not need, like attenuation or light colors. 
 
 Now let's try to apply this to model GLSL. Note that we will only be working with 2D, and there are some [extra considerations in 3D](http://www.ozone3d.net/tutorials/bump_mapping_p3.php#tangent_space) that are not covered by this tutorial. We will break the model down into separate parts, each one building on the next.
 
