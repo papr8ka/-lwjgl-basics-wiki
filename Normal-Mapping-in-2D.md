@@ -75,7 +75,24 @@ FinalColor = DiffuseColor.rgb * Intensity.rgb
 
 You don't need to understand why this works mathematically, but if you are interested you can read more about "N dot L" shading [here](http://www.lighthouse3d.com/tutorials/glsl-core-tutorial/directional-lights/) and [here](http://en.wikipedia.org/wiki/Lambertian_reflectance).
 
-Now let's try to apply this to model GLSL. Note that we will only be working with 2D, and there are some [extra considerations in 3D](http://www.ozone3d.net/tutorials/bump_mapping_p3.php#tangent_space) that are not covered by this tutorial.
+The following image will help you visualize our illumination model:
+
+![Illu](http://i.imgur.com/bSbNxRh.png)
+
+- **Diffuse:** This describes how the light will be diffused over the surface
+- **
+
+Now let's try to apply this to model GLSL. Note that we will only be working with 2D, and there are some [extra considerations in 3D](http://www.ozone3d.net/tutorials/bump_mapping_p3.php#tangent_space) that are not covered by this tutorial. We will break the model down into separate parts, each one building on the next.
+
+
+## Basic Illumination
+
+
+
+
+
+
+
 
 Firstly, we need to determine the light vector from the current fragment (i.e. pixel). This is done very simply, like so:
 
