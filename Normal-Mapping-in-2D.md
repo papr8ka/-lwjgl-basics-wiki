@@ -6,7 +6,7 @@ This article will focus on 3D lighting and normal mapping techniques and how we 
 
 # Contents
 
-- [Intro to Vectors & Normals]()
+- [Intro to Vectors & Normals](#VectorsNormals)
 
 <a name="VectorsNormals" />
 # Intro to Vectors & Normals
