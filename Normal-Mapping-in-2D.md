@@ -189,7 +189,13 @@ void main() {
 	
 	//The delta position of light
 	vec3 LightDir = vec3(LightPos.xy - (gl_FragCoord.xy / Resolution.xy), LightPos.z);
-		
+	
+	//Correct for aspect ratio
+	LightDir.x *= Resolution.x / Resolution.y;
+	
+	//Determine distance (used for attenuation) BEFORE we normalize our LightDir
+	float D = length(LightDir);
+	
 	//normalize our vectors
 	vec3 N = normalize(NormalMap * 2.0 - 1.0);
 	vec3 L = normalize(LightDir);
@@ -201,8 +207,7 @@ void main() {
 	//pre-multiply ambient color with intensity
 	vec3 Ambient = AmbientColor.rgb * AmbientColor.a;
 	
-	//The magnitude of our light vector, which we'll use for distance falloff (attenuation)
-	float D = length(LightDir);
+	//calculate attenuation
 	float Attenuation = 1.0 / ( Falloff.x + (Falloff.y*D) + (Falloff.z*D*D) );
 	
 	//the calculation which brings it all together
@@ -225,9 +230,16 @@ vec4 DiffuseColor = texture2D(u_texture, vTexCoord);
 vec3 NormalMap = texture2D(u_normals, vTexCoord).rgb;
 ```
 
-Next, we need to determine the light vector from the current fragment:
+Next, we need to determine the light vector from the current fragment, and correct it for the aspect ratio. Then we determine the magnitude (length) of our `LightDir` vector before we normalize it:
 ```glsl
+//Delta pos
 vec3 LightDir = vec3(LightPos.xy - (gl_FragCoord.xy / Resolution.xy), LightPos.z);
+
+//Correct for aspect ratio
+LightDir.x *= Resolution.x / Resolution.y;
+
+//determine magnitude
+float D = length(LightDir);
 ```
 
 As in our illumination model, we need to decode the `Normal.xyz` from our `NormalMap.rgb`, and then normalize our vectors:
@@ -248,9 +260,8 @@ Next, we pre-multiply our ambient color with intensity:
 vec3 Ambient = AmbientColor.rgb * AmbientColor.a;
 ```
 
-The next step is to determine the length or distance from our light, and then use that value to calculate `Attenuation`. The `Falloff` uniform defines our Constant, Linear, and Quadratic attenuation coefficients.
+The next step is to use our `LightDir` magnitude (calculated earlier) to determine the `Attenuation`. The `Falloff` uniform defines our Constant, Linear, and Quadratic attenuation coefficients.
 ```glsl
-float D = length(LightDir);
 float Attenuation = 1.0 / ( Falloff.x + (Falloff.y*D) + (Falloff.z*D*D) );
 ```
 
@@ -262,6 +273,12 @@ vec3 FinalColor = DiffuseColor.rgb * Intensity;
 gl_FragColor = vColor * vec4(FinalColor, DiffuseColor.a);
 ```
 
+<a name="Gotchas" />
+## Gotchas
+
+- The `LightDir` and attenuation in our implementation depends on the resolution. This means that changing the resolution will affect the falloff of our light. Depending on your game, a different implementation may be required that is resolution-independent.
+- A common problem has to do with differences between your game's Y coordinate system and that employed by your normal-map generation program (such as CrazyBump). The following image explains this:  
+![FlipY](http://i.imgur.com/u3vDDfP.png)
 
 http://www.upvector.com/?section=Tutorials&subsection=Intro%20to%20Shaders
 http://acko.net/blog/making-worlds-3-thats-no-moon/
