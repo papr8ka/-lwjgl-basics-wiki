@@ -77,6 +77,8 @@ You don't need to understand why this works mathematically, but if you are inter
 
 Some key terms:
 
+- **Normal:** This is the normal XYZ that we decoded from out NormalMap texture.
+- **LightDir:** This is the vector from the surface to the light position, which we will explain shortly.
 - **Diffuse Color:** This is the RGB of our texture, unlit.
 - **Diffuse:** The light color multiplied by Lambertian reflection. This is the "meat" of our lighting equation.
 - **Ambient:** The color and intensity when in shadow. For example, an outdoor scene may have a higher ambient intensity than a dimly lit indoor scene. 
