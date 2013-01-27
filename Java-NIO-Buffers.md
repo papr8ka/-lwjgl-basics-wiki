@@ -123,3 +123,5 @@ Gdx.gl.glGetInteger(GL_MAX_TEXTURE_SIZE, buffer);
 
 int maxSize = buffer.get();
 ```
+
+LibGDX's Pixmap utilities mean that we rarely need to work with buffers directly to manipulate pixel data.
