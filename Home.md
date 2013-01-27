@@ -38,6 +38,7 @@ The tutorial series uses the lwjgl-basics API to reduce clutter and keep things 
   * [Flying Lotus' Cosmogramma in Code (Album Artwork)](http://glsl.heroku.com/e#5928.5)
 * Misc
   * [2D Lightning Effect](wiki/LightningEffect)
+  * [Tiled Maps from Images](wiki/Tiled-Map-Images)
 
 ***
 
