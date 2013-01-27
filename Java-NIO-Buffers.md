@@ -107,3 +107,19 @@ Also note that LWJGL includes convenience methods for glGetInteger, glGenTexture
 ```java
 int maxSize = glGetInteger(GL_MAX_TEXTURE_SIZE);
 ```
+
+## Appendix: LibGDX
+
+In [LibGDX](http://libgdx.badlogicgames.com/), buffers are used in the same manner. However, LibGDX includes its own buffer creation utility, which you would use instead of LWJGL's. So in LibGDX the above code may look like this:
+
+```java
+//uses LibGDX's BufferUtils class
+IntBuffer buffer = BufferUtils.newIntBuffer(16);
+
+//Gdx.gl -> "common" functions that appear in GL10 and GL20
+//Gdx.gl20 -> GLES20 functions, is only non-null if Gdx.graphics.isGL20Available() (useGL20=true in app cfg)
+//Gdx.gl10 -> GLES10 functions, will be null if Gdx.graphics.isGL20Available()
+Gdx.gl.glGetInteger(GL_MAX_TEXTURE_SIZE, buffer);
+
+int maxSize = buffer.get();
+```
