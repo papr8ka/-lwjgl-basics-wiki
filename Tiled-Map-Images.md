@@ -4,7 +4,7 @@ For example, in the map below, green `(R=135, G=184, B=78)` or `#87b84e` corresp
 
 ![MapImg](http://i39.tinypic.com/4exra.png)
 
-And the resulting map, after picking out tiles based on their color:
+When loading the map in game, we simply loop through our image and substitute tile types based on image color. The resulting in-game map might look like this:
 
 ![Map1](http://i44.tinypic.com/2qibpzt.png)
 
