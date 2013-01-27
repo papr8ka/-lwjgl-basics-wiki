@@ -73,9 +73,9 @@ LibGDX will upload the data to OpenGL based on the format of the image being loa
 - `RGB888` - This is similar to the above, but discards the alpha channel (i.e. the image is opaque). This is useful for high-quality images that don't need an alpha channel.
 - `RGBA4444` - This is similar to `RGBA8888`, but stores each channel in only 4 bits. This leads to lower color quality, but has performance and memory implications on low-end devices like Android and iOS. 
 - `RGB565` - This stores the red channel in 5 bits, the green in 6 bits, and the blue in 5 bits. We use an extra bit in the green channel since the human eye can generally perceive more gradations of green. This is known as "High Color", and is again mainly useful for low-end or embedded devices.
-- `LuminanceAlpha` - This is a grayscale image that includes an alpha channel. Grayscale colors have equal red, green and blue values, which we call "luminance." So a typical gray value of `R=127, G=127, B=127, A=255` would be represented like so with LuminanceAlpha: `L=127, A=255`. Each uses 8 bits.
+- `LuminanceAlpha` - This is a grayscale image that includes an alpha channel. Grayscale colors have equal red, green and blue values, which we call "luminance." So a typical gray value of (R=127, G=127, B=127, A=255) would be represented like so with LuminanceAlpha: (L=127, A=255). Each uses 8 bits.
 - `Alpha` - This is a special type of image that only stores an alpha channel in 8 bits.
-- `Intensity` - This is another special type of image which only uses a single channel, but with the alpha channel equal to the luminance. For example, an Intensity color of `I=127` would be equivalent to a RGBA color of `R=127, G=127, B=127, A=127`.
+- `Intensity` - This is another special type of image which only uses a single channel, but with the alpha channel equal to the luminance. For example, an Intensity color of (I=127) would be equivalent to a RGBA color of (R=127, G=127, B=127, A=127).
 
 ## Drawing with Pixmaps
 
