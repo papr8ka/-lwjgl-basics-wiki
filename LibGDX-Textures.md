@@ -46,7 +46,7 @@ Typically, we load a texture in LibGDX like this:
 tex = new Texture(Gdx.files.internal("data/libgdx.png"));
 ```
 
-The above decodes the `"data/libgdx.png"` image into RGBA format, then uploads the data to OpenGL and discards the pixel array. The texture is "managed" by LibGDX, which means that it will be re-loaded if the OpenGL context is lost and regained (e.g. in an Android application, if the user hits the home button).
+The above decodes the `"data/libgdx.png"` image into a pixel array, then uploads the data to OpenGL and discards the pixel array. The texture is "managed" by LibGDX, which means that it will be re-loaded if the OpenGL context is lost and regained (e.g. in an Android application, if the user hits the home button).
 
 Here is a more explicit means of creating a texture. Note that this texture won't be "managed," so we will need to re-load it ourselves upon context loss.
 ```java
@@ -65,67 +65,26 @@ pixels.dispose();
 
 As you will see, Textures are only necessary if you intend to draw the image to the screen. If you wanted to use image data for something like a terrain height map, or a simple [tiled map](Tiled-Map-Images), 
 
-### Decoding PNG to RGBA bytes
+## LibGDX Formats
 
-OpenGL doesn't know anything about GIF, PNG, JPEG, etc; it only understands bytes and floats. So we need to decode our PNG image into a ByteBuffer. If you are unfamiliar with NIO buffers, [see this page](https://github.com/mattdesl/lwjgl-basics/wiki/Java-NIO-Buffers).
+LibGDX will upload the data to OpenGL based on the format of the image being loaded. We can also specify formats explicitly, in which case LibGDX will perform conversions if necessary. Here is a brief explanation of the different formats in `Pixmap.Format`:
 
-In order to do this, we will use Matthias Mann's open source pure-Java [PNGDecoder](http://hg.l33tlabs.org/twl/file/tip/src/de/matthiasmann/twl/utils/PNGDecoder.java). He also has some decoders for BMP, JPEG and TGA which you can find [here](http://hg.l33tlabs.org/TextureLoader/file/tip/src/de/matthiasmann/textureloader). 
+- `RGBA8888`: This is the format we described in the earlier *Primer* section. Each channel (R, G, B, A) is made up of a byte, or 8 bits. With this format, we have four bytes per pixel. We would use this for high-quality color that requires an alpha channel, for transparency. This is known as "True Color".
+- `RGB888`: This is similar to the above, but discards the alpha channel (i.e. the image is opaque). This is useful for high-quality images that don't need an alpha channel.
+- `RGBA4444`: This is similar to `RGBA8888`, but stores each channel in only 4 bits. This leads to lower color quality, but has performance and memory implications on low-end devices like Android and iOS. 
+- `RGB565`: This stores the red channel in 5 bits, the green in 6 bits, and the blue in 5 bits. We use an extra bit in the green channel since the human eye can generally perceive more gradations of green. This is known as "High Color", and is again mainly useful for low-end or embedded devices.
+- `LuminanceAlpha`: This is a grayscale image that includes an alpha channel. Grayscale colors have equal red, green and blue values, which we call "luminance." So a typical gray value of `R=127, G=127, B=127, A=255` would be represented like so with LuminanceAlpha: `L=127, A=255`. Each uses 8 bits.
+- `Alpha`: This is a special type of image that only stores an alpha channel in 8 bits.
+- `Intensity`: This is another special type of image which only uses a single channel, but with the alpha channel equal to the luminance. For example, an Intensity color of `I=127` would be equivalent to a RGBA color of `R=127, G=127, B=127, A=127`.
 
-To decode an image into a ByteBuffer, it looks like this:
-```java
-//get an InputStream from our URL
-input = pngURL.openStream();
+## Drawing with Pixmaps
 
-//initialize the decoder
-PNGDecoder dec = new PNGDecoder(input);
-
-//read image dimensions from PNG header
-width = dec.getWidth();
-height = dec.getHeight();
-
-//we will decode to RGBA format, i.e. 4 components or "bytes per pixel"
-final int bpp = 4;
-
-//create a new byte buffer which will hold our pixel data
-ByteBuffer buf = BufferUtils.createByteBuffer(bpp * width * height);
-
-//decode the image into the byte buffer, in RGBA format
-dec.decode(buf, width * bpp, PNGDecoder.Format.RGBA);
-
-//flip the buffer into "read mode" for OpenGL
-buf.flip();
-```
-
-### Creating the Texture
-
-Although it's possible to bind multiple textures in OpenGL with multiple texture units, this guide
-will only focus on using a single texture unit. Therefore, in order to change the parameters of a texture,
-or in order to send the RGBA bytes to OpenGL, we first need to *bind* that texture, i.e. "make it the currently
-active texture." We can use `glGenTextures` to retrieve a unique identifier (aka "texture name" or "texture handle")
-so that GL knows which texture we are trying to bind. 
-
-The process of creating a texture and uploading the RGBA bytes looks like this:
+We can use Pixmaps for very simple render-to-texture functionality, done in software. For example, we could create a circle texture like so:
 
 ```java
-//Generally a good idea to enable texturing first
-glEnable(GL_TEXTURE_2D);
-
-//generate a texture handle or unique ID for this texture
-id = glGenTextures();
-
-//bind the texture
-glBindTexture(GL_TEXTURE_2D, id);
-
-//use an alignment of 1 to be safe
-//this tells OpenGL how to unpack the RGBA bytes we will specify
-glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-//set up our texture parameters
-glTexParameteri(...);
-
-//upload our ByteBuffer to GL
-glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);		
+Pixmap px = new Pixmap(256, 256
 ```
+
 
 The call to `glTexImage2D` is what sets up the actual texture in OpenGL. We can call this again later if we decide to change the width and height of our image, or if we need to change the RGBA pixel data.
 If we only want to change a portion of the RGBA data (i.e. a sub-image), we can use `glTexSubImage2D`. For per-pixel modifications, however, we will generally rely on fragment shaders, which we will look into later.
