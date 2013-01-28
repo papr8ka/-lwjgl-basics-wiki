@@ -1,7 +1,7 @@
 ##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » LibGDX Textures
 ***
 
-This is a mirror of the [OpenGL Textures](Textures) tutorial, but geared toward LibGDX users, and thus a little "higher level." After reading through this, it would be good to read the OpenGL and [NIO Buffers](Java-NIO-Buffers) tutorials to better understand how LibGDX handles textures "under the hood."
+This is a mirror of the [OpenGL Textures](Textures) tutorial, but geared toward LibGDX users, and thus a little "higher level." After reading through this, it would be good to read the [OpenGL Textures](Textures) and [NIO Buffers](Java-NIO-Buffers) tutorials to better understand how LibGDX handles textures "under the hood."
 
 ### Primer: Digital Images
 
