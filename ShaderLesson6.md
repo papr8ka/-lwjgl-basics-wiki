@@ -29,6 +29,7 @@ The effect is the same shown in [this popular YouTube video](http://youtu.be/vtY
 - [Generating Normal Maps](#GeneratingNormals)
   - [Blender Tool](#BlenderTool)
 - [Further Reading](#FurtherReading)
+- [Other APIs](#Ports)
 
 <a name="VectorsNormals" />
 ## Intro to Vectors & Normals
@@ -332,3 +333,9 @@ Here are some useful links that go into more detail regarding normal mapping for
 - [The Cg Tutorial](http://http.developer.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
 - [oZone Bump Mapping Tutorial](http://www.ozone3d.net/tutorials/bump_mapping.php)
 - [Bump Mapping in GLSL - Fabien Sanglard](http://fabiensanglard.net/bumpMapping/index.php)
+
+<a name="Ports" />
+
+## Other APIs
+
+* [LibGDX Port](https://gist.github.com/4653464)
