@@ -15,7 +15,7 @@ This article will focus on 3D lighting and normal mapping techniques and how we 
 Once you understand the concept of illumination, it should be fairly straight-forward to apply it to any setting. Here is an example of normal mapping in a Java4K demo, i.e. rendered in software:    
 ![Pixels](http://i.imgur.com/S6ElW.gif)
 
-The effect is the same shown in [this popular YouTube video](http://youtu.be/vtYvNEmmHXE) and [this Love2D demo](https://love2d.org/forums/viewtopic.php?f=5&t=11076).
+The effect is the same shown in [this popular YouTube video](http://youtu.be/vtYvNEmmHXE) and [this Love2D demo](https://love2d.org/forums/viewtopic.php?f=5&t=11076). You can also see the effect in action [here](http://www.java-gaming.org/topics/glsl-using-normal-maps-to-illuminate-a-2d-texture-libgdx/27516/view.html), which includes an executable demo.
 
 ## Contents
 
