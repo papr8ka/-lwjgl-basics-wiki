@@ -262,6 +262,10 @@ Here are various considerations for improving performance:
 
 This solution is impractical on low end hardware (such as Android or iOS) due to the fill-rate and multiple passes involved. For tricks on blurring efficiently on mobile (using LibGDX), check out the [OpenGL ES Blurs](OpenGL-ES-Blurs) tutorial.
 
+## Lesson 6...
+
+Next up, [Lesson 6](ShaderLesson6) covers normal map lighting for 2D games.
+
 <a name="Ports" />
 
 ## Other APIs
