@@ -2,16 +2,14 @@
 
 <a name="Top" />
 
-This article will focus on 3D lighting and normal mapping techniques and how we can apply them to 2D games. To demonstrate, see the following texture:  
-![Rock](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock.png)
+# Intro
 
-After the shading effect is applied, the lighting looks like this in real-time:  
+This article will focus on 3D lighting and normal mapping techniques and how we can apply them to 2D games. To demonstrate, see the following. On the left is the texture, and on the right is the illumination applied in real-time.    
+![Rock](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock.png)
 ![Lit](http://i.imgur.com/WHI3uYo.gif)
 
-We can apply the same concept to a 3D object, similar to the effect in [this popular YouTube video](http://youtu.be/vtYvNEmmHXE). Below is the monkey render, unaffected by shading:  
+We can apply the same concept to a 3D object, similar to the effect in [this popular YouTube video](http://youtu.be/vtYvNEmmHXE).
 ![Suzanne](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/suzanne.png)
-
-And after the effect is applied:  
 ![Shading](http://i.imgur.com/SHvfHts.gif)
 
 Once you understand the concept of illumination, it should be fairly straight-forward to apply it to any setting. Here is an example of normal mapping in a Java4K demo, i.e. rendered in software:    
