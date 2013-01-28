@@ -165,7 +165,8 @@ public static void debugTexture(Texture tex, float x, float y, float width, floa
 	glOrtho(0, Display.getWidth(), Display.getHeight(), 0, 1, -1);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	
+	glEnable(GL_TEXTURE_2D); //likely redundant; will be removed upon migration to "modern GL"
+
 	//bind the texture before rendering it
 	tex.bind();
 
