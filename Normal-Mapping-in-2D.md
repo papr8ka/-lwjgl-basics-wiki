@@ -312,12 +312,13 @@ You can also use 3D modeling software like [Blender](http://www.blender.org/) or
 <a name="BlenderTool" />
 ### Blender Tool
 
-One idea for a workflow would be to produce a low-poly and very rough 3D object of your art asset. Then you can use the [Blender Normal Map Template](https://github.com/mattdesl/lwjgl-basics/tree/master/tools/blender-normals) to render your object to a 2D tangent space normal map. Then, you could open the normal map in Photoshop and begin working on the texturing.
+One idea for a workflow would be to produce a low-poly and very rough 3D object of your art asset. Then you can use [this Blender normal map template](https://github.com/mattdesl/lwjgl-basics/tree/master/tools/blender-normals) to render your object to a 2D tangent space normal map. Then, you could open the normal map in Photoshop and begin working on the diffuse color map.
 
 Here's what the Blender template looks like:  
 ![Image](http://i.imgur.com/dFRsM.png)
 
 <a name="FurtherReading" />
+## Further Reading 
 
 Here are some useful links that go into more detail regarding normal mapping for 3D games:  
 
