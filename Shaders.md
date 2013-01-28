@@ -10,7 +10,7 @@
   * [Lesson 4](ShaderLesson4) briefly introduces multiple texture units and "texture splatting."
   * [Lesson 5](ShaderLesson5) introduces a two-pass gaussian blur.
     * [Blurs for Mobile Applications in LibGDX](OpenGL-ES-Blurs)
-  * Lesson 6 (WIP) will cover normal map lighting for 2D games. See [here](http://www.java-gaming.org/topics/glsl-using-normal-maps-to-illuminate-a-2d-texture-libgdx/27516/view.html) for now.
+  * [Lesson 6](ShaderLesson6) covers normal map lighting for 2D games. 
   * Lesson 7 (WIP) will cover light scattering, aka "god rays".
 
 
