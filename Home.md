@@ -17,7 +17,7 @@ The tutorial series uses the lwjgl-basics API to reduce clutter and keep things 
   * [Lesson 4: Multiple Texture Units](wiki/ShaderLesson4)
   * [Lesson 5: Gaussian Blurs](wiki/ShaderLesson5)
       * [Blurs for Mobile Applications in LibGDX](wiki/OpenGL-ES-Blurs)
-  * Lesson 6 (WIP) will cover normal map lighting for 2D games. See [here](http://www.java-gaming.org/topics/glsl-using-normal-maps-to-illuminate-a-2d-texture-libgdx/27516/view.html) for now.
+  * [Lesson 6: Normal Map Lighting for 2D Games](wiki/ShaderLesson6)
   * Lesson 7 (WIP) will cover light scattering, aka "god rays".
 * 5. Creating Your own 2D Renderer
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
