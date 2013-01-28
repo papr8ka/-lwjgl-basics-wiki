@@ -10,6 +10,7 @@ This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwj
 
 This article will focus on 3D lighting and normal mapping techniques and how we can apply them to 2D games. To demonstrate, see the following. On the left is the texture, and on the right is the illumination applied in real-time.    
 ![Rock](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock.png)
+
 ![Lit](http://i.imgur.com/WHI3uYo.gif)
 
 Once you understand the concept of illumination, it should be fairly straight-forward to apply it to any setting. Here is an example of normal mapping in a Java4K demo, i.e. rendered in software:    
