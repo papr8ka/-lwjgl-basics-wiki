@@ -23,6 +23,8 @@ The effect is the same shown in [this popular YouTube video](http://youtu.be/vtY
   - [GLSL Breakdown](#Breakdown)
 - [Gotchas](#Gotchas)
 - [Generating Normal Maps](#GeneratingNormals)
+  - [Blender Tool](#BlenderTool)
+- [Further Reading](#FurtherReading)
 
 <a name="VectorsNormals" />
 ## Intro to Vectors & Normals
@@ -307,12 +309,21 @@ There are a number of ways of generating a normal map from an image. Common appl
 
 You can also use 3D modeling software like [Blender](http://www.blender.org/) or [ZBrush](http://www.pixologic.com/) to sculpt high-quality normal maps. 
 
+<a name="BlenderTool" />
 ### Blender Tool
 
+One idea for a workflow would be to produce a low-poly and very rough 3D object of your art asset. Then you can use the [Blender Normal Map Template](https://github.com/mattdesl/lwjgl-basics/tree/master/tools/blender-normals) to render your object to a 2D tangent space normal map. Then, you could open the normal map in Photoshop and begin working on the texturing.
 
-
+Here's what the Blender template looks like:  
 ![Image](http://i.imgur.com/dFRsM.png)
 
+<a name="FurtherReading" />
 
-http://www.upvector.com/?section=Tutorials&subsection=Intro%20to%20Shaders
-http://acko.net/blog/making-worlds-3-thats-no-moon/
+Here are some useful links that go into more detail regarding normal mapping for 3D games:  
+
+- [UpVector - Intro to Shaders & Light](http://www.upvector.com/?section=Tutorials&subsection=Intro%20to%20Shaders)
+- [Bump Mapping Using CG by Søren Dreijer](http://www.blacksmith-studios.dk/projects/downloads/bumpmapping_using_cg.php)
+- [Illumination Model Slides](http://nccastaff.bournemouth.ac.uk/jmacey/CGF/slides/IlluminationModels4up.pdf)
+- [The Cg Tutorial](http://http.developer.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
+- [oZone Bump Mapping Tutorial](http://www.ozone3d.net/tutorials/bump_mapping.php)
+- [Bump Mapping in GLSL - Fabien Sanglard](http://fabiensanglard.net/bumpMapping/index.php)
