@@ -8,12 +8,10 @@ This article will focus on 3D lighting and normal mapping techniques and how we 
 ![Rock](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock.png)
 ![Lit](http://i.imgur.com/WHI3uYo.gif)
 
-We can apply the same concept to a 3D object, similar to the effect in [this popular YouTube video](http://youtu.be/vtYvNEmmHXE).
-![Suzanne](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/suzanne.png)
-![Shading](http://i.imgur.com/SHvfHts.gif)
-
 Once you understand the concept of illumination, it should be fairly straight-forward to apply it to any setting. Here is an example of normal mapping in a Java4K demo, i.e. rendered in software:    
 ![Pixels](http://i.imgur.com/S6ElW.gif)
+
+The effect is the same shown in [this popular YouTube video](http://youtu.be/vtYvNEmmHXE) and [this Love2D demo](https://love2d.org/forums/viewtopic.php?f=5&t=11076).
 
 # Contents
 
