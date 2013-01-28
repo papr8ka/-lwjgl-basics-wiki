@@ -288,7 +288,7 @@ gl_FragColor = vColor * vec4(FinalColor, DiffuseColor.a);
 ## Gotchas
 
 - The `LightDir` and attenuation in our implementation depends on the resolution. This means that changing the resolution will affect the falloff of our light. Depending on your game, a different implementation may be required that is resolution-independent.
-- A common problem has to do with differences between your game's Y coordinate system and that employed by your normal-map generation program (such as CrazyBump). The following image explains this:  
+- A common problem has to do with differences between your game's Y coordinate system and that employed by your normal-map generation program (such as CrazyBump). Some programs will let you export with a flipped Y value. The following image shows the problem:  
 ![FlipY](http://i.imgur.com/u3vDDfP.png)
 
 <a name="GeneratingNormals" />
