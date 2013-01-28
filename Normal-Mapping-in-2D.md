@@ -2,7 +2,7 @@
 
 <a name="Top" />
 
-# Intro
+## Intro
 
 This article will focus on 3D lighting and normal mapping techniques and how we can apply them to 2D games. To demonstrate, see the following. On the left is the texture, and on the right is the illumination applied in real-time.    
 ![Rock](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock.png)
@@ -13,7 +13,7 @@ Once you understand the concept of illumination, it should be fairly straight-fo
 
 The effect is the same shown in [this popular YouTube video](http://youtu.be/vtYvNEmmHXE) and [this Love2D demo](https://love2d.org/forums/viewtopic.php?f=5&t=11076).
 
-# Contents
+## Contents
 
 - [Intro to Vectors & Normals](#VectorsNormals)
 - [Encoding & Decoding Normals](#EncDecNormals)
@@ -25,7 +25,7 @@ The effect is the same shown in [this popular YouTube video](http://youtu.be/vtY
 - [Generating Normal Maps](#GeneratingNormals)
 
 <a name="VectorsNormals" />
-# Intro to Vectors & Normals
+## Intro to Vectors & Normals
 
 As we've discussed in past lessons, a GLSL "vector" is a float container that typically holds values such as position; `(x, y, z)`. In mathematics, vectors mean quite a bit more, and are used to denote length (i.e. magnitude) and direction. If you're new to vectors and want to learn a bit more about them, check out some of these links:
 
@@ -119,7 +119,7 @@ As you can see, it's rather "modular" in the sense that we can take away parts o
 Now let's try to apply this to model GLSL. Note that we will only be working with 2D, and there are some [extra considerations in 3D](http://www.ozone3d.net/tutorials/bump_mapping_p3.php#tangent_space) that are not covered by this tutorial. We will break the model down into separate parts, each one building on the next.
 
 <a name="JavaCode" />
-# Java Code Example
+## Java Code Example
 
 You can see the Java code example [here](). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. We'll use the following two textures:
 
@@ -171,7 +171,7 @@ The resulting "shaded" texture:
 ![Shaded](http://i.imgur.com/CrkJznv.png)
 
 <a name="FragmentShader" />
-## Fragment Shader
+### Fragment Shader
 
 Here is our full fragment shader, which we will break down in the next section:
 
@@ -229,7 +229,7 @@ void main() {
 ```
 
 <a name="Breakdown" />
-## GLSL Breakdown 
+### GLSL Breakdown 
 
 Now, to break it down. First, we sample from our two textures:
 
