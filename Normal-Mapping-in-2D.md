@@ -170,6 +170,9 @@ batch.draw(rock, 50, 50);
 The resulting "shaded" texture:  
 ![Shaded](http://i.imgur.com/CrkJznv.png)
 
+Here it is again, using a lower Z value for the light:  
+![Z](http://i.imgur.com/pZ7gajb.png)
+
 <a name="FragmentShader" />
 ### Fragment Shader
 
@@ -304,8 +307,11 @@ There are a number of ways of generating a normal map from an image. Common appl
 
 You can also use 3D modeling software like [Blender](http://www.blender.org/) or [ZBrush](http://www.pixologic.com/) to sculpt high-quality normal maps. 
 
-Soon I will include an appendix on "Workflow for 2D Normal Maps", which includes a simple Blender tool to get you started. This allows us to produce a 2D tangent-space normal map for any image from the camera angle.
+### Blender Tool
 
+
+
+![Image](http://i.imgur.com/dFRsM.png)
 
 
 http://www.upvector.com/?section=Tutorials&subsection=Intro%20to%20Shaders
