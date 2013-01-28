@@ -266,4 +266,4 @@ This solution is impractical on low end hardware (such as Android or iOS) due to
 
 ## Other APIs
 
-* [LibGDX Port](https://gist.github.com/4372018)
+* [LibGDX Port](https://gist.github.com/4653464)
