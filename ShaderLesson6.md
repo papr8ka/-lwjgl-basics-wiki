@@ -9,8 +9,7 @@ This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwj
 ## Intro
 
 This article will focus on 3D lighting and normal mapping techniques and how we can apply them to 2D games. To demonstrate, see the following. On the left is the texture, and on the right is the illumination applied in real-time.    
-![Rock](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock.png)
-
+![Rock](http://i.imgur.com/e4FtQNt.png)
 ![Lit](http://i.imgur.com/WHI3uYo.gif)
 
 Once you understand the concept of illumination, it should be fairly straight-forward to apply it to any setting. Here is an example of normal mapping in a Java4K demo, i.e. rendered in software:    
@@ -131,8 +130,8 @@ Now let's try to apply this to model GLSL. Note that we will only be working wit
 
 You can see the Java code example [here](). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. We'll use the following two textures:
 
-![Rock](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock.png)
-![RockN](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/rock_n.png)  
+![Rock](http://i.imgur.com/e4FtQNt.png)
+![RockN](http://i.imgur.com/cjFUm7X.png)  
 
 Our example adjusts the `LightPos.xy` based on the mouse position (normalized to resolution), and `LightPos.z` (depth) based on the mouse wheel (click to reset light Z). With certain coordinate systems, like LibGDX, you may need to flip the Y value. 
 
