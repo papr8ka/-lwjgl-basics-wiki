@@ -217,7 +217,7 @@ float v2 = (srcY + srcHeight) / tex.height;
 Here is a visual breakdown of each vertex:  
 ![VertexBreakdown](http://i.imgur.com/nwXUM.png)
 
-The above would be better suited in its own method, such as `drawDebugRegion`. Later, we will examine the `TextureRegion` utility class, which will simplify the process of handling sprite sheets and sub-images.
+The above would be better suited in its own method, such as `drawDebugRegion`. Later, we will examine the [TextureRegion](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/TextureRegion.java) utility class, which will simplify the process of handling sprite sheets and sub-images.
 
 *Note:* As we discussed earlier, using `GL_LINEAR` will lead to bilinear interpolation when scaling -- i.e. the nearest four pixels will be selected and blended together. This can lead to unwanted effects when scaling a texture atlas, where "bleeding" occurs at the edge of sprites, and so it's often wise to use `GL_NEAREST` and/or pad each sprite in your atlas with a transparent 1-2px border.
 
