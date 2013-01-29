@@ -317,7 +317,7 @@ gl_FragColor = vec4(Sum, DiffuseColor.a);
 
 ![Multiple](http://i.imgur.com/xZeLLSR.png)
 
-Notice that introduces more branching (loops, ifs, etc) to your shader, which may degrade performance. 
+Note this introduces more branching to your shader, which may degrade performance. 
 
 This is sometimes known as "N lighting" since our system only supports a fixed *N* number of lights. If you plan to include a lot of lights, you may want to investigate multiple draw calls (i.e. additive blending), or [deferred lighting](http://en.wikipedia.org/wiki/Deferred_shading). 
 
