@@ -313,6 +313,8 @@ There are a number of ways of generating a normal map from an image. Common appl
 - [njob](http://charles.hollemeersch.net/njob)
 - [ShaderMap](http://shadermap.com/home/)
 
+Note that many of these applications will produce aliasing and inaccuracies, read [this article](http://www.katsbits.com/tutorials/textures/how-not-to-make-normal-maps-from-photos-or-images.php) for further details.
+
 You can also use 3D modeling software like [Blender](http://www.blender.org/) or [ZBrush](http://www.pixologic.com/) to sculpt high-quality normal maps. 
 
 <a name="BlenderTool" />
