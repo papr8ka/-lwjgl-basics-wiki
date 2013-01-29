@@ -305,6 +305,7 @@ gl_FragColor = vColor * vec4(FinalColor, DiffuseColor.a);
 ## Generating Normal Maps
 
 There are a number of ways of generating a normal map from an image. Common applications and filters for converting 2D images to normal maps include:
+- [SMAK! - Super Model Army Knife](http://getsmak.com/)
 - [CrazyBump](http://www.crazybump.com/)
 - [NVIDIA Texture Tools for Photoshop](https://developer.nvidia.com/nvidia-texture-tools-adobe-photoshop)
 - [gimp-normalmap](http://code.google.com/p/gimp-normalmap/)
