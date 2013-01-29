@@ -26,6 +26,7 @@ The effect is the same shown in [this popular YouTube video](http://youtu.be/vtY
   - [Fragment Shader](#FragmentShader)
   - [GLSL Breakdown](#Breakdown)
 - [Gotchas](#Gotchas)
+- [Multiple Lights](#MultipleLights)
 - [Generating Normal Maps](#GeneratingNormals)
   - [Blender Tool](#BlenderTool)
 - [Further Reading](#FurtherReading)
@@ -300,6 +301,27 @@ gl_FragColor = vColor * vec4(FinalColor, DiffuseColor.a);
 - The `LightDir` and attenuation in our implementation depends on the resolution. This means that changing the resolution will affect the falloff of our light. Depending on your game, a different implementation may be required that is resolution-independent.
 - A common problem has to do with differences between your game's Y coordinate system and that employed by your normal-map generation program (such as CrazyBump). Some programs will let you export with a flipped Y value. The following image shows the problem:  
 ![FlipY](http://i.imgur.com/u3vDDfP.png)
+
+<a name="MultipleLights" />
+## Multiple Lights
+
+To achieve multiple lights, we simply need to adjust our algorithm like so:
+```glsl
+vec3 Sum = vec3(0.0);
+for (... each light ...) {
+    ... calculate light using our illumination model ...
+    Sum += FinalColor;
+}
+gl_FragColor = vec4(Sum, DiffuseColor.a);
+```
+
+![Multiple](http://i.imgur.com/xZeLLSR.png)
+
+Notice that introduces more branching (loops, ifs, etc) to your shader, which may degrade performance. 
+
+This is sometimes known as "N lighting" since our system only supports a fixed *N* number of lights. If you plan to include a lot of lights, you may want to investigate multiple draw calls (i.e. additive blending), or [deferred lighting](http://en.wikipedia.org/wiki/Deferred_shading). 
+
+At a certain point you may ask yourself: "Why don't I just make a 3D game?" This is a valid question and may lead to better performance and less development time than trying to apply these concepts to 2D sprites.
 
 <a name="GeneratingNormals" />
 ## Generating Normal Maps
