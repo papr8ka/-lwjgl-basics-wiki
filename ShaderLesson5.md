@@ -201,7 +201,7 @@ Note that we aren't calling `batch.resize` since SpriteBatch will upload the (FB
 
 *Note:* If for some reason we are using a non-square FBO, here we would need to set the `resolution` uniform to the width of the FBO.
 
-Since FBO target A is opaque, there is no need to clear FBO target B. The next step is to draw `blurTargetA` -- since target B is bound, it will be rendered to it.
+Since FBO target A is opaque, there is no need to clear FBO target B. As mentioned; however, clearing may give us a slight optimization on mobile devices, and may be worthwhile. The next step is to draw `blurTargetA` -- since target B is bound, it will be rendered to it.
 
 Again, we won't call `end()` on the SpriteBatch, since we will use it in the next step.
 
