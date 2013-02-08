@@ -159,7 +159,7 @@ batch.flush();
 blurTargetA.end();
 ```
 
-A few things. First, we `begin()` and clear FBO target A with an opaque colour, in order to reduce blending. If we were to clear our FBOs with a transparent background, then we may run into issues later as we'll be blending multiple times. See [the FBO tutorial for more details](https://github.com/mattdesl/lwjgl-basics/wiki/FrameBufferObjects#wiki-Blending). Further, if our scene has an opaque background (e.g. an opaque tiled map), then we may not need to clear the buffer at all, thus improving performance slightly.
+A few things. First, we `begin()` and clear FBO target A with an opaque colour, in order to reduce blending. If we were to clear our FBOs with a transparent background, then we may run into issues later as we'll be blending multiple times. See [the FBO tutorial for more details](https://github.com/mattdesl/lwjgl-basics/wiki/FrameBufferObjects#wiki-Blending). Further, if our scene has an opaque background (e.g. an opaque tiled map), then we may not need to clear the buffer at all. This may slightly improve performance on desktop, *however*, many drivers, especially mobile (Android, iOS) will utilize `glClear` as an optimization. So we should probably use it anyways.
 
 Next, since we are rendering the scene initially without a blur, we need to set the batch to use the default shader. The default shader is statically shared among all sprite batches, and is created lazily. After this, we can call `resize`, which will upload a 2D orthographic projection matrix to the shader currently in use with that batch. In simpler terms: we tell the batch to scale properly to the FBO size, where 1 unit = 1 pixel. 
 
