@@ -1,10 +1,12 @@
 Complex polygons, strokes, dotted outlines, and various other raster effects are difficult to achieve in OpenGL. Solutions such as `GL_LINES` may lead to different visual results across platforms, while other options have been deprecated altogether (e.g. `glLineStipple`). 
 
-If you are targeting desktop, it may be better to use Java2D for rasterization. It's a powerful, flexible and easy to use API that leads to implementation-independent rendering. In order to use Java2D's rasterizer in LibGDX, we need to render it to a Java2D BufferedImage, then copy the pixels to a texture on the GPU.
+If you are only targeting desktop, you may decide to use Java2D for rasterization. It's a powerful, flexible and easy to use API that leads to implementation-independent rendering. In order to use Java2D's rasterizer in LibGDX, we need to render it to a Java2D BufferedImage, then copy the pixels to a texture on the GPU.
 
 ![Img](http://i.imgur.com/xTl6Y.png)
 
 For better performance you would minimize the number of times you upload data to GL; e.g. accumulating the data into the same glTexSubImage2D call. Also, you could modify the below code to upload to a texture atlas, rather than having a single large texture per shape.
+
+This is not an ideal solution for dynamic shapes that need to change frequently, but for static shapes it may lead to crisper graphics than `GL_LINES` or meshes.
 
 ## Full Java Source
 
