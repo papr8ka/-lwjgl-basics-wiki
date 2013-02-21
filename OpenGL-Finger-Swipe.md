@@ -4,7 +4,7 @@ Surely most of you are familiar with the Fruit Ninja type of games. This series 
 <sup>Screenshot from Fruit Ninja, a popular touch-based game</sup>
 
 
-The result of our project will look something like this:  
+The final result of our swipe renderer will look like this:  
 ![Proj](http://i.imgur.com/m61ar9v.gif)
 
 Below is a break-down of the steps involved:
