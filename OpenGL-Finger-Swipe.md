@@ -47,10 +47,7 @@ We determine how many input points to "remember" by setting the Array's capacity
 If we were to render the current input with ShapeRenderer and lines, we'd notice some issues. Firstly, if the user swipes too slowly, or simply touches the screen, they will be left with a very small trail made up of many points. Secondly, if the user swipes too quickly, it may lead to "jagged" and sharp corners:  
 ![Corners](http://i.imgur.com/VKyhA6s.png)
 
-Another problem becomes visible when we test on the Android device. The touch screen input is not always accurate, and often fails with diagonal lines -- leading to "zig-zag" or stepped paths. The effect is demonstrated [here](http://obamapacman.com/2010/01/iphone-wins-smartphone-touchscreen-performance-test-better-than-nexus-one-droid/) and leads to ugly diagonal lines like this:  
-![Diag](http://i.imgur.com/04saiAf.png)
-
-To start, we can set a minimum distance between input points, only inserting new points if the length from the last exceeds the minimum distance. This forces the user to put a little more effort into their swipes, and ignores small input touches. It will also help us simplify the lines a little, which will prove useful in our next step.
+To fix the first issue, we can set a minimum distance between input points, only inserting new points if the length from the last exceeds the minimum distance. This forces the user to put a little more effort into their swipes, and ignores small input touches. It will also help us simplify the lines a little, which will prove useful in our next step.
 
 ```java
 //determine squared distance between input and last point
@@ -62,9 +59,12 @@ if (lenSq >= minDistanceSq) {
 }
 ```
 
-The next step is to simplify the lines, removing some of the "zig-zag" effect. For this we use a simple [radial distance](http://psimpl.sourceforge.net/radial-distance.html) algorithm because it's very fast and leads to pretty nice results. You may choose to use another algorithm.
+Yet another issue becomes apparent when we test on an actual Android device. The touch screen input is not always accurate -- leading to "zig-zag" or stepped paths whenever the user tries to swipe diagonally. The effect is demonstrated [here](http://obamapacman.com/2010/01/iphone-wins-smartphone-touchscreen-performance-test-better-than-nexus-one-droid/) and leads to ugly diagonal swipes like this:  
+![Diag](http://i.imgur.com/04saiAf.png)
 
-The following code was adapted from [simplify.js](http://mourner.github.com/simplify-js/). You should clear the `out` array before calling. An `out` parameter is used to avoid allocating new objects in the game loop.
+To fix this, we need to simplify our input line. I chose to use a [radial distance](http://psimpl.sourceforge.net/radial-distance.html) algorithm because it's very fast and leads to pretty decent results. You may choose to use another algorithm.
+
+The following code was adapted from [simplify.js](http://mourner.github.com/simplify-js/). You should clear the `out` array before calling. (An `out` parameter is used to avoid allocating new objects in the game loop.)
 
 ```java
 private static Vector2 point = new Vector2(); //shared instance
