@@ -276,11 +276,11 @@ Result:
 This is very performant and already looks great, but we could potentially go a step further. Since the weight (i.e. center) is known in the fragment shader, we could create the above falloff without any texture sampling. We could also create other effects in the shader such as a dynamic glow, or fancy lighting, or what have you. 
 
 <a name="Optimizations" />
-## Optimizations
+## 6. Optimizations
 
-Remember, premature optimization is the root of all evil! But here are some things to consider:  
+Remember, premature optimization is the root of all evil! This already performs well in real-time on Android and desktop. But if you need more performance, here are some considerations:  
 
-- Don't perform everything in real-time. Make a very subtle delay between the user's input and the "swipe" result. This can let you go wild with path smoothing and effects.
+- If you can get away with it, don't perform everything in real-time. Make a very subtle delay between the user's input and the "swipe" result. This means you only need to simplify, smooth, and extrude once, and you can cache the result.
 - Implement your own data structures to minimize garbage and Vector2 allocation. Re-use objects where possible instead of creating new ones within the game loop.
 - Reduce smoothing iterations or skip the simplification/smoothing step altogether.
 - Remove the need for texture sampling by creating the stroke and anti-aliasing in the shader. The performance benefit may not be worth it, though, as it will incur state changes when switching shaders.
