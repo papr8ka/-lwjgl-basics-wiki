@@ -191,3 +191,8 @@ When we plug the points into a triangle strip, we get a pretty good result:
 
 It looks a bit better if we extend the head and tail points outward by a certain amount. To extend the head, you might use `vec.set(p1).sub(p2).mul(endcapScale)`, and similar code to extend the tail.
 
+![Extended](http://i.imgur.com/vF5IDPC.png)
+
+## Anti-Aliasing and Stroke Effects
+
+TODO
