@@ -9,12 +9,13 @@ The result of our project will look something like this:
 
 Below is a break-down of the steps involved:
 
-1. Capture Input
+1. [Capture Input](#Input)
 2. Simplify
 3. Smooth
 4. Extrude To Triangle Strip
 5. Fast Anti-Aliasing and Stroke Effects
 
+<a name="Input" />
 ## 1. Capture Touch Input
 
 The first step is very simple. We need to capture the last N input points and store them in a list. For this we will shift all current elements in the list to the right, and then replace the first element with our new input point. Using LibGDX's Array utility, we can "insert" elements without growing the backing array like so:
@@ -42,6 +43,7 @@ Note that direct access to Array's `list` only works if we created the array wit
 
 We determine how many input points to "remember" by setting the Array's capacity. Using a greater capacity will lead in longer "swipe trails," while smaller capacity will lead to shorter trials. 
 
+<a name="Simplify" />
 ## 2. Simplify
 
 The first problem you might notice is that merely touching the screen is registered as a swipe. We don't want a swipe to be registered unless the user actually performs a swipe gesture. A quick fix is to only insert new points if they exceed a *minimum distance* from our last point. This forces the user to put a little more effort into their swipes, and discards very small swipes. It will also help us simplify the lines a little, reducing the point count, which will prove useful in our next step.
@@ -94,7 +96,7 @@ public static float distSq(Vector2 p1, Vector2 p2) {
 We can play with the tolerance to get a more or less simplified path. Using 35<sup>2</sup> seems to work well for our purposes. The red line shows the simplified result, the gray line shows the raw input:  
 ![RadialDistance](http://i.imgur.com/2NfgN7m.png)
 
-
+<a name="Smooth" />
 ## 3. Smooth
 
 The next thing you'll notice is "jagged" corners on fast swipes. As you can see, this is even more apparent now that we've simplified our path:  
@@ -171,7 +173,7 @@ public void resolve(Array<Vector2> input, Array<Vector2> output) {
 Using 2 iterations, we get quite a nice curve when the user quickly swipes a corner:  
 ![Curve](http://i.imgur.com/WXFnDLv.png)
 
-
+<a name="Extrude" />
 ## 4. Extrude to Triangle Strip
 
 The next step delves a little into some basic vector math. To create our geometry, we will use the perpendicular vector of each point on our path. We skip the first and last points, since we want the swipe to taper into a sharp tip. Here is an image that demonstrates the process:  
@@ -193,18 +195,19 @@ It looks a bit better if we extend the head and tail points outward by a certain
 
 ![Extended](http://i.imgur.com/vF5IDPC.png)
 
+<a name="Stroke" />
 ## 5. Anti-Aliasing and Stroke Effects
 
-What we have now looks pretty good. By drawing the polygon twice, at a larger size, we can create a stroke or outline effect:  
+What we have now looks pretty good. We can draw the polygon multiple times at different sizes to create a simple stroke effect:  
 ![Stroke](http://i.imgur.com/yvKb7E7.gif)
 
-Unfortunately, the polygon has harsh and aliased edges. Ideally we'd like to smooth this out a little. iOS 4 includes full-screen anti-aliasing without much of a performance hit, but on Android we have no such feature. We can't use FXAA or another full-screen solution since we are so heavily fill limited.
+Unfortunately, our shape has some harshly aliased edges. Ideally we'd like to smooth this out a little. iOS 4 includes full-screen anti-aliasing without much of a performance hit, but on Android we have no such feature. We can't use FXAA or another full-screen solution since we are so heavily fill limited.
 
 Fortunately, our shape is very predictable and easy to work with. We can split the shape into two triangle strips, and give each vertex a distance from the centre line. GL will interpolate the distance in the fragment shader, which will allow us to create various stroke, glow, and smooth effects. Here is an image to demonstrate the weight at each vertex:
 
 ![Weight](http://i.imgur.com/jAI9q1e.png)
 
-You can see how we split the mesh into two distinct triangle strips. Rendered together, these will look like a single mesh. The vertex `weight` would be passed as a vertex attribute to our shader. We can prototype this effect with ImmediateModeRenderer. Here is some pseudo-code:
+You can see how we split the mesh into two distinct triangle strips. When rendered together, these will look like a single mesh. Our `weight` value would be passed as a vertex attribute to our shader. We can prototype this effect with ImmediateModeRenderer, and simply adjust the color based on the weight. Here is some pseudo-code:
 
 ```java
 //two triangle strips make up a single "slash" geometry
@@ -216,8 +219,10 @@ for (each triangle strip) {
 	for (each vertex) {
 		//in our extrusion step, we store the positions and weights for each vertex
 		Vertex vert = vertices.get(..);
+
 		//the position	
 		Vector2 pos = vert.position;
+
 		//the weight, i.e. proximity to center line where 1.0 means "at center"
 		float weight = vert.weight;
 
@@ -234,4 +239,53 @@ for (each triangle strip) {
 }
 ```
 
+We would bind an opaque white texture before rendering for the above to work. Or we could use the weight in GLSL, if we are working with a custom shader:
+```glsl
+gl_FragCoord = vec4( vec3(weight), 1.0 );
+```
 
+This leads to a pretty ugly falloff, like this:  
+![Falloff](http://i.imgur.com/C1df06i.png)
+
+However, we could also use the weight to sample from a "falloff texture." The height of the texture doesn't matter (it can be 1px high), since we are only sampling along one axis. So we could change our ImmediateModeRenderer code to use texCoord instead of vertex coloring:
+
+```java
+...
+		//we could use a different color than white if we wanted to
+		renderer.color(1f, 1f, 1f, 1f);	
+
+		//now the fragment samples along the X-axis of our texture
+		renderer.texCoord(weight, 0f);
+...
+```
+
+Here is a simple 64x64 "falloff texture" which demonstrates where the fragment will sample from, based on our `weight` attribute:
+
+![Falloff](http://i.imgur.com/shoE48S.png)
+
+Now we have a smooth edge!  
+![Edge](http://i.imgur.com/VdIUMyS.png)
+
+Here is the texture I settled on, which creates a gray stroke and leads to a nice edge fade:  
+![Falloff2](http://i.imgur.com/sfIt0RN.png)
+
+Result:  
+![Result](http://i.imgur.com/lecqhZ6.png)
+
+This is very performant and already looks great, but we could potentially go a step further. Since the weight (i.e. center) is known in the fragment shader, we could create the above falloff without any texture sampling. We could also create other effects in the shader such as a dynamic glow, or fancy lighting, or what have you. 
+
+<a name="Optimizations" />
+## Optimizations
+
+Remember, premature optimization is the root of all evil! But here are some things to consider:  
+
+- Don't perform everything in real-time. Make a very subtle delay between the user's input and the "swipe" result. This can let you go wild with path smoothing and effects.
+- Implement your own data structures to minimize garbage and Vector2 allocation. Re-use objects where possible instead of creating new ones within the game loop.
+- Reduce smoothing iterations or skip the simplification/smoothing step altogether.
+- Remove the need for texture sampling by creating the stroke and anti-aliasing in the shader. The performance benefit may not be worth it, though, as it will incur state changes when switching shaders.
+- Use `GL_TRIANGLES` instead to batch many swipes into a single draw call, instead of having two draw calls per swipe.
+
+<a name="Source" />
+## Source Code
+
+I plan to fix up the code a little before releasing it. Stay tuned.
