@@ -278,7 +278,7 @@ Below shows how we can sample from a 64x64 "falloff texture" to fake polygon ant
 Now we have a smooth edge! We can adjust how smooth or harsh the edge is by changing the gradient in Photoshop, GIMP, or another image editor.    
 ![Edge](http://i.imgur.com/VdIUMyS.png)
 
-Here is the texture I settled on, which creates a gray stroke and leads to a nice edge fade:  
+For my purposes, I settled on the following texture. The far left is transparent, and it blends into gray (for the outline), which then blends into white (for the center).  
 ![Falloff2](http://i.imgur.com/sfIt0RN.png)
 
 Result:  
