@@ -170,3 +170,24 @@ public void resolve(Array<Vector2> input, Array<Vector2> output) {
 
 Using 2 iterations, we get quite a nice curve when the user quickly swipes a corner:  
 ![Curve](http://i.imgur.com/WXFnDLv.png)
+
+
+## Extrude to Triangle Strip
+
+The next step delves a little into some basic vector math. To create our geometry, we will use the perpendicular vector of each point on our path. We skip the first and last points, since we want the swipe to taper into a sharp tip. Here is an image that demonstrates the process:  
+
+![Vectors](http://i.imgur.com/lQlRjIR.png)
+
+The steps are as follows:
+
+1. Find the direction and normalize it: `vec.set(p2).sub(p1).nor()`
+2. Get the perpendicular of the normalized direction: `vec.set(-vec.y, vec.x)`
+3. Extrude outward by half thickness: `vec.mul(thickness/2f)`
+
+Then we can determine point A with `p1.add(vec)` or B with `p1.sub(vec)`. For a variable thickness, resulting a taper at the far end of the trail, we simply reduce the thickness based on how far we are from the initial point (i.e. the user's finger).
+
+When we plug the points into a triangle strip, we get a pretty good result:  
+![Trail1](http://i.imgur.com/5QhTQAJ.png)
+
+It looks a bit better if we extend the head and tail points outward by a certain amount. To extend the head, you might use `vec.set(p1).sub(p2).mul(endcapScale)`, and similar code to extend the tail.
+
