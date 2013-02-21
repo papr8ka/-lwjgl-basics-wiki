@@ -289,7 +289,7 @@ This technique is fast and already looks great, but we could potentially go a st
 <a name="Optimizations" />
 ## 6. Optimizations
 
-Remember, premature optimization is the root of all evil! This already performs well in real-time on Android and desktop. But if you need more performance, here are some considerations:  
+This already performs well on Android and desktop. But if you need more performance, here are some considerations:  
 
 - Use your own Mesh and ShaderProgram instead of ImmediateModeRenderer
 - If you can get away with it, don't perform everything in real-time. Make a very subtle delay between the user's input and the "swipe" result. This means you only need to simplify, smooth, and extrude once, and you can cache the result.
