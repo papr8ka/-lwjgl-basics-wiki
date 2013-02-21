@@ -14,6 +14,7 @@ Below is a break-down of the steps involved:
 3. [Smooth Input](#Smooth)
 4. [Extrude To Triangle Strip](#Extrude)
 5. [Fast Anti-Aliasing and Stroke Effects](#Stroke)
+6. [Optimizations](#Optimizations)
 
 <a name="Input" />
 ## 1. Capture Touch Input
