@@ -117,8 +117,8 @@ public static void smooth(Array<Vector2> input, Array<Vector2> output) {
 
 		Vector2 Q = new Vector2(0.75f * p0.x + 0.25f * p1.x, 0.75f * p0.y + 0.25f * p1.y);
 		Vector2 R = new Vector2(0.25f * p0.x + 0.75f * p1.x, 0.25f * p0.y + 0.75f * p1.y);
-        output.add(Q);
-        output.add(R);
+        	output.add(Q);
+	        output.add(R);
 	}
 	
 	//last element
@@ -167,3 +167,6 @@ public void resolve(Array<Vector2> input, Array<Vector2> output) {
 	}
 }
 ```
+
+Using 2 iterations, we get quite a nice curve when the user quickly swipes a corner:  
+![Curve](http://i.imgur.com/WXFnDLv.png)
