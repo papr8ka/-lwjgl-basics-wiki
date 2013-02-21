@@ -1,4 +1,4 @@
-##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » OpenGL ES Finger Swipe
+##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » LibGDX Finger Swipe
 
 ***
 
@@ -273,7 +273,7 @@ However, we could also use the weight to sample from a "falloff texture." The he
 Below shows how we can sample from a 64x64 "falloff texture" to fake polygon anti-aliasing:  
 ![Falloff](http://i.imgur.com/shoE48S.png)
 
-(If you are unsure about texture coordinates, be sure to read [this tutorial](https://github.com/mattdesl/lwjgl-basics/wiki/Textures) first!)
+<sup>Note: If you don't understand texture coordinates, be sure to read [this tutorial](Textures).</sup>
 
 Now we have a smooth edge!  
 ![Edge](http://i.imgur.com/VdIUMyS.png)
