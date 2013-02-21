@@ -10,10 +10,10 @@ The result of our project will look something like this:
 Below is a break-down of the steps involved:
 
 1. [Capture Input](#Input)
-2. Simplify
-3. Smooth
-4. Extrude To Triangle Strip
-5. Fast Anti-Aliasing and Stroke Effects
+2. [Simplify Input](#Simplify)
+3. [Smooth Input](#Smooth)
+4. [Extrude To Triangle Strip](#Extrude)
+5. [Fast Anti-Aliasing and Stroke Effects](#Stroke)
 
 <a name="Input" />
 ## 1. Capture Touch Input
@@ -44,7 +44,7 @@ Note that direct access to Array's `list` only works if we created the array wit
 We determine how many input points to "remember" by setting the Array's capacity. Using a greater capacity will lead in longer "swipe trails," while smaller capacity will lead to shorter trials. 
 
 <a name="Simplify" />
-## 2. Simplify
+## 2. Simplify Input Path
 
 The first problem you might notice is that merely touching the screen is registered as a swipe. We don't want a swipe to be registered unless the user actually performs a swipe gesture. A quick fix is to only insert new points if they exceed a *minimum distance* from our last point. This forces the user to put a little more effort into their swipes, and discards very small swipes. It will also help us simplify the lines a little, reducing the point count, which will prove useful in our next step.
 
@@ -97,7 +97,7 @@ We can play with the tolerance to get a more or less simplified path. Using 35<s
 ![RadialDistance](http://i.imgur.com/2NfgN7m.png)
 
 <a name="Smooth" />
-## 3. Smooth
+## 3. Smooth Input Path
 
 The next thing you'll notice is "jagged" corners on fast swipes. As you can see, this is even more apparent now that we've simplified our path:  
 ![Corners](http://i.imgur.com/XmJDF0L.png)
