@@ -99,5 +99,5 @@ public static float distSq(Vector2 p1, Vector2 p2) {
 }
 ```
 
-We can play with the tolerance to get a more or less simplified path. Using 1225 for `sqTolerance` gives us the following:  
+We can play with the tolerance to get a more or less simplified path. Using 35<sup>2</sup> seems to work well for our purposes. The red line shows the simplified result, the gray line shows the raw input:  
 ![RadialDistance](http://i.imgur.com/2NfgN7m.png)
