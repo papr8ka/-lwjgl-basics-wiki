@@ -278,13 +278,13 @@ Below shows how we can sample from a 64x64 "falloff texture" to fake polygon ant
 Now we have a smooth edge! We can adjust how smooth or harsh the edge is by changing the gradient in Photoshop, GIMP, or another image editor.    
 ![Edge](http://i.imgur.com/VdIUMyS.png)
 
-For my purposes, I settled on the following texture. The far left is transparent, and it blends into gray (for the outline), which then blends into white (for the center).  
+For my purposes, I settled on the following texture. From left to right, it blends from fully transparent, to opaque gray (stroke), to opaque white (center).  
 ![Falloff2](http://i.imgur.com/sfIt0RN.png)
 
 Result:  
 ![Result](http://i.imgur.com/lecqhZ6.png)
 
-This is very performant and already looks great, but we could potentially go a step further. Since the weight (i.e. center) is known in the fragment shader, we could create the above falloff without any texture sampling. We could also create other effects in the shader such as a dynamic glow, or fancy lighting, or what have you. 
+This technique is fast and already looks great, but we could potentially go a step further. Since the weight (i.e. center) is known in the fragment shader, we could create the above falloff without any texture sampling. We could also create other effects in the shader such as a dynamic glow, or fancy lighting, or what have you. 
 
 <a name="Optimizations" />
 ## 6. Optimizations
