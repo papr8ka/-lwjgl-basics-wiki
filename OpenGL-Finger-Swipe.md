@@ -260,7 +260,7 @@ However, we could also use the weight to sample from a "falloff texture." The he
 ...
 ```
 
-Here is a simple 64x64 "falloff texture" which demonstrates where the fragment will sample from, based on our `weight` attribute:
+Below shows how we can sample from a 64x64 "falloff texture" to fake polygon anti-aliasing:
 
 ![Falloff](http://i.imgur.com/shoE48S.png)
 
