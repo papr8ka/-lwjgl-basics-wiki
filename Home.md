@@ -23,9 +23,10 @@ The tutorial series uses the lwjgl-basics API to reduce clutter and keep things 
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
   * [Sprite Batching](wiki/SpriteBatch)
 
-### Code Snippets & Tips
+### Other Tutorials, Code Snippets & Tips
 
 * LibGDX
+  * [Creating a Fruit Ninja style Swipe in LibGDX](https://github.com/mattdesl/lwjgl-basics/wiki/OpenGL-Finger-Swipe)
   * [Using Normal Maps to Light a 2D Texture (GLSL)](http://www.java-gaming.org/topics/glsl-using-normal-maps-to-illuminate-a-2d-texture-libgdx/27516/view.html)
   * [Using Java2D For Advanced Shapes & Rasterization (Desktop)](wiki/LibGDX-&-Java2D)
   * [Rendering a Textured Triangle with SpriteBatch](https://gist.github.com/4255476)
