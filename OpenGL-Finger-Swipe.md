@@ -95,7 +95,7 @@ We can play with the tolerance to get a more or less simplified path. Using 35<s
 ![RadialDistance](http://i.imgur.com/2NfgN7m.png)
 
 
-## Smooth
+## 3. Smooth
 
 The next thing you'll notice is "jagged" corners on fast swipes. As you can see, this is even more apparent now that we've simplified our path:  
 ![Corners](http://i.imgur.com/XmJDF0L.png)
@@ -172,7 +172,7 @@ Using 2 iterations, we get quite a nice curve when the user quickly swipes a cor
 ![Curve](http://i.imgur.com/WXFnDLv.png)
 
 
-## Extrude to Triangle Strip
+## 4. Extrude to Triangle Strip
 
 The next step delves a little into some basic vector math. To create our geometry, we will use the perpendicular vector of each point on our path. We skip the first and last points, since we want the swipe to taper into a sharp tip. Here is an image that demonstrates the process:  
 
@@ -193,6 +193,45 @@ It looks a bit better if we extend the head and tail points outward by a certain
 
 ![Extended](http://i.imgur.com/vF5IDPC.png)
 
-## Anti-Aliasing and Stroke Effects
+## 5. Anti-Aliasing and Stroke Effects
 
-TODO
+What we have now looks pretty good. By drawing the polygon twice, at a larger size, we can create a stroke or outline effect:  
+![Stroke](http://i.imgur.com/yvKb7E7.gif)
+
+Unfortunately, the polygon has harsh and aliased edges. Ideally we'd like to smooth this out a little. iOS 4 includes full-screen anti-aliasing without much of a performance hit, but on Android we have no such feature. We can't use FXAA or another full-screen solution since we are so heavily fill limited.
+
+Fortunately, our shape is very predictable and easy to work with. We can split the shape into two triangle strips, and give each vertex a distance from the centre line. GL will interpolate the distance in the fragment shader, which will allow us to create various stroke, glow, and smooth effects. Here is an image to demonstrate the weight at each vertex:
+
+![Weight](http://i.imgur.com/jAI9q1e.png)
+
+You can see how we split the mesh into two distinct triangle strips. Rendered together, these will look like a single mesh. The vertex `weight` would be passed as a vertex attribute to our shader. We can prototype this effect with ImmediateModeRenderer. Here is some pseudo-code:
+
+```java
+//two triangle strips make up a single "slash" geometry
+for (each triangle strip) {
+	//start rendering the tri strip
+	renderer.begin(cam.combined, GL20.GL_TRIANGLE_STRIP);
+
+	//pass each vertex to GL
+	for (each vertex) {
+		//in our extrusion step, we store the positions and weights for each vertex
+		Vertex vert = vertices.get(..);
+		//the position	
+		Vector2 pos = vert.position;
+		//the weight, i.e. proximity to center line where 1.0 means "at center"
+		float weight = vert.weight;
+
+		//for now let's just color it based on the weight
+		renderer.color(weight, weight, weight, 1f);	
+
+		//ignore texcoord for now, we'll use an opaque white texture
+		renderer.texCoord(0f, 0f);
+
+		//position of vertex
+		renderer.vertex(pos.x, pos.y, 0f);
+	}
+	renderer.end();
+}
+```
+
+
