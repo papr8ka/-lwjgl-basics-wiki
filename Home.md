@@ -40,6 +40,7 @@ The tutorial series uses the lwjgl-basics API to reduce clutter and keep things 
 * Misc
   * [2D Lightning Effect](wiki/LightningEffect)
   * [Tiled Maps from Images](wiki/Tiled-Map-Images)
+  * [GLSL Gotchas](wiki/GLSL-Gotchas)
 
 ***
 
