@@ -12,8 +12,8 @@ void main() {
 
 <table>
     <tr>
-        <td>**OpenGL Version**</td>
-        <td>**GLSL Version**</td>
+        <td><b>OpenGL Version</b></td>
+        <td><b>GLSL Version</b></td>
     </tr>
     <tr>
         <td>2.0</td>
