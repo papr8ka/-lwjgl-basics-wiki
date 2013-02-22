@@ -8,7 +8,9 @@ void main() {
 }
 ```
 
-## GLSL Versions
+GLSL versions are released alongside GL versions. See the following charts to decide which version you would like to target.
+
+### GLSL Versions
 
 <table>
     <tr>
@@ -57,7 +59,7 @@ void main() {
     </tr>
 </table>
 
-## GLSL ES Versions
+### GLSL ES Versions
 
 OpenGL ES has its own Shading Language, and the versioning starts fresh. It is based on OpenGL Shading Language version 1.10.
 
