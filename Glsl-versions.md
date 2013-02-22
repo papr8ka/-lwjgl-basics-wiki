@@ -8,7 +8,7 @@ void main() {
 }
 ```
 
-## Versions
+## GLSL Versions
 
 <table>
     <tr>
@@ -54,5 +54,24 @@ void main() {
     <tr>
         <td>4.3</td>
         <td>430</td>
+    </tr>
+</table>
+
+## GLSL ES Versions
+
+OpenGL ES has its own Shading Language, and the versioning starts fresh. It is based on OpenGL Shading Language version 1.10.
+
+<table>
+    <tr>
+        <td><b>OpenGL ES Version</b></td>
+        <td><b>GLSL ES Version</b></td>
+    </tr>
+    <tr>
+        <td>2.0</td>
+        <td>100</td>
+    </tr>
+    <tr>
+        <td>3.0</td>
+        <td>300</td>
     </tr>
 </table>
