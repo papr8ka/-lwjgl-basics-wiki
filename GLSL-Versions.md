@@ -87,28 +87,16 @@ Arrays are declared like so:
 float a[5];
 ```
 
-However, you cannot initialize them in a shader on version 110 (and thus also not possible in GLSL ES). 
+#GLSL 120
 
-In version 120+, you can initialize arrays in a shader like so:
+Some major additions to GLSL 120. Note that most of these will not work on GLSL ES.
+
+- You can initialize arrays within a shader, like so:
 ```glsl
 float a[5] = float[5](3.4, 4.2, 5.0, 5.2, 1.1);
 float b[5] = float[](3.4, 4.2, 5.0, 5.2, 1.1);
 ```
-
-Even when specifying version 120, array initialization will not work on Snow Leopard. [(1)](http://openradar.appspot.com/6121615)
-
-## Implicit Int to Float Cast
-
-The following will fail on GLSL 110 and GLSL ES 100:
-
-
-
-#GLSL 110
-
-#GLSL 120
-
-Some major additions to GLSL 120:
-
+However, the above is not supported on Mac OSX Snow Leopard, even with GLSL 120. [(1)](http://openradar.appspot.com/6121615) 
 - You can initialize uniforms in a shader, and the value will be set at link time:
 ```glsl
 uniform float val = 1.0;
@@ -120,4 +108,4 @@ float f = 1.0; <-- valid
 float g = 1; <-- only supported in GLSL 120
 vec2 v = vec2(1, 2.0); <-- only supported in GLSL 120
 ```
-- You can use `f` to define a float, e.g.: `float f = 2.5f;`
+- You can use `f` to define a float: `float f = 2.5f;`
