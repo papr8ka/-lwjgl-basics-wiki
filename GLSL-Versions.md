@@ -82,8 +82,75 @@ OpenGL ES has its own Shading Language, and the versioning starts fresh. It is b
 
 So, for example, if a feature is available in GLSL 120, it probably won't be available in GLSL ES 100 unless the ES compiler specifically allows it.
 
+# Differences at a Glance
 
-# Changes
+## Version 100
+
+Vertex shader:
+```glsl
+uniform mat4 projTrans;
+
+attribute vec2 Position;
+attribute vec2 TexCoord;
+
+varying vec2 vTexCoord;
+
+void main() {
+	vTexCoord = TexCoord;
+	gl_Position = u_projView * vec4(Position, 0.0, 1.0);
+}
+```
+
+Fragment shader:
+```glsl
+uniform sampler2D tex0;
+
+varying vec2 vTexCoord;
+
+void main() {
+    vec4 color = texture2D(tex0, vTexCoord);
+    gl_FragColor = color;
+}
+```
+
+## Version 330
+
+The keywords `in` and `out` replaced `attribute` and `varying` starting in GLSL 150. GLSL 330 code looks a bit different from the above:
+
+Vertex shader:
+```glsl
+#version 330
+
+uniform mat4 projTrans;
+
+layout(location = 0) in vec2 Position;
+layout(location = 1) in vec2 TexCoord;
+
+out vec2 vTexCoord;
+
+void main() {
+	vTexCoord = TexCoord;
+	gl_Position = u_projView * vec4(Position, 0, 1);
+}
+```
+
+Fragment shader:
+```glsl
+#version 330
+uniform sampler2D tex0;
+
+in vec2 vTexCoord;
+
+//use your own output instead of gl_FragColor 
+out vec4 fragColor;
+
+void main() {
+    //'texture' instead of 'texture2D'
+    fragColor = texture(tex0, vTexCoord);
+}
+```
+
+# Other Changes
 
 ## GLSL 120 Additions
 
@@ -116,6 +183,7 @@ vec2 v = vec2(1, 2.0); <-- only supported in GLSL 120
 
 ## GLSL 330 Additions
 
+- `texture()` should now be used instead of `texture2D()`
 - Layout qualifiers can declare the location of vertex shader inputs and fragment shader outputs, eg: 
 ```glsl
 layout(location = 2) in vec3 values[4];
