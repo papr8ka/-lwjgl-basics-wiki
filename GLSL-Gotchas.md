@@ -2,7 +2,7 @@ There are some gotchas to be aware of when working with GLSL on various platform
 
 ## Mac OSX
 
-- Array declaration is broken on Snow Leopard [[source]](http://openradar.appspot.com/6121615)
+- Array declaration is broken on Snow Leopard [[source](http://openradar.appspot.com/6121615)]
 
 ## ES (Android, iOS, WebGL)
 
