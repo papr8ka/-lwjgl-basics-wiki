@@ -1,4 +1,4 @@
-There are some gotchas to be aware of when working with GLSL on various platforms.
+Here are some gotchas to be aware of when working with GLSL on various platforms.
 
 ## Mac OSX
 
