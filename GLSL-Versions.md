@@ -115,7 +115,7 @@ void main() {
 
 ## Version 330
 
-The keywords `in` and `out` replaced `attribute` and `varying` starting in GLSL 150. GLSL 330 code looks a bit different from the above:
+Now `in` and `out` is used instead of `attribute` and `varying`.
 
 Vertex shader:
 ```glsl
