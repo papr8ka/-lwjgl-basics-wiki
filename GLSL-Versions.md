@@ -85,9 +85,7 @@ So, for example, if a feature is available in GLSL 120, it probably won't be ava
 
 # Changes
 
-## GLSL 110 vs. 120
-
-Some major additions to GLSL 120. Note that most of these will not work on GLSL ES.
+## GLSL 120 Additions
 
 - You can initialize arrays within a shader, like so:
 ```glsl
@@ -108,7 +106,7 @@ vec2 v = vec2(1, 2.0); <-- only supported in GLSL 120
 ```
 - You can use `f` to define a float: `float f = 2.5f;`
 
-## GLSL 120 vs. 130
+## GLSL 130 Additions
 
 - `int` and `uint` support (and bitwise operations with them)
 - `switch` statement support
@@ -116,7 +114,7 @@ vec2 v = vec2(1, 2.0); <-- only supported in GLSL 120
 - Fragment output can be user-defined
 - Input and output is declared with `in` and `out` syntax instead of `attribute` and `varying`
 
-## GLSL 330
+## GLSL 330 Additions
 
 - Layout qualifiers can declare the location of vertex shader inputs and fragment shader outputs, eg: `layout(location = 2) in vec3 values[4];`
 Formally this was only possible with `ARB_explicit_attrib_location` extension
