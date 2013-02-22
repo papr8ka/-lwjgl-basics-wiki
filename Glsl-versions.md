@@ -10,17 +10,29 @@ void main() {
 
 ## Versions
 
-
-OpenGL Version	GLSL Version
-2.0	1.10
-2.1	1.20
-3.0	1.30
-3.1	1.40
-3.2	1.50
 <table>
     <tr>
-        <td>Foo</td>
-        <td>Foo</td>
-        <td>Foo</td>
+        <td>**OpenGL Version**</td>
+        <td>**GLSL Version**</td>
+    </tr>
+    <tr>
+        <td>2.0</td>
+        <td>`#version 110`</td>
+    </tr>
+    <tr>
+        <td>2.1</td>
+        <td>`#version 120`</td>
+    </tr>
+    <tr>
+        <td>3.0</td>
+        <td>`#version 130`</td>
+    </tr>
+    <tr>
+        <td>3.1</td>
+        <td>`#version 140`</td>
+    </tr>
+    <tr>
+        <td>3.2</td>
+        <td>`#version 150`</td>
     </tr>
 </table>
