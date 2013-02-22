@@ -63,3 +63,11 @@ The best way to learn GLSL is through experimentation and practice. Once you've 
 - http://www.iquilezles.org/apps/shadertoy/
 
 If you're feeling comfortable with GLSL, you could also try making your own shader-based sprite batcher (see [here](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderProgram-Utility) and [here](https://github.com/mattdesl/lwjgl-basics/wiki/SpriteBatch)) in order to have a better grasp of how it all comes together.
+
+## Shaders on Mobile and Embedded Systems
+
+OpenGL ES 2.0 also supports GLSL. Generally you need to be even more careful when using GLSL on iOS and Android, as there are some performance and compiler considerations to be aware of. You can read about them [here](GLSL-Gotchas).
+
+## GLSL Version Differences
+
+There are some syntax differences between different GLSL versions. You can read about them [here](GLSL-Versions).
