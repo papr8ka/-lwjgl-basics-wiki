@@ -75,3 +75,24 @@ OpenGL ES has its own Shading Language, and the versioning starts fresh. It is b
         <td>300</td>
     </tr>
 </table>
+
+## Arrays
+
+Arrays are declared like so:
+```glsl
+float a[5];
+```
+
+However, you cannot initialize them in a shader on version 110 (and thus also not possible in GLSL ES). Even with version 120, array initialization will not work on Snow Leopard. [(1)](http://openradar.appspot.com/6121615)
+
+## Implicit Int to Float Cast
+
+The following will fail on GLSL 110 and GLSL ES 100:
+
+```glsl
+float f = 1.0; <-- no error
+float g = 1; <-- fails with version 110
+vec2 v = vec2(1, 2.0); <-- fails with version 110
+```
+
+Versions 120+ will support this implicit conversion.
