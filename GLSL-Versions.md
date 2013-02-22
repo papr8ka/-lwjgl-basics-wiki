@@ -116,6 +116,8 @@ vec2 v = vec2(1, 2.0); <-- only supported in GLSL 120
 
 ## GLSL 330 Additions
 
-- Layout qualifiers can declare the location of vertex shader inputs and fragment shader outputs, eg: `layout(location = 2) in vec3 values[4];`
-
+- Layout qualifiers can declare the location of vertex shader inputs and fragment shader outputs, eg: 
+```glsl
+layout(location = 2) in vec3 values[4];
+```
 Formally this was only possible with `ARB_explicit_attrib_location` extension
