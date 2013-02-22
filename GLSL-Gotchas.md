@@ -10,5 +10,5 @@ Here are some gotchas to be aware of when working with GLSL on various platforms
 - Be mindful of `step()` as it may create branching (although it really shouldn't). Benchmark with `smoothstep()` to see if performance improves.
 - Ternary operator may not be supported on certain Android devices [(1)](http://badlogicgames.com/forum/viewtopic.php?f=15&t=7893) or in WebGL [(2)](https://code.google.com/p/chromium/issues/detail?id=98753)
 - 'For' loops may cause problems on certain Android devices [(1)](http://badlogicgames.com/forum/viewtopic.php?f=15&t=7801&p=35649&hilit=tegra#p35649)
-- More optimizations listed [here](http://docs.nvidia.com/tegra/data/Optimize_OpenGL_ES_2_0_Performance_for_Tegra.html)
 - On WebGL, you don't need `#ifdef GL_ES` as it will always return true
+- Many more optimizations listed [here](http://docs.nvidia.com/tegra/data/Optimize_OpenGL_ES_2_0_Performance_for_Tegra.html)
