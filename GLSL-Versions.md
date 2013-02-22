@@ -1,3 +1,5 @@
+# Intro
+
 You can use the `#version` command as the first line of your shader to specify GLSL version:
 
 ```glsl
@@ -80,14 +82,10 @@ OpenGL ES has its own Shading Language, and the versioning starts fresh. It is b
 
 So, for example, if a feature is available in GLSL 120, it probably won't be available in GLSL ES 100 unless the ES compiler specifically allows it.
 
-## Arrays
 
-Arrays are declared like so:
-```glsl
-float a[5];
-```
+# Changes
 
-#GLSL 120
+## GLSL 120
 
 Some major additions to GLSL 120. Note that most of these will not work on GLSL ES.
 
