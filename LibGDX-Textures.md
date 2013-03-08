@@ -83,8 +83,6 @@ LibGDX will upload the data to OpenGL based on the format of the image being loa
 
 We can use Pixmaps for very simple render-to-texture functionality, done in software. For example, below we create a procedural brick texture:
 
-![Brick](http://i.imgur.com/svOQXOV.png)
-
 ```java
 Pixmap px = new Pixmap(16, 16, Format.RGBA8888);
 for (int x = 0; x < px.getWidth(); x++) {
@@ -112,8 +110,28 @@ for (int x = 0; x < px.getWidth(); x++) {
 }
 ```
 
-[Here is another example](https://gist.github.com/mattdesl/5120985) which procedurally draws a "hue slider" in software. The result:  
+Result (scaled 400%):  
+![Brick](http://i.imgur.com/svOQXOV.png)
+
+Here is another example which procedurally draws a "hue slider" in software. 
+
+```java
+Pixmap px = new Pixmap(256, 16, Format.RGBA8888);
+for (int x = 0; x < px.getWidth(); x++) {
+	int rgb = HSBtoRGBA8888(x / (float)px.getWidth(), 1f, 1f);
+
+	// change the current color
+	px.setColor(rgb);
+
+	// perform a fill operation with current color
+	px.drawRectangle(x, 0, 1, px.getHeight());
+}
+```
+
+Result:  
 ![Color](http://i.imgur.com/UwBcrcY.png)
+
+You can find the [HSBtoRGBA8888 method here](https://gist.github.com/mattdesl/5120985).
 
 Generally speaking, it will be more efficient to load a pre-made texture (so it can be managed by LibGDX) or move these operations to the GPU (to take advantage of graphics hardware). We will examine how to do this in later series using [Shaders and GLSL](Shaders). With that said, you may run into specific cases where drawing in software will prove useful.
 
