@@ -41,7 +41,7 @@ Since an array of bytes can get very large, we generally use compression like PN
 
 In OpenGL, we use *textures* to store image data. OpenGL textures do not only store image data; they are simply float arrays stored on the GPU, e.g. useful for shadow mapping and other advanced techniques.
 
-To create an OpenGL texture, we first need to "decode" the image format (PNG, JPEG, etc) into an array of color data, like we saw above. Then, we can "upload" the pixels to OpenGL, which is another way of saying: copy the pixel data from CPU (RAM) to GPU (VRAM). Typically this is a slow operation, so we only do it when necessary at the beginning of our program.
+To create an OpenGL texture, we first need to "decode" the image format (PNG, JPEG, etc) into an array of color data, like we saw above. Then, we can "upload" the pixels to OpenGL, which is another way of saying: copy the pixel data from CPU (RAM) to GPU (VRAM). Typically this is a slow operation, so we only do it when necessary at the beginning of our program, or after GL context is lost (e.g. user pauses and resumes our game).
 
 Typically, we load a texture in LibGDX like this:
 ```java
@@ -65,7 +65,13 @@ tex = new Texture(pixmap);
 pixels.dispose();
 ```
 
-As you will see, Textures are only necessary if you intend to draw the image to the screen. If you wanted to use image data for something like a terrain height map, or a simple [tiled map](Tiled-Map-Images), 
+You can also "draw" a pixmap on a Texture like so, which "uploads" the CPU data to the GPU:
+
+```java
+tex.draw(pixmap, x, y);
+```
+
+As you will see, Textures are only necessary if you intend to draw the image to the screen. 
 
 ## LibGDX Formats
 
@@ -78,6 +84,21 @@ LibGDX will upload the data to OpenGL based on the format of the image being loa
 - `LuminanceAlpha` - This is a grayscale image that includes an alpha channel. Grayscale colors have equal red, green and blue values, which we call "luminance." So a typical gray value of (R=127, G=127, B=127, A=255) would be represented like so with LuminanceAlpha: (L=127, A=255). Each uses 8 bits.
 - `Alpha` - This is a special type of image that only stores an alpha channel in 8 bits.
 - `Intensity` - This is another special type of image which only uses a single channel, but with the alpha channel equal to the luminance. For example, an Intensity color of (I=127) would be equivalent to a RGBA color of (R=127, G=127, B=127, A=127).
+
+A quick and dirty method of "converting" a pixmap to the desired format might look like this:
+
+```java
+//desired format 
+Format format = Format.RGBA8888;
+//perform conversion if necessary
+if (pix.getFormat()!=format) {
+	Pixmap tmp = new Pixmap(pix.getWidth(), pix.getHeight(), format);
+	tmp.drawPixmap(pix, 0, 0); //copy pix to tmp
+	pix.dispose(); //dispose old pix
+	pix = tmp; //swap values
+}
+//... now "pix" is RGBA8888 ...
+```
 
 ## Drawing with Pixmaps
 
@@ -156,7 +177,7 @@ for (int x=0; x<pixmap.getWidth(); x++) {
 }
 ```
 
-We could have also decoded the RGBA8888 color like so:
+We could have instead decoded the RGBA8888 color like so:
 
 ```java
     int value = pixmap.getPixel(x, y);
@@ -166,47 +187,33 @@ We could have also decoded the RGBA8888 color like so:
     int A = ((value & 0x000000ff));
 ```
 
-The call to `glTexImage2D` is what sets up the actual texture in OpenGL. We can call this again later if we decide to change the width and height of our image, or if we need to change the RGBA pixel data.
-If we only want to change a portion of the RGBA data (i.e. a sub-image), we can use `glTexSubImage2D`. For per-pixel modifications, however, we will generally rely on fragment shaders, which we will look into later.
+## Texture Parameters
 
+After creating our Texture, we can use `setFilter` and `setWrap` to adjust its parameters. Here is an example:
 
-*Note:* You can read about why we use GL_UNPACK_ALIGNMENT [here](http://www.opengl.org/wiki/Common_Mistakes#Texture_upload_and_pixel_reads).
-
-### Texture Parameters
-
-Before calling `glTexImage2D`, it's essential that we set up our texture parameters correctly. The code to do that looks like this:
-```java
-//Setup filtering, i.e. how OpenGL will interpolate the pixels when scaling up or down
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-//Setup wrap mode, i.e. how OpenGL will handle pixels outside of the expected range
-//Note: GL_CLAMP_TO_EDGE is part of GL12
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+```javq
+texture.setFilter(Filter.Nearest, Filter.Nearest);
+texture.setWrap(Texture.ClampToEdge, Texture.ClampToEdge);
 ```
 
 #### Filtering 
 
-The minification/magnification filters define how the image is handled upon scaling. For "pixel-art" style games, generally `GL_NEAREST`
-is suitable as it leads to hard-edge scaling without blurring. Specifying `GL_LINEAR` will use bilinear scaling
-for smoother results, which is generally effective for 3D games (e.g. a 1024x1024 rock or grass texture) but not
-so for a 2D game:  
+The minification/magnification filters define how the image is handled upon scaling. For "pixel-art" style games, generally `Filter.Nearest` (aka: `GL_NEAREST`) is suitable as it leads to hard-edge scaling without blurring. Specifying `Filter.Linear` (aka: `GL_LINEAR`) will use bilinear scaling for smoother results, which is generally effective for 3D games (e.g. a 1024x1024 rock or grass texture) but not always so for a 2D game:  
 ![Scaling](http://i.imgur.com/vAVHc.png)
 
 #### Wrap Modes
 
-To explain this, we need to understand a bit more about *texture coordinates* and vertices. Let's take a simple two dimensional image, like the following brick texture:  
+To explain "texture wrap," we need to understand a bit more about *texture coordinates* and vertices. Let's take a simple two dimensional image, like the following brick texture:  
 ![Brick](http://i.imgur.com/IGn1g.png)
 
 To render the above object, we need to give OpenGL four **vertices**. As you can see, we end up with a 2D quad. Each vertex has a number of attributes, including Position (x, y) and Texture Coordinates (s, t). Texture coordinates are defined in *tangent space*, generally between 0.0 and 1.0. These tell OpenGL where to sample from our texture data. Here is an image showing the attributes of each vertex in our quad:  
 ![Quad](http://i.imgur.com/fkzfb.png)
 
-*Note:* This depends on our coordinate system having an origin in the upper-left ("Y-down"). Some libraries, like LibGDX, will use lower-left origin ("Y-up"), and so the values for Position and TexCoord may be in a different order.
+*Note:* This is a generalized overview; LibGDX actually uses a Y-up coordinate system and triangles instead of quads. We will get to these subjects later, when we work with custom Mesh objects.
 
 Sometimes programmers and modelers use `UV` and `ST` interchangeably -- "UV Mapping" is another way to describe how textures are applied to a 3D mesh.
 
-So what happens if we use texture coordinate values less than 0.0, or greater than 1.0? This is where the *wrap mode* comes into play. We tell OpenGL how to handle values outside of the texture coordinates. The two most common modes are `GL_CLAMP_TO_EDGE`, which simply samples the edge color, and `GL_REPEAT`, which will lead to a repeating pattern. For example, using 2.0 and `GL_REPEAT` will lead to the image being repeated twice within the *width* and *height* we specified. Here is an image to demonstrate the differences between clamping and repeat wrap modes:
+So what happens if we use texture coordinate values less than 0.0, or greater than 1.0? This is where the *wrap mode* comes into play. We tell OpenGL how to handle values outside of the texture coordinates. The two common modes in OpenGL ES are `TextureWrap.ClampToEdge` (aka: `GL_CLAMP_TO_EDGE`), which simply samples the edge color, and `TextureWrap.Repeat` (aka: `GL_REPEAT`), which will lead to a repeating pattern. For example, using 2.0 and `TextureWrap.Repeat` will lead to the image being repeated twice within the *width* and *height* we specified. Here is an image to demonstrate the differences between clamping and repeat wrap modes:
 
 ![WrapModes](http://i.imgur.com/lflHc.png)
 
