@@ -81,10 +81,42 @@ LibGDX will upload the data to OpenGL based on the format of the image being loa
 
 ## Drawing with Pixmaps
 
-We can use Pixmaps for very simple render-to-texture functionality, done in software. For example, we could create a circle texture like so:
+We can use Pixmaps for very simple render-to-texture functionality, done in software. For example, we can create a simple brick texture like this:
 
 ```java
 Pixmap px = new Pixmap(256, 256
+```
+
+
+## Reading Pixmaps
+
+One common usage for Pixmaps is to store data, for example a terrain map. The image isn't something that we need to render on screen, but instead is just something we use to create our 3D mesh. We can read the RGBA values of each pixel in a Pixmap like so:
+
+```java
+Pixmap pixmap = new Pixmap(Gdx.files.internal("img.png"));
+
+Color color = new Color();
+
+for (int x=0; x<pixmap.getWidth(); x++) {
+    for (int y=0; y<pixmap.getHeight(); y++) {
+        int val = pixmap.getPixel(x, y);
+        Color.rgba8888ToColor(color, val);
+        int R = (int)(color.r * 255f);
+        int G = (int)(color.g * 255f);
+        int B = (int)(color.b * 255f);
+        int A = (int)(color.a * 255f);
+    }
+}
+```
+
+We could have also decoded the RGBA8888 color like so:
+
+```java
+    int value = pixmap.getPixel(x, y);
+    int R = ((value & 0xff000000) >>> 24);
+    int G = ((value & 0x00ff0000) >>> 16);
+    int B = ((value & 0x0000ff00) >>> 8);
+    int A = ((value & 0x000000ff));
 ```
 
 
