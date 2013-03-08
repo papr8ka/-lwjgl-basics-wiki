@@ -198,7 +198,7 @@ texture.setWrap(Texture.ClampToEdge, Texture.ClampToEdge);
 
 #### Filtering 
 
-The minification/magnification filters define how the image is handled upon scaling. For "pixel-art" style games, generally `Filter.Nearest` (aka: `GL_NEAREST`) is suitable as it leads to hard-edge scaling without blurring. Specifying `Filter.Linear` (aka: `GL_LINEAR`) will use bilinear scaling for smoother results, which is generally effective for 3D games (e.g. a 1024x1024 rock or grass texture) but not always so for a 2D game:  
+The minification/magnification filters define how the image is handled upon scaling. For "pixel-art" style games, generally `Filter.Nearest` is suitable as it leads to hard-edge scaling without blurring. Specifying `Filter.Linear` will use bilinear scaling for smoother results, which is generally effective for 3D games (e.g. a 1024x1024 rock or grass texture) but not always so for a 2D game. In OpenGL, the terms used are `GL_NEAREST` and `GL_LINEAR`, respectively.   
 ![Scaling](http://i.imgur.com/vAVHc.png)
 
 #### Wrap Modes
@@ -213,7 +213,7 @@ To render the above object, we need to give OpenGL four **vertices**. As you can
 
 Sometimes programmers and modelers use `UV` and `ST` interchangeably -- "UV Mapping" is another way to describe how textures are applied to a 3D mesh.
 
-So what happens if we use texture coordinate values less than 0.0, or greater than 1.0? This is where the *wrap mode* comes into play. We tell OpenGL how to handle values outside of the texture coordinates. The two common modes in OpenGL ES are `TextureWrap.ClampToEdge` (aka: `GL_CLAMP_TO_EDGE`), which simply samples the edge color, and `TextureWrap.Repeat` (aka: `GL_REPEAT`), which will lead to a repeating pattern. For example, using 2.0 and `TextureWrap.Repeat` will lead to the image being repeated twice within the *width* and *height* we specified. Here is an image to demonstrate the differences between clamping and repeat wrap modes:
+So what happens if we use texture coordinate values less than 0.0, or greater than 1.0? This is where the *wrap mode* comes into play. We tell OpenGL how to handle values outside of the texture coordinates. The two common modes in OpenGL ES are `TextureWrap.ClampToEdge`, which simply samples the edge color, and `TextureWrap.Repeat`, which will lead to a repeating pattern. For example, using 2.0 and `TextureWrap.Repeat` will lead to the image being repeated twice within the *width* and *height* we specified. In OpenGL, the terms used are `GL_CLAMP_TO_EDGE` and `GL_REPEAT`, respectively. Here is an image to demonstrate the differences between clamping and repeat wrap modes:
 
 ![WrapModes](http://i.imgur.com/lflHc.png)
 
