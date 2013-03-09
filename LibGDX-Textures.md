@@ -217,47 +217,6 @@ So what happens if we use texture coordinate values less than 0.0, or greater th
 
 ![WrapModes](http://i.imgur.com/lflHc.png)
 
-### Debug Rendering
-
-Before we get into the programmable pipeline and our sprite batching system, we can "test render" our texture. These calls (glMatrixMode, glBegin, glColor4f, glVertex2f, etc) are deprecated, and should not be used aside from simple debugging purposes. Once our sprite batcher is set up, we will no longer need to rely on deprecated code to draw a texture.
-
-```java
-public static void debugTexture(Texture tex, float x, float y, float width, float height) {
-	//usually glOrtho would not be included in our game loop
-	//however, since it's deprecated, let's keep it inside of this debug function which we will remove later
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, Display.getWidth(), Display.getHeight(), 0, 1, -1);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	
-	//bind the texture before rendering it
-	tex.bind();
-
-	//setup our texture coordinates
-	//(u,v) is another common way of writing (s,t)
-	float u = 0f;
-	float v = 0f;
-	float u2 = 1f;
-	float v2 = 1f;
-
-	//immediate mode is deprecated -- we are only using it for quick debugging
-	glColor4f(1f, 1f, 1f, 1f);
-	glBegin(GL_QUADS);
-		glTexCoord2f(u, v);
-		glVertex2f(x, y);
-		glTexCoord2f(u, v2);
-		glVertex2f(x, y + height);
-		glTexCoord2f(u2, v2);
-		glVertex2f(x + width, y + height);
-		glTexCoord2f(u2, v);
-		glVertex2f(x + width, y);
-	glEnd();
-}
-```
-
-As you can see, the concept here is the same as we described in our earlier image. We are specifying a quad with texture coordinates 0.0 and 1.0. 
-
 ### Texture Atlases
 
 One thing I haven't mentioned yet is the importance of texture atlases or "sprite sheets." Since we are only binding one texture at a time, this can be costly if we plan to draw many sprites or tiles per frame. Instead, it's almost always a better idea to place all of your tiles and sprites into a single image, so that you are only binding minimal textures per frame.
@@ -281,9 +240,15 @@ float v2 = (srcY + srcHeight) / tex.height;
 Here is a visual breakdown of each vertex:  
 ![VertexBreakdown](http://i.imgur.com/nwXUM.png)
 
-The above would be better suited in its own method, such as `drawDebugRegion`. Later, we will examine the `TextureRegion` utility class, which will simplify the process of handling sprite sheets and sub-images.
+LibGDX actually has a number of utilities to help us with texture atlases. We could simplify the above with the following code:
 
-*Note:* As we discussed earlier, using `GL_LINEAR` will lead to bilinear interpolation when scaling -- i.e. the nearest four pixels will be selected and blended together. This can lead to unwanted effects when scaling a texture atlas, where "bleeding" occurs at the edge of sprites, and so it's often wise to use `GL_NEAREST` and/or pad each sprite in your atlas with a transparent 1-2px border.
+```java
+TextureRegion sprite = new TextureRegion(atlasTexture, 64, 64, 64, 64);
+```
+
+TextureRegion also includes a `split(..)` method to split up uniformly-sized atlases. The preferred method of handling sprite sheets in LibGDX is to use a [texture packer](https://code.google.com/p/libgdx-texturepacker-gui/), and load the TextureAtlas definition, and/or to pack textures on the fly with PixmapPacker (i.e. during runtime).
+
+*Note:* As we discussed earlier, using `Filter.Linear` will lead to bilinear interpolation when scaling -- i.e. the nearest four pixels will be selected and blended together. This can lead to unwanted effects when scaling a texture atlas, where "bleeding" occurs at the edge of sprites, and so it's often wise to use `Filter.Nearest` and/or pad each sprite in your atlas with a transparent 1-2px border.
 
 
 <a name="HardwareLimitations" />
@@ -291,12 +256,16 @@ The above would be better suited in its own method, such as `drawDebugRegion`. L
 
 ### Max Texture Size
 
-You can query the maximum texture width and height with the following:
+You can query the maximum texture width and height with the following:  
 ```java
-int maxSize = glGetInteger(GL_MAX_TEXTURE_SIZE);
+IntBuffer buf = BufferUtils.newIntBuffer(16);
+Gdx.gl.glGetIntegerv(GL10.GL_MAX_TEXTURE_SIZE, buf);
+int maxSize = buf.get(0);
 ```
 
-Generally, most modern computers allow for at least 4096x4096 textures, but if you want to be really safe, you can limit yourself to 2048x2048. If you think you will be working with old or limiting drivers (or Android, iOS, WebGL), you may want to limit yourself to 1024x1024.
+<sub>Read more about NIO buffers [here](Java-NIO-Buffers) -- note that LibGDX uses a slightly different BufferUtils class than LWJGL!</sub>
+
+Generally, most modern computers allow for at least 4096x4096 textures, but if you want to be really safe, you can limit yourself to 2048x2048. If you are targeting Android, iOS, WebGL, or another OpenGL ES device, you might be safer sticking with 1024x1024 or less, unless you are absolutely sure of your target audience.
 
 ### Power of Two Sizes
 One thing I have yet to note is the use of power-of-two (POT) dimensions. Historically, OpenGL only allowed POT texture dimensions:  
@@ -304,155 +273,11 @@ One thing I have yet to note is the use of power-of-two (POT) dimensions. Histor
 
 Today, however, most drivers will support non-power-of-two (NPOT) texture sizes. You can check to see if your user supports NPOT textures with the following code:  
 ```java
-boolean npotSupported = GLContext.getCapabilities().GL_ARB_texture_non_power_of_two;
+boolean npotSupported = Gdx.graphics.supportsExtension("GL_ARB_texture_non_power_of_two");
 ```
 
-It should be noted that even if the driver does support NPOT textures, it's generally still advisable to stick to POT sizes as it will often lead to better performance and storage. At a later point, this tutorial may include a segment on padding NPOT textures to a power-of-two size, for drivers that don't support NPOT textures.
+It should be noted that even if the driver does support NPOT textures, it's generally still advisable to stick to POT sizes as it will often lead to better performance and storage. And on some devices, the extension may be found even though the device does not work perfectly with NPOT textures.
 
-## Advanced Topics
+## Realtime Per-Pixel Manipulation
 
-If you're ready to move onto something more advanced, check out the [shader programming series](Shaders).
-
-## Full Source Code
-
-Below is the full source of our simple texture wrapper. See the [repo](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/Texture.java) for a more complete version, including better documentation.
-
-```java
-/**
- * Copyright (c) 2012, Matt DesLauriers All rights reserved.
- *
- *	Redistribution and use in source and binary forms, with or without
- *	modification, are permitted provided that the following conditions are met: 
- *
- *	* Redistributions of source code must retain the above copyright notice, this
- *	  list of conditions and the following disclaimer. 
- *
- *	* Redistributions in binary
- *	  form must reproduce the above copyright notice, this list of conditions and
- *	  the following disclaimer in the documentation and/or other materials provided
- *	  with the distribution. 
- *
- *	* Neither the name of the Matt DesLauriers nor the names
- *	  of his contributors may be used to endorse or promote products derived from
- *	  this software without specific prior written permission.
- *
- *	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *	AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *	IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *	ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *	CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- *	SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- *	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- *	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- *	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- *	POSSIBILITY OF SUCH DAMAGE.
- */
-package mdesl.graphics;
-
-import static org.lwjgl.opengl.GL11.GL_CLAMP;
-import static org.lwjgl.opengl.GL11.GL_LINEAR;
-import static org.lwjgl.opengl.GL11.GL_NEAREST;
-import static org.lwjgl.opengl.GL11.GL_REPEAT;
-import static org.lwjgl.opengl.GL11.GL_RGBA;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_S;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_T;
-import static org.lwjgl.opengl.GL11.GL_UNPACK_ALIGNMENT;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glGenTextures;
-import static org.lwjgl.opengl.GL11.glPixelStorei;
-import static org.lwjgl.opengl.GL11.glTexImage2D;
-import static org.lwjgl.opengl.GL11.glTexParameteri;
-import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.ByteBuffer;
-
-import org.lwjgl.BufferUtils;
-
-import de.matthiasmann.twl.utils.PNGDecoder;
-
-public class Texture {
-
-	public final int target = GL_TEXTURE_2D;
-	public final int id;
-	public final int width;
-	public final int height;
-
-	public static final int LINEAR = GL_LINEAR;
-	public static final int NEAREST = GL_NEAREST;
-
-	public static final int CLAMP = GL_CLAMP;
-	public static final int CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE;
-	public static final int REPEAT = GL_REPEAT;
-
-	public Texture(URL pngRef) throws IOException {
-		this(pngRef, GL_NEAREST);
-	}
-
-	public Texture(URL pngRef, int filter) throws IOException {
-		this(pngRef, filter, GL_CLAMP_TO_EDGE);
-	}
-
-	public Texture(URL pngRef, int filter, int wrap) throws IOException {
-		InputStream input = null;
-		try {
-			//get an InputStream from our URL
-			input = pngRef.openStream();
-			
-			//initialize the decoder
-			PNGDecoder dec = new PNGDecoder(input);
-
-			//set up image dimensions 
-			width = dec.getWidth();
-			height = dec.getHeight();
-			
-			//we are using RGBA, i.e. 4 components or "bytes per pixel"
-			final int bpp = 4;
-			
-			//create a new byte buffer which will hold our pixel data
-			ByteBuffer buf = BufferUtils.createByteBuffer(bpp * width * height);
-			
-			//decode the image into the byte buffer, in RGBA format
-			dec.decode(buf, width * bpp, PNGDecoder.Format.RGBA);
-			
-			//flip the buffer into "read mode" for OpenGL
-			buf.flip();
-
-			//enable textures and generate an ID
-			glEnable(target);
-			id = glGenTextures();
-
-			//bind texture
-			bind();
-
-			//setup unpack mode
-			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-			//setup parameters
-			glTexParameteri(target, GL_TEXTURE_MIN_FILTER, filter);
-			glTexParameteri(target, GL_TEXTURE_MAG_FILTER, filter);
-			glTexParameteri(target, GL_TEXTURE_WRAP_S, wrap);
-			glTexParameteri(target, GL_TEXTURE_WRAP_T, wrap);
-
-			//pass RGBA data to OpenGL
-			glTexImage2D(target, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
-		} finally {
-			if (input != null) {
-				try { input.close(); } catch (IOException e) { }
-			}
-		}
-	}
-
-	public void bind() {
-		glBindTexture(target, id);
-	}
-}
-```
+So far we've seen how to render images in software (CPU) and upload them as textures (GPU), but this is not a viable solution for real-time rendering. If we tried doing this every frame, we would run into some serious performance problems, especially on Android. Often the solution is to use a shader to handle the per-pixel processing for you. You can read more about shaders in the [GLSL tutorial series](Shaders).
