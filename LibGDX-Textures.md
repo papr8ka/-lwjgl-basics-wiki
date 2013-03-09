@@ -269,12 +269,12 @@ Generally, most modern computers allow for at least 4096x4096 textures, but if y
 One thing I have yet to note is the use of power-of-two (POT) dimensions. Historically, OpenGL only allowed POT texture dimensions:  
 `1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096... etc`
 
-Today, however, most drivers will support non-power-of-two (NPOT) texture sizes. You can check to see if your user supports NPOT textures with the following code:  
+Today, however, most desktop drivers will support non-power-of-two (NPOT) texture sizes. Android should support NPOT with GLES 2.0+. You can check to see if your user supports NPOT textures with the following code:  
 ```java
 boolean npotSupported = Gdx.graphics.supportsExtension("GL_ARB_texture_non_power_of_two");
 ```
 
-It should be noted that even if the driver does support NPOT textures, it's generally still advisable to stick to POT sizes as it will often lead to better performance and storage. And on some devices, the extension may be found even though the device does not work perfectly with NPOT textures.
+It should be noted that even if the driver does support NPOT textures, it's generally still advisable to stick to POT sizes as it will often lead to better performance and storage. And on some devices, NPOT textures may not render correctly, even though the device says it should work.
 
 ## Realtime Per-Pixel Manipulation
 
