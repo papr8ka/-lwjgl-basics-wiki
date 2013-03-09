@@ -38,6 +38,8 @@ These tutorials are specific to LWJGL devs. They use the lwjgl-basics API to red
   * [Procedural Bricks](http://glsl.heroku.com/e#5215.13)
   * [Spotlight WIP](http://glsl.heroku.com/e#5700.4)
   * [Flying Lotus' Cosmogramma in Code (Album Artwork)](http://glsl.heroku.com/e#5928.5)
+  * [Underwater](http://glsl.heroku.com/e#6052.4)
+  * [Space](http://glsl.heroku.com/e#6607.3)
 * Misc
   * [2D Lightning Effect](wiki/LightningEffect)
   * [Tiled Maps from Images](wiki/Tiled-Map-Images)
