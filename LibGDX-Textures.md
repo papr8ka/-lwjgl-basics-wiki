@@ -86,6 +86,7 @@ LibGDX will upload the data to OpenGL based on the format of the image being loa
 A quick and dirty method of "converting" a pixmap to the desired format might look like this:
 
 ```java
+
 //desired format 
 Format format = Format.RGBA8888;
 //perform conversion if necessary
@@ -96,6 +97,7 @@ if (pix.getFormat()!=format) {
 	pix = tmp; //swap values
 }
 //... now "pix" is RGBA8888 ...
+
 ```
 
 ## Drawing with Pixmaps
