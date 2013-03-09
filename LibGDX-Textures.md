@@ -88,8 +88,17 @@ LibGDX will upload the data to OpenGL based on the format of the image being loa
 A quick and dirty method of "converting" a pixmap to the desired format might look like this:
 
 ```java
-Format f = new Format();
+Format format = Format.RGBA8888; //desired format 
+
+if (pix.getFormat()!=format) { //perform conversion if necessary
+	Pixmap tmp = new Pixmap(pix.getWidth(), pix.getHeight(), format);
+	tmp.drawPixmap(pix, 0, 0); //copy pix to tmp
+	pix.dispose(); //dispose old pix
+	pix = tmp; //swap values
+}
+//... now "pix" is RGBA8888 ...
 ```
+
 ## Drawing with Pixmaps
 
 We can use Pixmaps for very simple render-to-texture functionality, done in software. For example, below we create a procedural brick texture:
