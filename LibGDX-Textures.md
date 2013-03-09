@@ -83,6 +83,8 @@ LibGDX will upload the data to OpenGL based on the format of the image being loa
 - `Alpha` - This is a special type of image that only stores an alpha channel in 8 bits.
 - `Intensity` - This is another special type of image which only uses a single channel, but with the alpha channel equal to the luminance. For example, an Intensity color of (I=127) would be equivalent to a RGBA color of (R=127, G=127, B=127, A=127).
 
+## Converting Formats
+
 A quick and dirty method of "converting" a pixmap to the desired format might look like this:
 
 ```java
