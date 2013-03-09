@@ -14,7 +14,7 @@ These tutorials are specific to LWJGL devs. They use the lwjgl-basics API to red
   * [Lesson 3: Circles, vignette, sepia and grayscale effects](wiki/ShaderLesson3)
   * [Lesson 4: Multiple Texture Units](wiki/ShaderLesson4)
   * [Lesson 5: Gaussian Blurs](wiki/ShaderLesson5)
-      * [Blurs for Mobile Applications in LibGDX](wiki/OpenGL-ES-Blurs)
+      * [Appendix: Blurs for Mobile Applications in LibGDX](wiki/OpenGL-ES-Blurs)
   * [Lesson 6: Normal Map Lighting for 2D Games](wiki/ShaderLesson6)
   * Lesson 7 (WIP) will cover light scattering, aka "god rays".
 * 5. Creating Your own 2D Renderer
@@ -24,8 +24,8 @@ These tutorials are specific to LWJGL devs. They use the lwjgl-basics API to red
 ### LibGDX Tutorials
 
   * [Intro to LibGDX Textures and Pixmaps](wiki/LibGDX-Textures)
-  * [Creating a Fruit Ninja Style Swipe in LibGDX](wiki/LibGDX-Finger-Swipe)
-  * [Blurs for Mobile Applications in LibGDX](wiki/OpenGL-ES-Blurs)
+  * [Creating a Fruit Ninja Style Swipe](wiki/LibGDX-Finger-Swipe)
+  * [Blurs for Mobile Applications](wiki/OpenGL-ES-Blurs)
 
 ### Code Snippets & Tips
 
