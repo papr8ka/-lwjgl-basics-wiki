@@ -25,6 +25,7 @@ These tutorials are specific to LWJGL devs. They use the lwjgl-basics API to red
 
   * [Intro to LibGDX Textures and Pixmaps](wiki/LibGDX-Textures)
   * [Creating a Fruit Ninja Style Swipe in LibGDX](wiki/LibGDX-Finger-Swipe)
+  * [Blurs for Mobile Applications in LibGDX](wiki/OpenGL-ES-Blurs)
 
 ### Code Snippets & Tips
 
