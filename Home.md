@@ -16,7 +16,6 @@ These tutorials are specific to LWJGL devs. They use the lwjgl-basics API to red
   * [Lesson 5: Gaussian Blurs](wiki/ShaderLesson5)
       * [Appendix: Blurs for Mobile Applications in LibGDX](wiki/OpenGL-ES-Blurs)
   * [Lesson 6: Normal Map Lighting for 2D Games](wiki/ShaderLesson6)
-  * Lesson 7 (WIP) will cover light scattering, aka "god rays".
 * 5. Creating Your own 2D Renderer
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
   * [Sprite Batching](wiki/SpriteBatch)
