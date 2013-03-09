@@ -1,8 +1,6 @@
 ### OpenGL & GLSL Tutorials
 
-This is a series of tutorials aimed at LWJGL and LibGDX devs looking to learn more about OpenGL, shaders and the programmable pipeline.
-
-The tutorial series uses the lwjgl-basics API to reduce clutter and keep things readable. However, many lessons include "Under the Hood" sections, which go into more detail on the specific OpenGL calls required to set up the various wrapper objects (e.g. Texture, Game, etc).
+These tutorials are specific to LWJGL devs. They use the lwjgl-basics API to reduce clutter and minimize GL boilerplate. Each of the [Shaders](wiki/Shaders) tutorials includes a LibGDX port.
 
 * [Display Creation](wiki/Display) 
 * [OpenGL Textures](wiki/Textures)
@@ -23,11 +21,14 @@ The tutorial series uses the lwjgl-basics API to reduce clutter and keep things 
   * [ShaderProgram Utility](wiki/ShaderProgram-Utility)
   * [Sprite Batching](wiki/SpriteBatch)
 
-### Other Tutorials, Code Snippets & Tips
+### LibGDX Tutorials
+
+  * [Intro to LibGDX Textures and Pixmaps](wiki/LibGDX-Textures)
+  * [Creating a Fruit Ninja Style Swipe in LibGDX](wiki/LibGDX-Finger-Swipe)
+
+### Code Snippets & Tips
 
 * LibGDX
-  * [Creating a Fruit Ninja Style Swipe in LibGDX](wiki/LibGDX-Finger-Swipe)
-  * [Using Normal Maps to Light a 2D Texture (GLSL)](http://www.java-gaming.org/topics/glsl-using-normal-maps-to-illuminate-a-2d-texture-libgdx/27516/view.html)
   * [Using Java2D For Advanced Shapes & Rasterization (Desktop)](wiki/LibGDX-&-Java2D)
   * [Rendering a Textured Triangle with SpriteBatch](https://gist.github.com/4255476)
   * [Hiding the Mouse Cursor (Desktop)](https://gist.github.com/4255483)
