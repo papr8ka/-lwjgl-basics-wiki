@@ -11,7 +11,6 @@
   * [Lesson 5](ShaderLesson5) introduces a two-pass gaussian blur.
     * [Blurs for Mobile Applications in LibGDX](OpenGL-ES-Blurs)
   * [Lesson 6](ShaderLesson6) covers normal map lighting for 2D games. 
-  * Lesson 7 (WIP) will cover light scattering, aka "god rays".
 
 
 <a name="Intro" />
