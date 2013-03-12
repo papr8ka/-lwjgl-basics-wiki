@@ -46,7 +46,7 @@ Typically, we load a texture in LibGDX like this:
 tex = new Texture(Gdx.files.internal("data/libgdx.png"));
 ```
 
-The above decodes the `"data/libgdx.png"` image into a pixel array, then uploads the data to OpenGL and discards the pixel array. The texture is "managed" by LibGDX, which means that it will be re-loaded if the OpenGL context is lost and regained (e.g. in an Android application, if the user hits the home button).
+The above decodes the `"data/libgdx.png"` image into a pixel array (Pixmap), then uploads the data to OpenGL (Texture) and discards the pixel array. The texture is "managed" by LibGDX, which means that it will be re-loaded if the OpenGL context is lost and regained (e.g. in an Android application, if the user hits the home button).
 
 Here is a more explicit means of creating a texture. Note that this texture won't be "managed," so we will need to re-load it ourselves upon context loss.
 ```java
@@ -63,13 +63,15 @@ tex = new Texture(pixmap);
 pixels.dispose();
 ```
 
-You can also "draw" a pixmap on a Texture like so, which "uploads" the CPU data to the GPU:
+We use `Pixmap` for handling image data on the CPU, aka "in software." We use `Texture` for handling the image data on GPU, aka "in hardware." 
+
+To move the image data from CPU to GPU, we need to pass the pixmap to the `Texture` constructor, or "upload" the data with the `Texture.draw(..)` method:
 
 ```java
 tex.draw(pixmap, x, y);
 ```
 
-As you will see, Textures are only necessary if you intend to draw the image to the screen. 
+If you don't need to render your image to the screen, then there may be no need to use a `Texture` object. Instead, a simple `Pixmap` may do the trick. 
 
 ## LibGDX Formats
 
