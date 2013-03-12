@@ -155,6 +155,17 @@ You can find the [HSBtoRGBA8888 method here](https://gist.github.com/mattdesl/51
 
 Generally speaking, it will be more efficient to load a pre-made texture (so it can be managed by LibGDX) or move these operations to the GPU (to take advantage of graphics hardware). We will examine how to do this in later series using [Shaders and GLSL](Shaders). With that said, you may run into specific cases where drawing in software will prove useful.
 
+Another nice feature of LibGDX's Pixmap utilities is re-sampling images. So, if you wanted to down-scale an image from disk in software (e.g. in order to save it as a thumbnail), you could use the following:
+
+```java
+float scale = 0.25f; //25% of original size
+Pixmap thumb = new Pixmap(original.getWidth() * scale, original.getHeight() * scale, original.getFormat());
+thumb.setFilter(Filter.BiLinear);
+thumb.draw(original, 0, 0, original.getWidth(), original.getHeight(), 0, 0, thumb.getWidth(), thumb.getHeight());
+```
+
+The `setFilter` operation will be explained in more detail below.
+
 ## Reading Pixmaps
 
 One common usage for Pixmaps is to store data, for example a terrain map. The image isn't something that we need to render on screen, but instead is just something we use to create our 3D mesh. We can read the RGBA values of each pixel in a Pixmap like so:
@@ -199,6 +210,12 @@ texture.setWrap(Texture.ClampToEdge, Texture.ClampToEdge);
 
 The minification/magnification filters define how the image is handled upon scaling. For "pixel-art" style games, generally `Filter.Nearest` is suitable as it leads to hard-edge scaling without blurring. Specifying `Filter.Linear` will use bilinear scaling for smoother results, which is generally effective for 3D games (e.g. a 1024x1024 rock or grass texture) but not always so for a 2D game. In OpenGL, the terms used are `GL_NEAREST` and `GL_LINEAR`, respectively.   
 ![Scaling](http://i.imgur.com/vAVHc.png)
+
+When rendering pixmaps (i.e. resampling *Pixmaps in software* as opposed to *Textures in hardware*), we can set the filter like so:
+```java
+pixmap.setFilter(Filter.NearestNeighbour); //or Filter.BiLinear
+pixmap.drawPixmap(... resample another pixmap ...);
+```
 
 #### Wrap Modes
 
