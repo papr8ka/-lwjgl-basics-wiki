@@ -126,13 +126,3 @@ Next, we will make a simple shader. We don't need to worry about blending or tex
 
 Notice that we need to specify each attribute and its associated varying that we defined with VertexAttribute. The names and component count (vec2, vec4) needs to match!
 
-
-
-
-
-
-
-
-
-
-There are a variety of ways of storing the mesh on the GPU, and some may be better suited for different applications (i.e. static geometry). For our purposes, we will use the VertexArray data type. 
