@@ -12,5 +12,15 @@ The solution is to use *vertex attributes* -- this allows us to send data to the
 
 ## Theoretical Puzzle Game
 
-Let's say we're developing a simple puzzle game. One option would be to pre-render all the masked pieces offline, in Photoshop or with a custom tool. Another option is to apply the masking in real-time, on the GPU. For the latter, we can use the same techniques discussed in [Shader Lesson 4](ShaderLesson4) to mask our puzzle photo. 
+Let's say we're developing a simple puzzle game with many varieties of jigsaw pieces. Here are a couple of them:  
+![Jigsaw](http://i.imgur.com/KBVfvqV.png)
 
+Here is an example of a photo we'd like to slice up:  
+![Photo](http://i.imgur.com/sqSPwpa.png)
+
+We could develop this app in a number of ways, but for the purpose of the tutorial we'll implement a solution that applies the mask in real-time. This means that our "photo" source could actually be a dynamic image (like a rotating 3D cube), or a video (like webcam input). 
+
+We can use similar techniques discussed in [Shader Lesson 4](ShaderLesson4), and probably achieve sufficient framerates. But for more optimized rendering, such as a scene with *many* jigsaw pieces, we may need a different technique. The two most important optimizations in 2D are:
+
+- Reducing texture binds by packing all sprites into a TextureAtlas.
+- Sending multiple sprites to the GPU at once; also known as "batching" your sprites in a single draw call.
