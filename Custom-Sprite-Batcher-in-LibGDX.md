@@ -18,9 +18,10 @@ Let's say we're developing a simple puzzle game with many varieties of jigsaw pi
 Here is an example of a photo we'd like to slice up:  
 ![Photo](http://i.imgur.com/sqSPwpa.png)
 
-We could develop this app in a number of ways, but for the purpose of the tutorial we'll implement a solution that applies the mask in real-time. This means that our "photo" source could actually be a dynamic image (like a rotating 3D cube), or a video (like webcam input). 
+We could develop this app in a number of ways, but for the purpose of the tutorial we'll implement a solution that applies the mask in real-time. This means that our "photo" source could actually be a dynamic image (like a rotating 3D cube), or a video (like webcam input). It also means the user can choose their own photos (e.g. from their phone) and crop/pan/zoom them as desired.
 
-We can use similar techniques discussed in [Shader Lesson 4](ShaderLesson4), and probably achieve sufficient framerates. But for more optimized rendering, such as a scene with *many* jigsaw pieces, we may need a different technique. The two most important optimizations in 2D are:
+We could apply the same techniques discussed in [Shader Lesson 4](ShaderLesson4) to achieve the masking, and we'd probably get decent frame rates. However, for more optimized rendering, such as a scene with *many* jigsaw pieces, we may need a different technique. The "big two" optimizations in 2D sprite rendering are:
 
-- Reducing texture binds by packing all sprites into a TextureAtlas.
-- Sending multiple sprites to the GPU at once; also known as "batching" your sprites in a single draw call.
+1. Reducing texture binds by packing all sprites into a TextureAtlas.
+2. "Batching" many sprites into a single draw call
+
