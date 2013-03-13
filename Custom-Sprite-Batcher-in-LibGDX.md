@@ -58,7 +58,9 @@ As you can see, we are using 10 floats per vertex. We need three vertices to cre
 
 If we didn't use indices, we would need to define 60 floats for a quad (10 floats * 6 vertices). With array indices, we only need to define 40 floats for a quad (10 floats * 4 vertices). Using clockwise winding and starting at the lower-left origin, our array indices might be `{ 0, 1, 2, 2, 3, 0 }` for the above quad. 
 
-`Mesh(VertexDataType type, boolean isStatic, int vertCount, int indexCount, VertexAttribute ... attributes)`
+```java
+Mesh(VertexDataType type, boolean isStatic, int vertCount, int indexCount, VertexAttribute ... attributes)
+```
 
 Above is the Mesh constructor. We first need to specify the 'data type'; this will define how the vertex attributes will be handled by OpenGL. There are a couple of options such as Vertex Buffer Objects (VBOs) or Vertex Arrays. Which to choose depends on your target device(s) and the way you are using your mesh; but for our purposes, we will use Vertex Arrays since that's what SpriteBatch uses. Then we specify whether our data is static; since we plan to change it every frame, pass `false`. 
 
