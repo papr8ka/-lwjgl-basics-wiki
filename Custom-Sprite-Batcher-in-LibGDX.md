@@ -20,8 +20,14 @@ Here is an example of a photo we'd like to slice up:
 
 We could develop this app in a number of ways, but for the purpose of the tutorial we'll implement a solution that applies the mask in real-time. This means that our "photo" source could actually be a dynamic image (like a rotating 3D cube), or a video (like webcam input). It also means the user can choose their own photos (e.g. from their phone) and crop/pan/zoom them as desired.
 
-We could apply the same techniques discussed in [Shader Lesson 4](ShaderLesson4) to achieve the masking, and we'd probably get decent frame rates. However, for more optimized rendering, such as a scene with *many* jigsaw pieces, we may need a different technique. The "big two" optimizations in 2D sprite rendering are:
+We *could* apply the same techniques discussed in [Shader Lesson 4](ShaderLesson4) to achieve the masking, and we'd probably get decent frame rates. However, for more optimized rendering, such as a scene with *many* jigsaw pieces, we may need a different technique. The "big two" optimizations in 2D sprite rendering are:
 
-1. Reducing texture binds by packing all sprites into a TextureAtlas.
-2. "Batching" many sprites into a single draw call
+- Reducing texture binds by packing all sprites into a TextureAtlas.
+- "Batching" many sprites into a single draw call
 
+For this we will need to send specific information to the shader that can't be achieved with a regular SpriteBatch. The data we need for each vertex:
+
+- `vec2 Position`: the position of the vertex
+- `vec4 Color`: the color of the vertex, allowing us to tint and fade puzzle pieces
+- `vec2 TexCoord0`: the texture coordinates for the "source" texture
+- `vec2 TexCoord1`: the texture coordinates for the "jigsaw" texture
