@@ -27,7 +27,11 @@ We *could* apply the same techniques discussed in [Shader Lesson 4](ShaderLesson
 
 For this we will need to send specific information to the shader that can't be achieved with a regular SpriteBatch. The data we need for each vertex:
 
-- `vec2 Position`: the position of the vertex
-- `vec4 Color`: the color of the vertex, allowing us to tint and fade puzzle pieces
-- `vec2 TexCoord0`: the texture coordinates for the "source" texture
-- `vec2 TexCoord1`: the texture coordinates for the "jigsaw" texture
+- `vec2 Position` - the position of the vertex
+- `vec4 Color` - the color of the vertex, allowing us to tint and fade puzzle pieces
+- `vec2 TexCoord0` - the texture coordinates for the "source" texture
+- `vec2 TexCoord1` - the texture coordinates for the "jigsaw" texture
+
+This will allow us to pack all of our jigsaw pieces into the same TextureAtlas, and draw a masked piece like this with any "source" image:  
+![Mask1](http://i.imgur.com/yPImIBx.png)
+
