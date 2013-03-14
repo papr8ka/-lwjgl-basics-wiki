@@ -57,7 +57,7 @@ We determine how many input points to "remember" by setting the Array's capacity
 <a name="Simplify" />
 ## 2. Simplify Input Path
 
-The first problem you might notice is that merely touching the screen is registered as a swipe. We don't want a swipe to be registered unless the user actually performs a swipe gesture. A quick fix is to only insert new points if they exceed a *minimum distance* from our last point. This forces the user to put a little more effort into their swipes, and discards very small swipes. It will also help us simplify the lines a little, reducing the point count, which will prove useful in our next step.
+The first problem you might notice is that merely touching the screen is registered as a swipe. We don't want a swipe to be registered unless the user actually performs a swipe gesture. A quick fix is to only insert new points if they exceed a *minimum distance* from our last point. This forces the user to put a little more effort into their swipes, and discards very small swipes. It will also help us simplify the lines a little, reducing the point count, which will prove useful in our next step. 
 
 ```java
 //determine squared distance between input and last point
@@ -72,9 +72,9 @@ if (lenSq >= minDistanceSq) {
 Another issue becomes apparent when we try swiping on an actual Android device. The touch screen input is not always accurate -- leading to "zig-zag" or stepped paths whenever the user tries to swipe diagonally. The effect is demonstrated [here](http://obamapacman.com/2010/01/iphone-wins-smartphone-touchscreen-performance-test-better-than-nexus-one-droid/) and leads to ugly diagonal swipes like this:  
 ![Diag](http://i.imgur.com/04saiAf.png)
 
-Our above distance check is pretty much the equivalent to the below [radial distance](http://psimpl.sourceforge.net/radial-distance.html) algorithm, adapted from [simplify.js](http://mourner.github.com/simplify-js/). You may not need this since the distance check is already applied earlier; or you may choose to improve on it with a more complex simplification process, such as Douglas-Peucker or Perpendicular Distance.
+Our above distance check is pretty much the equivalent to the below [radial distance](http://psimpl.sourceforge.net/radial-distance.html) algorithm, adapted from [simplify.js](http://mourner.github.com/simplify-js/). The second check gives us a little more control over how we want the input to be simplified; but you may want to improve on this algorithm with Douglas-Peucker, Perpendicular Distance, or something more specialized.
 
- An `out` parameter is used to avoid allocating new objects in the game loop.
+An `out` parameter is used to avoid allocating new objects in the game loop.
 
 ```java
 public static void simplify(Array<Vector2> points, float sqTolerance, Array<Vector2> out) {
