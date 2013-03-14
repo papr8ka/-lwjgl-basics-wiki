@@ -72,9 +72,9 @@ if (lenSq >= minDistanceSq) {
 Another issue becomes apparent when we try swiping on an actual Android device. The touch screen input is not always accurate -- leading to "zig-zag" or stepped paths whenever the user tries to swipe diagonally. The effect is demonstrated [here](http://obamapacman.com/2010/01/iphone-wins-smartphone-touchscreen-performance-test-better-than-nexus-one-droid/) and leads to ugly diagonal swipes like this:  
 ![Diag](http://i.imgur.com/04saiAf.png)
 
-To fix this, we need to simplify our input line. Here is an example of a [radial distance](http://psimpl.sourceforge.net/radial-distance.html) algorithm, which is pretty fast and leads to decent results. Note that this is the same as the check we performed earlier and may not be necessary; a more involved solution might use Douglas-Peucker or a more specialized path simplification algorithm instead.
+Our above distance check is pretty much the equivalent to the below [radial distance](http://psimpl.sourceforge.net/radial-distance.html) algorithm, adapted from [simplify.js](http://mourner.github.com/simplify-js/). You may not need this since the distance check is already applied earlier; or you may choose to improve on it with a more complex simplification process, such as Douglas-Peucker or Perpendicular Distance.
 
-The following code was adapted from [simplify.js](http://mourner.github.com/simplify-js/). An `out` parameter is used to avoid allocating new objects in the game loop.
+ An `out` parameter is used to avoid allocating new objects in the game loop.
 
 ```java
 public static void simplify(Array<Vector2> points, float sqTolerance, Array<Vector2> out) {
