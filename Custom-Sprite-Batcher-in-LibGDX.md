@@ -93,7 +93,7 @@ public PuzzleBatch(int batchSize) {
 			new VertexAttribute(Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE+"0"),
 			new VertexAttribute(Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE+"1"));
 	
-	//indices in the format { 0, 1, 2, 2, 3, 0 }
+	//indices in the format { 0, 1, 2, 2, 3, 0 } per sprite
 	short[] indices = new short[batchSize * 6];
 	for (int i = 0, j = 0; i < indices.length; i += 6, j += 4) {
 		indices[i + 0] = (short)(j + 0);
@@ -126,3 +126,69 @@ Next, we will make a simple shader. We don't need to worry about blending or tex
 
 Notice that we need to specify each attribute and its associated varying that we defined with VertexAttribute. The names and component count (vec2, vec4) needs to match!
 
+```java
+/** The shader uniform name of the projection/transform matrix - "u_projTrans" */
+public static final String U_PROJECTION_MATRIX = "u_projTrans";
+/** The shader uniform name of the texture0 sampler (source photo) - "u_texture0" */
+public static final String U_TEXTURE0 = "u_texture0";
+/** The shader uniform name of the texture1 sampler (jigsaw mask) - "u_texture1" */
+public static final String U_TEXTURE1 = "u_texture1";
+
+/** The source for the vertex shader. */
+public static final String VERT_SRC = 
+		  //vertex attributes
+		  "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+		+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" 
+		+ "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" 
+		+ "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "1;\n\n"
+		  //projection matrix
+		+ "uniform mat4 " + U_PROJECTION_MATRIX +";\n\n"
+		  //attributes sent to frag shader
+		+ "varying vec2 vTexCoord0;\n" 
+		+ "varying vec2 vTexCoord1;\n"
+		+ "varying vec4 vColor;\n"
+		+ "\n"
+		+ "void main() {\n" 
+		+ "  vColor = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+		+ "	 vTexCoord0 = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" 
+		+ "	 vTexCoord1 = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "1;\n" 
+		+ "	 gl_Position = u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" 
+		+ "}";
+
+/** The source for the fragment shader. */
+public static final String FRAG_SRC =
+		  "#ifdef GL_ES\n"
+		+ "#define LOWP lowp\n" 
+		+ "precision mediump float;\n" 
+		+ "#else\n" 
+		+ "#define LOWP \n" 
+		+ "#endif\n\n"
+		  //attributes from vertex shader
+		+ "varying vec2 vTexCoord0;\n"
+		+ "varying vec2 vTexCoord1;\n"
+		+ "varying LOWP vec4 vColor;\n\n" //colors use LOWP precision
+		  //our samplers, the photo and jigsaw mask
+		+ "uniform sampler2D "+U_TEXTURE0+";\n"
+		+ "uniform sampler2D "+U_TEXTURE1+";\n"
+		+ "\n"			
+		+ "void main(void) {\n"
+		+ "  vec4 texColor0 = texture2D("+U_TEXTURE0+", vTexCoord0);\n"
+		+ "  vec4 texColor1 = texture2D("+U_TEXTURE1+", vTexCoord1);\n"
+		  //For now we'll just return red
+		+ "  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n" 
+		+ "}";
+
+/** 
+ * Compiles a new instance of the default shader for this batch and returns it. If compilation
+ * was unsuccessful, GdxRuntimeException will be thrown.
+ * @return the default shader
+ */
+public static ShaderProgram createDefaultShader() {
+	ShaderProgram prog = new ShaderProgram(VERT_SRC, FRAG_SRC);
+	if (!prog.isCompiled())
+		throw new GdxRuntimeException("could not compile splat batch: " + prog.getLog());
+	if (prog.getLog().length() != 0)
+		Gdx.app.log("PuzzleBatch", prog.getLog());
+	return prog;
+}
+```
