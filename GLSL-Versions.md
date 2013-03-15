@@ -115,7 +115,7 @@ void main() {
 
 ## Version 330
 
-As of GLSL 130+, `in` and `out` are used instead of `attribute` and `varying`.
+As of GLSL 130+, `in` and `out` are used instead of `attribute` and `varying`. GLSL 330+ includes other features like layout qualifiers and changes `texture2D` to `texture`.
 
 Vertex shader:
 ```glsl
