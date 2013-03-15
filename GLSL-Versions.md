@@ -115,7 +115,7 @@ void main() {
 
 ## Version 330
 
-Now `in` and `out` is used instead of `attribute` and `varying`.
+As of GLSL 130+, `in` and `out` are used instead of `attribute` and `varying`.
 
 Vertex shader:
 ```glsl
