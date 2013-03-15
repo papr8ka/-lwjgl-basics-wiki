@@ -150,9 +150,9 @@ public static final String VERT_SRC =
 		+ "\n"
 		+ "void main() {\n" 
 		+ "  vColor = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-		+ "	 vTexCoord0 = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" 
-		+ "	 vTexCoord1 = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "1;\n" 
-		+ "	 gl_Position = u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" 
+		+ "  vTexCoord0 = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" 
+		+ "  vTexCoord1 = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "1;\n" 
+		+ "  gl_Position = u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" 
 		+ "}";
 
 /** The source for the fragment shader. */
