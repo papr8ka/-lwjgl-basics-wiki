@@ -122,9 +122,9 @@ public PuzzleBatch(int batchSize) {
 
 ## Creating a Basic Shader
 
-Next, we will make a simple shader. We don't need to worry about blending or texture sampling at this stage; for now we will just return the color red for testing purposes. A few things to note:
+Next, we will make a simple shader. We don't need to worry about blending or texture sampling at this stage; for now we will just return the color red for testing purposes. Notice that we need to specify each attribute and its associated varying that we defined with VertexAttribute. The names and component count (vec2, vec4) needs to match!
 
-Notice that we need to specify each attribute and its associated varying that we defined with VertexAttribute. The names and component count (vec2, vec4) needs to match!
+The following code looks a little daunting; but it's actually just a basic shader like the ones we've seen in the [Shaders tutorials](Shaders). You can see the resulting GLSL source [here](https://gist.github.com/mattdesl/5172873).
 
 ```java
 /** The shader uniform name of the projection/transform matrix - "u_projTrans" */
