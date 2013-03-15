@@ -117,7 +117,20 @@ public PuzzleBatch(int batchSize) {
 	vertices = new float[batchSize * quadSize];
 	
 	//...
-}
+```
+
+## Projection Matrix
+
+Since we are using a custom shader, we need to provide it with a projection matrix. This will transform the 2D screen-space positions into something OpenGL can use for rendering. So, we'll append the following to our PuzzleBatch constructor:
+
+```java
+u_projTrans = new Matrix4();
+u_projTrans.setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+```
+
+Alternatively, we could use the combined matrix from an OrthographicCamera:
+```java
+u_projTrans = camera.combined;
 ```
 
 ## Creating a Basic Shader
