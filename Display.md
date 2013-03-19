@@ -2,7 +2,7 @@
 
 This is a short snippet of code demonstrating a typical application life cycle in LWJGL. The code is pretty self-explanatory. You can find other examples on the [LWJGL wiki](http://www.lwjgl.org/wiki/index.php?title=Main_Page).
 
-The source code is listed [at the end of the article](Source).
+The source code is listed [at the end of the article](#Source).
 
 ### OpenGL Setup
 
