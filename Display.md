@@ -30,10 +30,12 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 ```
 
 We also set the "clear color" in our initialization. This is the color which GL will clear the 
-screen to. Keep in mind that colors are specified in RGBA floats, so here we are specifiying transparent black.
+screen to. Keep in mind that colors are specified in RGBA floats in the range 0.0 to 1.0, so here we are specifiying transparent black.
 ```java
 glClearColor(0f, 0f, 0f, 0f);
 ```
+
+Notice that OpenGL is a "static" and "state based" API. Generally speaking, the states we have set above will not change until we call them with a new parameter. So we don't need to call these methods every frame, unless something (like a 3rd party library) is interfering with our GL states.
 
 ### Game Loop
 
