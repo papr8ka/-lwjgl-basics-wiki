@@ -2,9 +2,11 @@
 
 This is a short snippet of code demonstrating a typical application life cycle in LWJGL. The code is pretty self-explanatory. You can find other examples on the [LWJGL wiki](http://www.lwjgl.org/wiki/index.php?title=Main_Page).
 
+The source code is listed [at the end of the article](Source).
+
 ### OpenGL Setup
 
-We need to set up a few things in order for OpenGL to work correctly. Note that we are using static imports; when developing we can static import with the wildcard symbol `*` for convenience.
+We need to set up a few things in order for OpenGL to work correctly. Note that we are using static imports; this is a Java feature that allows is to omit the class name, and it proves very useful for OpenGL programming. In Eclipse you can import with wildcard `*` for convenience, and then click Ctrl + Shift + O to organize and auto-correct any imports.
 
 Firstly, it's important to set up our OpenGL viewport to match the display size. We will also call this whenever the display is resized:
 ```java
@@ -50,6 +52,7 @@ This will clear the screen to the color we specified earlier, transparent black.
 
 The rest of the code should be relatively self-explanitory.
 
+<a name="Source" />
 ### Full Source Code
 
 ```java
