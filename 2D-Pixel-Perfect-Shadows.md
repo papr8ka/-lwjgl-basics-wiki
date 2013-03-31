@@ -8,7 +8,7 @@ The basic steps involved are (1) render occluders to a FBO, (2) build a 1D shado
 The following animation demonstrates the technique:  
 ![Visual](http://i.imgur.com/qcH7G.gif)
 
-The idea is an extension of my [previous attempts](http://www.java-gaming.org/topics/starbound-lighting-techneques/26363/msg/230988/view.html#msg230988) at shader-based shadows, which combines [ideas from various sources](#Further-Reading). However, "nego" on LibGDX forums suggested some great ideas to reduce the process into fewer passes.
+The idea is an extension of my [previous attempts](http://www.java-gaming.org/topics/starbound-lighting-techneques/26363/msg/230988/view.html#msg230988) at shader-based shadows, which combines [ideas from various sources](#further-reading). However, "nego" on LibGDX forums suggested some great ideas to reduce the process into fewer passes.
 
 
 
