@@ -11,7 +11,7 @@ The following animation demonstrates the technique:
 The idea is an extension of my [previous attempts](http://www.java-gaming.org/topics/starbound-lighting-techneques/26363/msg/230988/view.html#msg230988) at shader-based shadows, which combines [ideas from various sources](#further-reading). However, "nego" on LibGDX forums suggested some great ideas to reduce the process into fewer passes.
 
 
-
+<a name="further-reading" />
 ## Further Reading
 
 - http://www.catalinzima.com/2010/07/my-technique-for-the-shader-based-dynamic-2d-shadows/
