@@ -1,4 +1,4 @@
-This page will cover the steps required to create your own re-usable ShaderProgram utility class. Alternatively, you can skip this step and use the more advanced ShaderProgram utility already included in lwjgl-basics: [see here](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/glutils/ShaderProgram.java).
+This page will cover the steps required to create your own re-usable ShaderProgram utility class in LWJGL. Alternatively, you can skip this step and use the more advanced ShaderProgram utility already included in lwjgl-basics: [see here](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/glutils/ShaderProgram.java).
 
 ## Set-Up
 
