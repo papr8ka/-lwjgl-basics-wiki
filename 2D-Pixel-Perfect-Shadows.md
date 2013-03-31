@@ -14,6 +14,6 @@ The idea is an extension of my [previous attempts](http://www.java-gaming.org/to
 <a name="further-reading" />
 ## Further Reading
 
-- http://www.catalinzima.com/2010/07/my-technique-for-the-shader-based-dynamic-2d-shadows/
+- [Catalin's Article, the original inspiration](http://www.catalinzima.com/2010/07/my-technique-for-the-shader-based-dynamic-2d-shadows/)
 - http://rabidlion.com/?p=10
 - http://www.gmlscripts.com/forums/viewtopic.php?id=1657
