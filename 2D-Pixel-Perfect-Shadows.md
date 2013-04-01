@@ -9,6 +9,7 @@ The basic steps involved are (1) render occluders to a FBO, (2) build a 1D shado
 
 The following animation best demonstrates what's happening:   
 ![Visual](http://i.imgur.com/qcH7G.gif)
+<sup>(Image from [this great article](http://www.gmlscripts.com/forums/viewtopic.php?id=1657))</sup>
 
 The idea is an extension of my [previous attempts](http://www.java-gaming.org/topics/starbound-lighting-techneques/26363/msg/230988/view.html#msg230988) at shader-based shadows, which combines [ideas from various sources](#further-reading). My original inspiration for shader-based lighting is discussed [here](http://www.catalinzima.com/2010/07/my-technique-for-the-shader-based-dynamic-2d-shadows/) by Catalin Zima, although the technique discussed here is rather different and requires fewer passes. As you can see I'm using the same placeholder graphics for the occluders.
 
