@@ -71,7 +71,7 @@ occludersFBO.end();
 ```
 
 We could use a custom shader here to encode specific data into our occlusion pass (such as [normals for diffuse lighting](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson6)). But for now we'll just use the default SpriteBatch shader, and only rely on sampling from the alpha channel. The resulting "occlusion map" might look like this -- with the light at center -- if we were to render the alpha channel in black and white:  
-![Occlusion](http://i.imgur.com/UWy7D1V.png)
+![Occlusion](http://i.imgur.com/SH4kg16.png)
 
 ## Step 2: Build a 1D Shadow Map Lookup Texture
 
