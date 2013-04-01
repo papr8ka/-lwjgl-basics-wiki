@@ -70,16 +70,25 @@ batch.end();
 occludersFBO.end();
 ```
 
-We could use a custom shader here to encode specific data into our occlusion pass (such as [normals for diffuse lighting](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson6)). But for now we'll just use the default SpriteBatch shader.
-
-The resulting occlusion map looks like this, with the light centered on the texture:  
-![Occlusion](http://i.imgur.com/BmKQdBZ.png)
+We could use a custom shader here to encode specific data into our occlusion pass (such as [normals for diffuse lighting](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson6)). But for now we'll just use the default SpriteBatch shader, and only rely on sampling from the alpha channel. The resulting "occlusion map" might look like this -- with the light at center -- if we were to render the alpha channel in black and white:  
+![Occlusion](http://i.imgur.com/UWy7D1V.png)
 
 ## Step 2: Build a 1D Shadow Map Lookup Texture
 
-Now we need to build a 1D lookup texture, which will be used as our shadow/light map. The texture looks pretty simple, like this (256x1 pixels):
+Now we need to build a 1D lookup texture, which will be used as our shadow/light map. The texture is very small (256x1 pixels), and looks like this:  
 
 ![ShadowMap](http://i.imgur.com/ZaGDDgL.png)
+
+Our x-axis represents the angle `theta` of a "light ray" from center; i.e. 360 degrees of a circle. An easy way to visualize it is to imagine a few rays, like in the following:  
+![Shadow2D](http://i.imgur.com/tJR0QSz.png)
+
+On the left, we see each ray being cast from the center (light position) to the first occluder (opaque pixel in our occlusion map). 
+
+The texture on the right represents the "polar transform." The top of it is the light center, and the bottom is the light edge. We normalize the distance of each ray to `lightSize`, which we defined earlier. Each pixel in the resulting 1D shadow map describes the *minimum distance to the first occluder for that ray's angle*. So, if a ray (one of our red arrows) does not hit any occluders, the normalized distance will be 1.0 (and thus the resulting pixel will be white). If the ray hits an occluder half way from center, the normalized distance will be 0.5 (and thus the resulting pixel will be gray). We take the *minimum* distance so that we "stop casting the ray" after hitting the first occluder (so to speak).
+
+In our case, we have `lightSize` number of rays, or 256. The more rays, the more precision in our resulting shadows, but the greater the fill-rate.
+
+
 
 <a name="further-reading" />
 ## Further Reading
