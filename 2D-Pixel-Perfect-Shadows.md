@@ -183,7 +183,13 @@ shadowMapFBO.end();
 
 ## Step 3. Blur & Render Lights
 
-The next step is to render our lights by sampling from our 1D shadow map lookup texture. The GLSL code for light rendering looks like this:
+The next step is to render our lights by sampling from our 1D shadow map lookup texture. 
+
+The basic idea is: for each fragment in our light area, determine if the distance from center is less than the distance for that angle in our 1D shadow map. If true, the fragment is "in light." If false, the fragment is "in shadow." 
+
+In order to create blurred edges, we need to sample multiple angles, and sum the results together using a gaussian distribution.
+
+The GLSL code for light rendering looks like this:
 
 ```glsl
 #define PI 3.14
