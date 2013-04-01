@@ -2,7 +2,7 @@
 
 ## Intro
 
-Detailed here is an approach to 2D pixel-perfect shadows using shaders and the GPU. Because of the high fill rate and multiple passes involved, this is generally less performant than geometry shadows (which are not per-pixel). My technique is implemented in LibGDX, although the concepts can be applied to any OpenGL/GLSL framework.
+Detailed here is an approach to 2D pixel-perfect lights/shadows using shaders and the GPU. Because of the high fill rate and multiple passes involved, this is generally less performant than geometry shadows (which are not per-pixel). My technique is implemented in LibGDX, although the concepts can be applied to any OpenGL/GLSL framework.
 
 The basic steps involved are (1) render occluders to a FBO, (2) build a 1D shadow map, (3) render shadows and sprites.  
 ![Img](http://i.imgur.com/vcaWNof.png)
