@@ -271,6 +271,34 @@ batch.setColor(Color.WHITE);
 And voila! With a few different lights and some additive blending, we can get some very pretty per-pixel soft shadows:  
 ![PixelPerfect](http://i.imgur.com/Cq8cmzX.png)
 
+## Source Code
+
+The demo is implemented in LibGDX. You can find the source here:  
+https://gist.github.com/mattdesl/5286905
+
+The test images can be downloaded here:  
+[cat4.png](http://i.imgur.com/yVkiKwx.png)
+[light.png](http://i.imgur.com/s7W3FDr.png)
+
+## Optimizations
+
+On my Mac OSX 10.6.6 (GeForce 9400), I can add about 20 lights before fill-rate becomes a bottleneck.
+
+The code listed here is *not* optimized, and will not perform well on Android. There are many areas that can be improved:
+
+- Rendering multiple occlusion maps in a single pass, to a large texture atlas. Or, using fixed occlusion maps that fit within the target texture size (e.g. 4096x4096), in order to skip one render-to-texture pass.
+- Rendering multiple shadow maps into the same texture. We could fit 4 into a single `Nx1` texture, since we have R, G, B, and A channels. Or, we could fit more data into a map with a larger height.
+- Using smaller occlusion and shadow map texture sizes, and then up-scaling when rendering the final shadows. This comes at the expense of precision. You can test this in the demo by changing `lightSize` and `upScale`.
+- Using non-dependent texture reads, [described here](http://xissburg.com/faster-gaussian-blur-in-glsl/)
+- Sampling *between* texel centers to utilize linear filtering, [described here](http://prideout.net/archive/bloom/#Sneaky)
+- Separating the blur pass may also prove valuable, depending on the situation. 
+- If the desired light is to be a cone (instead of a 360 degrees circle), there are many optimizations that can be made to the shadow maps without losing any precision.
+- Rendering using disc/circle meshes to further reduce fill-rate
+
+## Future Thoughts
+
+It may be possible to take advantage of hardware depth testing to build our shadow map, or perhaps use multiple-render targets to improve performance and reduce passes for many lights. However, as these features are not supported in OpenGL ES, I chose not to use them.
+
 <a name="further-reading" />
 ## Further Reading
 
