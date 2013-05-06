@@ -291,7 +291,8 @@ One thing I have yet to note is the use of power-of-two (POT) dimensions. Histor
 
 Today, however, most desktop drivers will support non-power-of-two (NPOT) texture sizes. Android should support NPOT with GLES 2.0+. You can check to see if your user supports NPOT textures with the following code:  
 ```java
-boolean npotSupported = Gdx.graphics.supportsExtension("GL_ARB_texture_non_power_of_two");
+boolean npotSupported = Gdx.graphics.supportsExtension("GL_OES_texture_npot") 
+                  || Gdx.graphics.supportsExtension("GL_ARB_texture_non_power_of_two");
 ```
 
 It should be noted that even if the driver does support NPOT textures, it's generally still advisable to stick to POT sizes as it will often lead to better performance and storage. And on some devices, NPOT textures may not render correctly, even though the device says it should work.
