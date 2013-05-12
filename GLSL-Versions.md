@@ -181,9 +181,12 @@ vec2 v = vec2(1, 2.0); <-- only supported in GLSL 120
 - Fragment output can be user-defined
 - Input and output is declared with `in` and `out` syntax instead of `attribute` and `varying`
 
-## GLSL 330 Additions
+## GLSL 150 Additions
 
 - `texture()` should now be used instead of `texture2D()`
+
+## GLSL 330 Additions
+
 - Layout qualifiers can declare the location of vertex shader inputs and fragment shader outputs, eg: 
 ```glsl
 layout(location = 2) in vec3 values[4];
