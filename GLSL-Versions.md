@@ -150,7 +150,7 @@ void main() {
 }
 ```
 
-# Other Changes
+# Other Significant Changes
 
 ## GLSL 120 Additions
 
