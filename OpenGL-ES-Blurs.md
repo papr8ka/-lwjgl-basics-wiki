@@ -80,7 +80,7 @@ We'll look at two different means of implementing the effect:
 <a name="ImplementationA" />
 ## Option A: Using Mipmaps
 
-You can follow along with source code here: [LerpBlurA.java](https://gist.github.com/4401290). It requires the [BlurUtils](https://gist.github.com/4383372) class mentioned earlier, and uses [this](http://i.imgur.com/X0NET.png) Lenna image.
+You can follow along with source code here: [LerpBlurA.java](https://gist.github.com/4401290). It requires the [BlurUtils](https://gist.github.com/4383372) class mentioned earlier, and uses [this](images/X0NET.png) Lenna image.
 
 _Note:_ I'll assume you understand the basics of mipmapping. If not, [read up on them](http://en.wikipedia.org/wiki/Mipmap) before continuing. 
 
@@ -187,7 +187,7 @@ _Note:_ This solution would also be possible to employ on GL 1.0 devices, using 
 ## Option B: Manual Lerping with `mix()`
 
 You can follow along with the source code here: [LerpBlurB.java](https://gist.github.com/4401311)
-It requires the [BlurUtils](https://gist.github.com/4383372) class mentioned earlier, and uses [this](http://i.imgur.com/X0NET.png) Lenna image.
+It requires the [BlurUtils](https://gist.github.com/4383372) class mentioned earlier, and uses [this](images/X0NET.png) Lenna image.
 
 Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to mimic realtime blurring. This doesn't require the `bias` parameter (which is not thoroughly tested), and allows for a slightly smoother transition from unblurred to blurred.
 

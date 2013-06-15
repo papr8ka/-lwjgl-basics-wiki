@@ -286,8 +286,8 @@ The demo is implemented in LibGDX. You can find the source here:
 https://gist.github.com/mattdesl/5286905
 
 The test images can be downloaded here:  
-[cat4.png](http://i.imgur.com/yVkiKwx.png)
-[light.png](http://i.imgur.com/s7W3FDr.png)
+[cat4.png](images/yVkiKwx.png)
+[light.png](images/s7W3FDr.png)
 
 ## Optimizations
 
