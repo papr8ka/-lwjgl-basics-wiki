@@ -63,7 +63,7 @@ The best way to install the API is to use Eclipse and EGit (or another IDE with 
 
 Alternatively, you can download the full library as a ZIP:
 
-![ZIP](images/Dkvp0.png)
+![ZIP](wiki/images/Dkvp0.png)
 
 Then, simply open the Eclipse project to start testing. Ensure your LWJGL JARs and natives have been set correctly in [Eclipse](http://www.lwjgl.org/wiki/index.php?title=Setting_Up_LWJGL_with_Eclipse), [NetBeans](http://www.lwjgl.org/wiki/index.php?title=Setting_Up_LWJGL_with_NetBeans) or [IntelliJ](http://www.lwjgl.org/wiki/index.php?title=Setting_Up_LWJGL_with_IntelliJ_IDEA), and include lwjgl-basics as a class library. lwjgl-basics also uses PNGDecoder.jar as a dependency, which can be downloaded [here](http://twl.l33tlabs.org/textureloader/).
 
