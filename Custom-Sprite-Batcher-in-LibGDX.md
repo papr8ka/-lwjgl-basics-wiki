@@ -13,10 +13,10 @@ The solution is to use *vertex attributes* -- this allows us to send data to the
 ## Theoretical Puzzle Game
 
 Let's say we're developing a simple puzzle game with many varieties of jigsaw pieces. Here are a couple of them:  
-![Jigsaw](http://i.imgur.com/KBVfvqV.png)
+![Jigsaw](images/KBVfvqV.png)
 
 Here is an example of a photo we'd like to slice up:  
-![Photo](http://i.imgur.com/sqSPwpa.png)
+![Photo](images/sqSPwpa.png)
 
 We could develop this app in a number of ways, but for the purpose of the tutorial we'll implement a solution that applies the mask in real-time. This means that our "photo" source could actually be a dynamic image (like a rotating 3D cube rendered to FBO), or a video (like webcam input). It also means the user can choose their own photos (e.g. from their phone) and crop/pan/zoom them as desired.
 
@@ -33,7 +33,7 @@ To achieve these optimizations, we need to send specific data to the shader that
 - `TexCoord1.st` - the texture coordinates for the "jigsaw" texture
 
 This will allow us to pack all of our jigsaw pieces into the same TextureAtlas, and draw a masked piece like this with any "source" image:  
-![Mask1](http://i.imgur.com/yPImIBx.png)
+![Mask1](images/yPImIBx.png)
 
 ## Creating a Mesh
 
@@ -54,7 +54,7 @@ float[] data = new float[] {
 ```
 
 As you can see, we are using 10 floats per vertex. We need three vertices to create a triangle. Keep in mind, to create a "quad", we need two triangles side by side. Since some of our vertices are the same, we can use "array indices" to minimize the number of vertices sent to OpenGL. See the image here:  
-![VertsIndices](http://i.imgur.com/LQ1A4uo.png)
+![VertsIndices](images/LQ1A4uo.png)
 
 If we didn't use indices, we would need to define 60 floats for a quad (10 floats * 6 vertices). With array indices, we only need to define 40 floats for a quad (10 floats * 4 vertices). Using clockwise winding and starting at the lower-left origin, our array indices might be `{ 0, 1, 2, 2, 3, 0 }` for the above quad. 
 

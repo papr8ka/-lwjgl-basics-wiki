@@ -10,9 +10,9 @@ This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwj
 
 You can see the source for this short demo [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson4.java). The setup looks a lot like previous lessons, with a couple minor differences. First, we load the following three textures:
 
-![Grass](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/grass.png) 
-![Dirt](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/dirt.png) 
-![Mask](https://raw.github.com/mattdesl/lwjgl-basics/master/test/res/mask.png)
+![Grass](images/grass.png) 
+![Dirt](images/dirt.png) 
+![Mask](images/mask.png)
 
 Second, we are setting our uniforms after creating the program, like so:
 
@@ -81,7 +81,7 @@ void main(void) {
 }
 ```
 
-![Result](http://i.imgur.com/rSaEw.png)
+![Result](images/rSaEw.png)
 
 Note that we are limited by the maximum number of "texture image units" -- we can check with the following:
 ```java
@@ -94,7 +94,7 @@ This doesn't cover much new ground<sup>(pun!)</sup>, but you'll want to be comfo
 
 In a 3D game, texture splatting like this may be useful since it can be applied over the entire terrain, which may be made up of tiled grass/dirt/etc. textures. For a 2D game, this kind of texture splatting isn't really necessary, and it would have been better to just save the blended result as a new image (preferably packed into a texture atlas). However, there are some applications for this even in 2D, for example, if we were to modulate the mask (or one of the textures) which would require us to do the blending in real-time:
 
-![RealTime](http://i.imgur.com/OAadq.gif)
+![RealTime](images/OAadq.gif)
 
 The above example uses [simplex noise](https://github.com/ashima/webgl-noise/wiki) to modulate the texture coordinates before sampling from the mask. It would be a particularly cool way to blend water and land textures in a wave-like motion. You can test this with the [ShaderLesson4B code](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson4B.java).
 

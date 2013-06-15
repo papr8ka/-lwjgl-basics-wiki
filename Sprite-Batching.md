@@ -55,7 +55,7 @@ The [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics/) API includes a min
 
 As discussed, for best performance we should use a texture atlas, and draw regions of it (AKA sub-images) to make up our game's sprites. For this we have a utility class, [TextureRegion](https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/TextureRegion.java). It allows us to specify in pixels the upper left position `(x, y)` and size `(width, height)` of our sub-image. Let's take our earlier example, where we want to render the highlighted tile:
 
-![VertexBreakdown](http://i.imgur.com/nwXUM.png)
+![VertexBreakdown](images/nwXUM.png)
 
 We can get a TextureRegion of the tile with the following:
 ```java
@@ -94,7 +94,7 @@ spriteBatch.end();
 
 In the earlier series, we have been thinking of textures as quads, but in reality most sprite batchers will use two adjacent triangles to represent a rectangular sprite. The vertices may be ordered differently depending on the engine (LibGDX tends to use lower-left origin), but the basic idea looks like this:
 
-![Verts](http://i.imgur.com/5dOga.png)
+![Verts](images/5dOga.png)
 
 A single sprite has 2 triangles -- or 6 vertices. Each *vertex* has 8 attributes `(X, Y, S, T, R, G, B, A)` which together make up `Position`, `TexCoord` and `Color`. This means that with every sprite, we are pushing 48 floats to the stack! A more optimized sprite batcher might pack the RGBA into a single float, or may forgo vertex colors altogether.
 

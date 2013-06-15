@@ -9,11 +9,11 @@ This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwj
 ## Intro
 
 This article will focus on 3D lighting and normal mapping techniques and how we can apply them to 2D games. To demonstrate, see the following. On the left is the texture, and on the right is the illumination applied in real-time.    
-![Rock](http://i.imgur.com/e4FtQNt.png)
-![Lit](http://i.imgur.com/WHI3uYo.gif)
+![Rock](images/e4FtQNt.png)
+![Lit](images/WHI3uYo.gif)
 
 Once you understand the concept of illumination, it should be fairly straight-forward to apply it to any setting. Here is an example of normal mapping in a Java4K demo, i.e. rendered in software:    
-![Pixels](http://i.imgur.com/S6ElW.gif)
+![Pixels](images/S6ElW.gif)
 
 The effect is the same shown in [this popular YouTube video](http://youtu.be/vtYvNEmmHXE) and [this Love2D demo](https://love2d.org/forums/viewtopic.php?f=5&t=11076). You can also see the effect in action [here](http://www.java-gaming.org/topics/glsl-using-normal-maps-to-illuminate-a-2d-texture-libgdx/27516/view.html), which includes an executable demo.
 
@@ -42,18 +42,18 @@ As we've discussed in past lessons, a GLSL "vector" is a float container that ty
 - [Mathematics of Vectors Applied to Graphics](http://3dgep.com/?p=359)
 
 To calculate lighting, we need to use the "normal" vectors of a mesh. A surface normal is a vector perpendicular to the tangent plane. In simpler terms, it's a vector that is perpendicular to the mesh at a given vertex. Below we see a mesh with the normal for each vertex.  
-![Mesh1](http://i.imgur.com/QnfZ4.png)
+![Mesh1](images/QnfZ4.png)
 
 Each vector points outward, following the curvature of the mesh. Here is another example, this time a simplified 2D side view:  
-![LightLow](http://i.imgur.com/MLTGx.png)
+![LightLow](images/MLTGx.png)
 
 "Normal Mapping" is a game programming trick that allows us to render the same number of polygons (i.e. a low-res mesh), but use the normals of our high-res mesh when calculating the lighting. This gives us a much greater sense of depth, realism and smoothness:  
-![Light](http://i.imgur.com/5EH9m.png)
+![Light](images/5EH9m.png)
 
 <sub>(Images from [this great blog post](http://acko.net/blog/making-worlds-3-thats-no-moon/))</sub>
 
 The normals of the high poly mesh or "sculpt" are encoded into a texture (AKA normal map), which we sample from in our fragment shader while rendering the low poly mesh. The results speak for themselves:  
-![RealTime](http://i.imgur.com/17dVa.png)
+![RealTime](images/17dVa.png)
 
 <a name="EncDecNormals" />
 ## Encoding & Decoding Normals
@@ -64,12 +64,12 @@ Color.rgb = Normal.xyz / 2.0 + 0.5;
 ```
 
 For example, a normal of `(-1, 0, 1)` would be encoded as RGB `(0, 0.5, 1)`. The x-axis (left/right) is stored in the red channel, the y-axis (up/down) stored in the green channel, and the z-axis (forward/backward) is stored in the blue channel. The resulting "normal map" looks ilke this:  
-![NormalMap](http://i.imgur.com/pgfKp.png)
+![NormalMap](images/pgfKp.png)
 
 Typically, we use a program to [generate our normal map](#GeneratingNormals) rather than painting them by hand.
 
 To understand the normal map, it's clearer to look at each channel individually:  
-![Channels](http://i.imgur.com/ppXbS.png)
+![Channels](images/ppXbS.png)
 
 Looking at, say, the green channel, we see that the brighter parts (values closer to `1.0`) define areas where the normal would point upward, whereas darker areas (values closer to `0.0`) define areas where the normal would point downward. Most normal maps will have a bluish tint because the Z axis (blue channel) is generally pointing toward us (i.e. value of `1.0`). 
 
@@ -120,7 +120,7 @@ Some key terms:
 
 The following image will help you visualize our illumination model:
 
-![Illu](http://i.imgur.com/bSbNxRh.png)
+![Illu](images/bSbNxRh.png)
 
 As you can see, it's rather "modular" in the sense that we can take away parts of it that we might not need, like attenuation or light colors. 
 
@@ -131,8 +131,8 @@ Now let's try to apply this to model GLSL. Note that we will only be working wit
 
 You can see the Java code example [here](). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. We'll use the following two textures:
 
-![Rock](http://i.imgur.com/e4FtQNt.png)
-![RockN](http://i.imgur.com/cjFUm7X.png)  
+![Rock](images/e4FtQNt.png)
+![RockN](images/cjFUm7X.png)  
 
 Our example adjusts the `LightPos.xy` based on the mouse position (normalized to resolution), and `LightPos.z` (depth) based on the mouse wheel (click to reset light Z). With certain coordinate systems, like LibGDX, you may need to flip the Y value. 
 
@@ -176,10 +176,10 @@ batch.draw(rock, 50, 50);
 ```
 
 The resulting "shaded" texture:  
-![Shaded](http://i.imgur.com/CrkJznv.png)
+![Shaded](images/CrkJznv.png)
 
 Here it is again, using a lower Z value for the light:  
-![Z](http://i.imgur.com/pZ7gajb.png)
+![Z](images/pZ7gajb.png)
 
 <a name="FragmentShader" />
 ### Fragment Shader
@@ -300,7 +300,7 @@ gl_FragColor = vColor * vec4(FinalColor, DiffuseColor.a);
 
 - The `LightDir` and attenuation in our implementation depends on the resolution. This means that changing the resolution will affect the falloff of our light. Depending on your game, a different implementation may be required that is resolution-independent.
 - A common problem has to do with differences between your game's Y coordinate system and that employed by your normal-map generation program (such as CrazyBump). Some programs will let you export with a flipped Y value. The following image shows the problem:  
-![FlipY](http://i.imgur.com/u3vDDfP.png)
+![FlipY](images/u3vDDfP.png)
 
 <a name="MultipleLights" />
 ## Multiple Lights
@@ -315,7 +315,7 @@ for (... each light ...) {
 gl_FragColor = vec4(Sum, DiffuseColor.a);
 ```
 
-![Multiple](http://i.imgur.com/xZeLLSR.png)
+![Multiple](images/xZeLLSR.png)
 
 Note this introduces more branching to your shader, which may degrade performance. 
 
@@ -345,7 +345,7 @@ You can also use 3D modeling software like [Blender](http://www.blender.org/) or
 One idea for a workflow would be to produce a low-poly and very rough 3D object of your art asset. Then you can use [this Blender normal map template](https://github.com/mattdesl/lwjgl-basics/tree/master/tools/blender-normals) to render your object to a 2D tangent space normal map. Then, you could open the normal map in Photoshop and begin working on the diffuse color map.
 
 Here's what the Blender template looks like:  
-![Image](http://i.imgur.com/dFRsM.png)
+![Image](images/dFRsM.png)
 
 <a name="FurtherReading" />
 ## Further Reading 

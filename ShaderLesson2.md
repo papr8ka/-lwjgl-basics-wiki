@@ -14,7 +14,7 @@ Follow along with the full source code [here](https://github.com/mattdesl/lwjgl-
 
 We can leave our rendering method the same, and now we'll see a different outcome:
 
-![Invert](http://i.imgur.com/Bb0MA.png)
+![Invert](images/Bb0MA.png)
 
 (The original grass texture can be seen [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/res/grass.png).)
 
@@ -134,7 +134,7 @@ Remember that the vertex shader works on every vertex, and the fragment shader w
 
 However, as we can see in the following image from our [Textures](Textures) tutorial, the texture coordinates are only specified _per-vertex_:
 
-![TexCoordVerts](http://i.imgur.com/nwXUM.png)
+![TexCoordVerts](images/nwXUM.png)
 
 For fragments _within_ those vertices, the `TexCoord` value (as well as other attributes, like vertex `Color`) is interpolated based on the relative distances of the vertices to that fragment. We can test this by outputting `TexCoord.s` (i.e. the x-axis texture coordinate) as the fragment color:
 
@@ -145,7 +145,7 @@ gl_FragColor = vec4(vec3(vTexCoord.s), 1.0);
 
 If we were to then draw the full texture with texcoords `[0.0 - 1.0]`, we would see the following:
 
-![TexCoordTest](http://i.imgur.com/QeFQ8.png)
+![TexCoordTest](images/QeFQ8.png)
 
 As we can see, the value is interpolated from `0.0` (black, on left) to `1.0` (white, on right), resulting in a gradient.
 
@@ -196,7 +196,7 @@ protected void render() throws LWJGLException {
 ```
 
 We can see the result of that here:  
-![Tint](http://i.imgur.com/RLqav.png)
+![Tint](images/RLqav.png)
 
 ## On to Lesson 3
 

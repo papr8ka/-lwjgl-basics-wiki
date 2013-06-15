@@ -16,7 +16,7 @@ Here is a visual overview of the two-pass blurring process:
 
 <a name="Overview" />
 
-![Overview](http://i.imgur.com/8jkTJ.png)
+![Overview](images/8jkTJ.png)
 
 
 You can follow along with the source [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson5.java). First, we load some textures, then we go on to create our frame buffers:
@@ -120,7 +120,7 @@ The kernel weights are calculated using a gaussian function (see [here](http://h
 
 You might wonder why we don't just blur all in one pass. If we did that, we would need to sample every pixel within our blur radius. However, with a two-pass (vertical + horizontal) blur, we only need to sample 9 pixels on the horizontal axis, and 9 pixels on the vertical axis. In the end, this leads to far fewer texture fetches. The following image demonstrates the benefit of separating the blur into two passes:
 
-![Blur](http://i.imgur.com/W7rNo.png)
+![Blur](images/W7rNo.png)
 
 
 ## Rendering Process
@@ -241,7 +241,7 @@ We then draw `blurTargetB` -- since no FBOs are bound, it will be rendered to th
 
 Bloom is achieved in a similar fashion; however, on the first pass (render scene to FBO), we use a ["threshold" shader](http://www.curious-creature.org/2007/02/20/fast-image-processing-with-jogl/) which only draws bright areas of the image, and then we blur the bright areas with a vertical and horizontal pass. The result is then drawn atop the scene, using add or screen blending.
 
-![Bloom](http://i.imgur.com/XCNec.jpg)
+![Bloom](images/XCNec.jpg)
 
 Described in this series:  
 [iPhone 3D Programming - Bloom](http://ofps.oreilly.com/titles/9780596804824/chadvanced.html)
@@ -252,7 +252,7 @@ Here are various considerations for improving performance:
 
 - Say you're developing an image processing application and you don't need to blur an entire scene of entities, but instead just one image at a time. If you don't care about possible hard edges around the image, you can skip the first step of rendering the entire scene to the FBO. Instead, you would apply the horizontal blur in the first step, saving you a pass.
 - If your blur does not need to be real-time (every frame), you can "cache" the result in one of the frame buffers whenever the blur needs updating. For this you would "ping-pong" and store the final blurred result back in FBO target A. Our last step, then, would be changed to this:  
-![NewStep4](http://i.imgur.com/jC6xn.png)
+![NewStep4](images/jC6xn.png)
 - If you are only blurring in one direction, you can reduce the number of passes and simplify the fragment shader.
 - If you have a fixed display, and your device supports non-power-of-two textures, you can make the FBO the same size as your display. This means you don't need to call `batch.resize`, thus leading to fewer uniform sends per frame.
 - You can use `setShader(shader, false)` to swap shaders without uploading any data to the shader. Then you can upload your own projection matrices, caching the value from `shader.getUniformLocation` for a slight performance boost.

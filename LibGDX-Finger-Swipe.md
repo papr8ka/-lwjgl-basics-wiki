@@ -10,12 +10,12 @@ This article relies on [LibGDX](http://libgdx.badlogicgames.com/) for mesh and r
 
 Surely most of you are familiar with the Fruit Ninja type of games. This series will cover replicating the Swipe effect in OpenGL ES using LibGDX.
 
-![Swipe](http://i.imgur.com/6nFRZDi.png)  
+![Swipe](images/6nFRZDi.png)  
 <sup>Screenshot from Fruit Ninja, a popular touch-based game</sup>
 
 
 The final result of our swipe renderer will look like this:  
-![Proj](http://i.imgur.com/m61ar9v.gif)
+![Proj](images/m61ar9v.gif)
 
 Below is a break-down of the steps involved:
 
@@ -70,7 +70,7 @@ if (lenSq >= minDistanceSq) {
 ```
 
 Another issue becomes apparent when we try swiping on an actual Android device. The touch screen input is not always accurate -- leading to "zig-zag" or stepped paths whenever the user tries to swipe diagonally. The effect is demonstrated [here](http://obamapacman.com/2010/01/iphone-wins-smartphone-touchscreen-performance-test-better-than-nexus-one-droid/) and leads to ugly diagonal swipes like this:  
-![Diag](http://i.imgur.com/04saiAf.png)
+![Diag](images/04saiAf.png)
 
 Our above distance check is pretty much the equivalent to the below [radial distance](http://psimpl.sourceforge.net/radial-distance.html) algorithm, adapted from [simplify.js](http://mourner.github.com/simplify-js/). This second distance check gives us a little more control over how we want the input to be simplified; but you may want to improve on this algorithm with Douglas-Peucker, Perpendicular Distance, or something more specialized.
 
@@ -105,13 +105,13 @@ public static float distSq(Vector2 p1, Vector2 p2) {
 ```
 
 We can play with the tolerance to get a more or less simplified path. Using 35<sup>2</sup> seems to work well for our purposes. The red line shows the simplified result, the gray line shows the raw input:  
-![RadialDistance](http://i.imgur.com/2NfgN7m.png)
+![RadialDistance](images/2NfgN7m.png)
 
 <a name="Smooth" />
 ## 3. Smooth Input Path
 
 The next thing you'll notice is "jagged" corners on fast swipes. As you can see, this is even more apparent now that we've simplified our path:  
-![Corners](http://i.imgur.com/XmJDF0L.png)
+![Corners](images/XmJDF0L.png)
 
 One solution to this is to use [natural cubic splines](http://en.nicoptere.net/?p=210) or even Bezier curves to produce a smooth contour. However, [Chaikin's smoothing algorithm](http://www.idav.ucdavis.edu/education/CAGDNotes/Chaikins-Algorithm/Chaikins-Algorithm.html) is easy to implement, leads to a predictable contour, and efficient enough for our purposes. The following is a single iteration of our Chaikin smooth:
 
@@ -182,14 +182,14 @@ public void resolve(Array<Vector2> input, Array<Vector2> output) {
 ```
 
 Using 2 iterations, we get quite a nice curve when the user quickly swipes a corner:  
-![Curve](http://i.imgur.com/WXFnDLv.png)
+![Curve](images/WXFnDLv.png)
 
 <a name="Extrude" />
 ## 4. Extrude to Triangle Strip
 
 The next step delves a little into some basic vector math. To create our geometry, we will use the perpendicular vector of each point on our path. We skip the first and last points, since we want the swipe to taper into a sharp tip. Here is an image that demonstrates the process:  
 
-![Vectors](http://i.imgur.com/lQlRjIR.png)
+![Vectors](images/lQlRjIR.png)
 
 The steps are as follows, with LibGDX vectors. We use a shared instance `tmp` to avoid unnecessary allocations.
 
@@ -200,23 +200,23 @@ The steps are as follows, with LibGDX vectors. We use a shared instance `tmp` to
 Then we can determine point A with `p1.add(tmp)` or B with `p1.sub(tmp)`. For a variable thickness, resulting a taper at the far end of the trail, we simply reduce the thickness based on how far we are from the initial point (i.e. the user's finger).
 
 When we plug the points into a triangle strip, we get a pretty good result:  
-![Trail1](http://i.imgur.com/5QhTQAJ.png)
+![Trail1](images/5QhTQAJ.png)
 
 It looks a bit better if we extend the head and tail points outward by a certain amount. To extend the head, you might use `tmp.set(p1).sub(p2).mul(endcapScale)`, and similar code to extend the tail.
 
-![Extended](http://i.imgur.com/vF5IDPC.png)
+![Extended](images/vF5IDPC.png)
 
 <a name="Stroke" />
 ## 5. Anti-Aliasing and Stroke Effects
 
 What we have now looks pretty good. We can draw the polygon multiple times at different sizes to create a simple stroke effect:  
-![Stroke](http://i.imgur.com/yvKb7E7.gif)
+![Stroke](images/yvKb7E7.gif)
 
 Unfortunately, our shape has some harshly aliased edges. Ideally we'd like to smooth this out a little. iOS 4 includes full-screen anti-aliasing without much of a performance hit, but on Android we have no such feature. We can't use FXAA or another full-screen solution since we are so heavily fill limited.
 
 Fortunately, our shape is very predictable and easy to work with. We can split the shape into two triangle strips, and give each vertex a distance from the centre line. GL will interpolate the distance in the fragment shader, which will allow us to create various stroke, glow, and smooth effects. Here is an image to demonstrate the weight at each vertex:
 
-![Weight](http://i.imgur.com/jAI9q1e.png)
+![Weight](images/jAI9q1e.png)
 
 You can see how we split the mesh into two distinct triangle strips. When rendered together, these will look like a single mesh. Our `weight` value would be passed as a vertex attribute to our shader. We can prototype this effect with ImmediateModeRenderer, and simply adjust the color based on the weight. Here is some pseudo-code:
 
@@ -256,7 +256,7 @@ gl_FragCoord = vec4( vec3(weight), 1.0 );
 ```
 
 This leads to a pretty ugly falloff, like this:  
-![Falloff](http://i.imgur.com/C1df06i.png)
+![Falloff](images/C1df06i.png)
 
 However, we could also use the weight to sample from a "falloff texture." The height of the texture doesn't matter (it can be 1px high), since we are only sampling along one axis. So we could change our ImmediateModeRenderer code to use texCoord instead of vertex coloring:
 
@@ -271,18 +271,18 @@ However, we could also use the weight to sample from a "falloff texture." The he
 ```
 
 Below shows how we can sample from a 64x64 "falloff texture" to fake polygon anti-aliasing:  
-![Falloff](http://i.imgur.com/shoE48S.png)
+![Falloff](images/shoE48S.png)
 
 <sup>Note: If you don't understand texture coordinates, be sure to read [this tutorial](Textures).</sup>
 
 Now we have a smooth edge! We can adjust how smooth or harsh the edge is by changing the gradient in Photoshop, GIMP, or another image editor.    
-![Edge](http://i.imgur.com/VdIUMyS.png)
+![Edge](images/VdIUMyS.png)
 
 For my purposes, I settled on the following texture. From left to right, it blends from fully transparent, to opaque gray (stroke), to opaque white (center).  
-![Falloff2](http://i.imgur.com/sfIt0RN.png)
+![Falloff2](images/sfIt0RN.png)
 
 Result:  
-![Result](http://i.imgur.com/lecqhZ6.png)
+![Result](images/lecqhZ6.png)
 
 This technique is fast and already looks great, but we could potentially go a step further. Since the weight (i.e. center) is known in the fragment shader, we could create the above falloff without any texture sampling. We could also create other effects in the shader such as a dynamic glow, or fancy lighting, or what have you. 
 

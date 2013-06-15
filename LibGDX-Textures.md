@@ -6,10 +6,10 @@ This is a mirror of the [OpenGL Textures](Textures) tutorial, but geared toward 
 ### Primer: Digital Images
 
 An image, as you may know, is simply an array of colors, rendered in two dimensions. Let's use this very small image as an example; a heart sprite and a half-heart sprite:   
-![Heart](http://i.imgur.com/libCK.png)
+![Heart](images/libCK.png)
 
 Now, when we zoom in on the image in Photoshop or another program, we can clearly see how the image is constructed of individual pixels:    
-![HeartBig](http://i.imgur.com/NgH4n.png)
+![HeartBig](images/NgH4n.png)
 
 There are a number of ways an image like this would be stored on a computer, most commonly [RGBA with 8-bits per channel](http://en.wikipedia.org/wiki/RGBA_color_space). `RGB` refers to the red, green and blue channels, and `A` refers to the alpha (transparency) channel. Below are three different ways of storing the colour red:
 
@@ -133,7 +133,7 @@ for (int x = 0; x < px.getWidth(); x++) {
 ```
 
 Result (scaled 400%):  
-![Brick](http://i.imgur.com/svOQXOV.png)
+![Brick](images/svOQXOV.png)
 
 Here is another example which procedurally draws a "hue slider" in software. 
 
@@ -151,7 +151,7 @@ for (int x = 0; x < px.getWidth(); x++) {
 ```
 
 Result:  
-![Color](http://i.imgur.com/UwBcrcY.png)
+![Color](images/UwBcrcY.png)
 
 You can find the [HSBtoRGBA8888 method here](https://gist.github.com/mattdesl/5120985).
 
@@ -211,7 +211,7 @@ texture.setWrap(Texture.ClampToEdge, Texture.ClampToEdge);
 #### Filtering 
 
 The minification/magnification filters define how the image is handled upon scaling. For "pixel-art" style games, generally `Filter.Nearest` is suitable as it leads to hard-edge scaling without blurring. Specifying `Filter.Linear` will use bilinear scaling for smoother results, which is generally effective for 3D games (e.g. a 1024x1024 rock or grass texture) but not always so for a 2D game. In OpenGL, the terms used are `GL_NEAREST` and `GL_LINEAR`, respectively.   
-![Scaling](http://i.imgur.com/vAVHc.png)
+![Scaling](images/vAVHc.png)
 
 When rendering pixmaps (i.e. in software), we can set the filter like so:
 ```java
@@ -222,10 +222,10 @@ pixmap.drawPixmap(... resample another pixmap ...);
 #### Wrap Modes
 
 To explain "texture wrap," we need to understand a bit more about *texture coordinates* and vertices. Let's take a simple two dimensional image, like the following brick texture:  
-![Brick](http://i.imgur.com/IGn1g.png)
+![Brick](images/IGn1g.png)
 
 To render the above object, we need to give OpenGL four **vertices**. As you can see, we end up with a 2D quad. Each vertex has a number of attributes, including Position (x, y) and Texture Coordinates (s, t). Texture coordinates are defined in *tangent space*, generally between 0.0 and 1.0. These tell OpenGL where to sample from our texture data. Here is an image showing the attributes of each vertex in our quad:  
-![Quad](http://i.imgur.com/fkzfb.png)
+![Quad](images/fkzfb.png)
 
 *Note:* This is a generalized overview; LibGDX actually uses a Y-up coordinate system and triangles instead of quads. We will get to these subjects later, when we work with custom Mesh objects.
 
@@ -233,14 +233,14 @@ Sometimes programmers and modelers use `UV` and `ST` interchangeably -- "UV Mapp
 
 So what happens if we use texture coordinate values less than 0.0, or greater than 1.0? This is where the *wrap mode* comes into play. We tell OpenGL how to handle values outside of the texture coordinates. The two common modes in OpenGL ES are `TextureWrap.ClampToEdge`, which simply samples the edge color, and `TextureWrap.Repeat`, which will lead to a repeating pattern. For example, using 2.0 and `TextureWrap.Repeat` will lead to the image being repeated twice within the *width* and *height* we specified. In OpenGL, the terms used are `GL_CLAMP_TO_EDGE` and `GL_REPEAT`, respectively. Here is an image to demonstrate the differences between clamping and repeat wrap modes:
 
-![WrapModes](http://i.imgur.com/lflHc.png)
+![WrapModes](images/lflHc.png)
 
 ### Texture Atlases
 
 One thing I haven't mentioned yet is the importance of texture atlases or "sprite sheets." Since we are only binding one texture at a time, this can be costly if we plan to draw many sprites or tiles per frame. Instead, it's almost always a better idea to place all of your tiles and sprites into a single image, so that you are only binding minimal textures per frame.
 
 Here is one example of a texture atlas:  
-![TexAtlas](http://i.imgur.com/0uz31.png)
+![TexAtlas](images/0uz31.png)
 
 As you might have noticed from the *Texture Wrap* section, we can tell OpenGL what part of our texture to render by specifying different texture coordinates. For example, say we want to render the grass tile at (1, 1), then texture coordinates would be set up like so:
 ```java
@@ -256,7 +256,7 @@ float v2 = (srcY + srcHeight) / tex.height;
 ```
 
 Here is a visual breakdown of each vertex:  
-![VertexBreakdown](http://i.imgur.com/nwXUM.png)
+![VertexBreakdown](images/nwXUM.png)
 
 LibGDX actually has a number of utilities to help us with texture atlases. We could simplify the above with the following code:
 

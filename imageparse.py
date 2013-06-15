@@ -40,7 +40,7 @@ def parse(file):
 path = "."
 files = [p for p in os.listdir(path) if p.lower().endswith('.md')]
 
-for f in files[:1]:
+for f in files:
 	print f
 	parse(f)
 	print 

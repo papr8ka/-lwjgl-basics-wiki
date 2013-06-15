@@ -2,11 +2,11 @@ There are a lot of different ways to store tile map data. Generally speaking, yo
 
 For example, in the map below, green `(R=135, G=184, B=78)` or `#87b84e` corresponds to the grass tile type.
 
-![MapImg](http://i39.tinypic.com/4exra.png)
+![MapImg](images/4exra.png)
 
 When loading the map in game, we simply loop through our image and substitute tile types based on image color. The resulting in-game map might look like this:
 
-![Map1](http://i44.tinypic.com/2qibpzt.png)
+![Map1](images/2qibpzt.png)
 
 As a bonus, the map data is extremely well compressed as a GIF or PNG, making it ideal for small programs (like Java4K). 
 

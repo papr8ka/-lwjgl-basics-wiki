@@ -88,10 +88,10 @@ void main() {
 ```
 
 What a beast! Here is the scene before any effects:  
-![Before](http://i.imgur.com/pMm39.png)
+![Before](images/pMm39.png)
 
 And here is our scene with vignette and sepia applied:  
-![After](http://i.imgur.com/EUL4t.png)
+![After](images/EUL4t.png)
 
 The steps involved:
 
@@ -148,14 +148,14 @@ void main() {
 }
 ```
 
-![Vignette1](http://i.imgur.com/P93CZ.png)
+![Vignette1](images/P93CZ.png)
 
 In fact, this is all we need to create a basic vignette effect. Try inverting the length `(1.0 - len)` and multiplying it by our colour:
 ```glsl
 gl_FragColor = vec4( texColor.rgb * (1.0 - len), 1.0 );
 ```
 
-![Vignette2](http://i.imgur.com/5UPKf.png)
+![Vignette2](images/5UPKf.png)
 
 <a name="Step2" />
 ## Step 2: Circles, `step()` and `smoothstep()`
@@ -169,7 +169,7 @@ float r = 0.5;
 gl_FragColor = vec4( vec3( step(r, len) ), 1.0 );
 ```
 
-![Circle1](http://i.imgur.com/QpLnu.png)
+![Circle1](images/QpLnu.png)
 
 Our circle is squashed because of the aspect ratio. In order to correct for that, we need to include the following *before* we calculate the `length`:
 ```glsl
@@ -178,7 +178,7 @@ position.x *= resolution.x / resolution.y;
 
 A variant of the `step` function is `smoothstep(low, high, x)`, which returns 0.0 if x is less than `low` or 1.0 if x is greater than `high`. If x is between the two values, it will ease between zero and one with [cubic Hermite interpolation](http://en.wikipedia.org/wiki/Hermite_interpolation). The function looks like this:
 
-![Func](http://i.imgur.com/L4vBX.gif)
+![Func](images/L4vBX.gif)
 
 So we can adjust our circle to the following, to gain finer control over how smooth our vignette will look. Here is our updated code:
 
@@ -192,7 +192,7 @@ float softness = 0.05;
 gl_FragColor = vec4( vec3( smoothstep(r, r-softness, len) ), 1.0 );
 ```
 
-![Circle2](http://i.imgur.com/YIYFv.png)
+![Circle2](images/YIYFv.png)
 
 Using a softness of 0.01 produces a nicely anti-aliased circle, whereas 0.45 produces a nice falloff for a vignette effect. 
 
@@ -239,7 +239,7 @@ void main() {
 ```
 
 Result:  
-![NewVignette](http://i.imgur.com/8cxUU.png)
+![NewVignette](images/8cxUU.png)
 
 <a name="Step3" />
 ## Step 3: Reducing strength with `mix()`
@@ -260,7 +260,7 @@ gl_FragColor = texColor;
 
 Above we blending the original texture colour with the vignette-applied texture colour based on the given weight, a value between 0.0 and 1.0. Specifying 1.0 would lead to the full vignette effect, whereas 0.0 would give us no change (i.e. output would be the original texture color). We use 0.5 to specify 50% strength/opacity for our vignette effect.
 
-![Reduced](http://i.imgur.com/4jxbe.png)
+![Reduced](images/4jxbe.png)
 
 <a name="Step4" />
 ## Step 4: Grayscale & Sepia
@@ -273,7 +273,7 @@ float gray = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
 ```
 
 If we were to output the `gray` value as `vec4(gray, gray, gray, 1.0)`, we would end up with this:  
-![Gray](http://i.imgur.com/Oqo16.png)
+![Gray](images/Oqo16.png)
 
 Adding the sepia tone is simple enough. Define a SEPIA constant, adjust the red, green and blue values to taste, and then multiply it by our grayscale colour:
 
@@ -283,7 +283,7 @@ const vec3 SEPIA = vec3(1.2, 1.0, 0.8);
 	gl_FragColor = vec4(vec3(gray) * SEPIA, 1.0);
 ```
 
-![Sepia1](http://i.imgur.com/9kjE7.png)
+![Sepia1](images/9kjE7.png)
 
 Lastly, we'll use `mix()` with [the previous step](#Step3) so that the sepia is not so pronounced, and multiply our final texture colour by the vertex colour.
 
@@ -298,7 +298,7 @@ texColor.rgb = mix(texColor.rgb, sepiaColor, 0.75);
 gl_FragColor = texColor * vColor;
 ```
 
-![After](http://i.imgur.com/EUL4t.png)
+![After](images/EUL4t.png)
 
 <a name="Optimizations" />
 ##A Note on Optimization

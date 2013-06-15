@@ -23,7 +23,7 @@ void drawLine(int x1, int y1, int x2, int y2, int thickness) {
 
 You can see them in use in [RectTest](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/RectTest.java):
 
-![Lines](http://i.imgur.com/C89nu.png)
+![Lines](images/C89nu.png)
 
 This is a very simple means of rendering shapes. The technique in this article relies on the CPU to transform each vertex of the line sprite; and under the hood it's made up of two triangles, i.e. 6 vertices. That's a lot of work just to render a 1 px line segment! For filled polygons, anti-aliasing, stroke effects, and so forth, we may need to take advantage of fragment and geometry shaders. In other cases, `GL_LINES` would be much more effective.
 

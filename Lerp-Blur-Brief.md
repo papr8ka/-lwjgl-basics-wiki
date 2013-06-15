@@ -1,7 +1,7 @@
 "Lerp Blur" is a name I've given to a technique to simulate a variable blur in real-time. It's suitable for Android, iOS and other fill-rate limited devices that can't rely on multiple render passes and FBOs. 
 
 The basic idea of the "Lerp Blur" is to, in software, create a series of images of increasing blur strengths, and use some form of interpolation between two varying strengths in order to simulate a real-time adjustable blur. See the below image for reference:  
-![8x](http://i.imgur.com/JL3yQ.png)
+![8x](images/JL3yQ.png)
 
 The technique becomes more interesting (and more efficient) when we take advantage of mipmapping and trilinear filtering.
 
@@ -9,11 +9,11 @@ The technique becomes more interesting (and more efficient) when we take advanta
 
 An old-school trick for cheap blurs is to down-sample your image with high quality interpolation (such as those employed by most drivers for mip-mapping), and then up-scale the image with linear filtering. 
 
-![Crap](http://i.imgur.com/e7zb4.png)
+![Crap](images/e7zb4.png)
 
 Downscaled to 64x64, upscaled to 256x256. Looks pretty crappy. Now, let's do the above, but after downsampling to 64x64, we'll apply a nice quality gaussian blur (in software) to the downsized image. Rendered at 256x256:
 
-![Nice](http://i.imgur.com/ZOPd1.png)
+![Nice](images/ZOPd1.png)
 
 That looks better. Now, if we apply a gaussian blur to each mipmap level, we can use this to simulate variable blur strengths. Since each mipmap level is smaller than the last, each successive mipmap level will lead to a greater blur effect when scaled up. This means we need to build our mipmaps manually, in software:
 
@@ -54,7 +54,7 @@ We can also achieve the same on GL 1.0 devices with `GL_TEXTURE_LOD_BIAS`, `GL_T
 
 The result is that we can "fake" a real-time blur without any extra draw passes or FBOs. The blur is by no means accurate, but on small resolutions it looks pretty good.
 
-![MipmapBlur](http://i.imgur.com/FAROj.gif)
+![MipmapBlur](images/FAROj.gif)
 
 <sup>(Shown in grayscale for better GIF quality)</sup>
 

@@ -2,7 +2,7 @@ Complex polygons, strokes, dotted outlines, and various other raster effects are
 
 If you are only targeting desktop, you may decide to use Java2D for rasterization. It's a powerful, flexible and easy to use API that leads to implementation-independent rendering. In order to use Java2D's rasterizer in LibGDX, we need to render it to a Java2D BufferedImage, then copy the pixels to a texture on the GPU.
 
-![Img](http://i.imgur.com/xTl6Y.png)
+![Img](images/xTl6Y.png)
 
 For better performance you would minimize the number of times you upload data to GL; e.g. accumulating the data into the same glTexSubImage2D call. Also, you could modify the below code to upload to a texture atlas, rather than having a single large texture per shape.
 

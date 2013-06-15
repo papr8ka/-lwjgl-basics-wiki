@@ -7,13 +7,13 @@ This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwj
 
 A common feature in 2D and 3D graphics programming is the ability to render to a texture. For example, say we have a slider GUI component made up of multiple sprites (the track, and the thumb button), and we are trying to fade it in/out. When we render each sprite at 50% opacity, we get some ugly blending where the sprites meet.
 
-![Opacity](http://i.imgur.com/RsM5G.png)
+![Opacity](images/RsM5G.png)
 
 (Slider PSD can be downloaded [here](http://files.pixelsdaily.com/download/id/2950))
 
 In the middle we see the problem when we render both sprites to the screen at 50%. The desired effect, on the right, is achieved by rendering the sprites at 100% to an "offscreen texture", *then* render that texture to the screen at 50% opacity.
 
-![Sketch](http://i.imgur.com/VUHR9.png)
+![Sketch](images/VUHR9.png)
 
 Another use for render-to-texture is for post-processing effects; i.e. rendering your sprites to an offscreen texture as large as the game window, and then render that texture to the screen with a shader which applies the effects.
 
@@ -79,11 +79,11 @@ batch.end();
 
 Now, if we were to test this with the following sprite sheet:
 
-![Sprites](http://i.imgur.com/bkXso.png)
+![Sprites](images/bkXso.png)
 
 Everything will look right at 50%:
 
-![Result](http://i.imgur.com/PPPWz.png)
+![Result](images/PPPWz.png)
 
 <a name="Blending" />
 
@@ -91,7 +91,7 @@ Everything will look right at 50%:
 
 Ok, that opaque background behind the slider looks pretty ugly... But as soon as we get rid of it (using [this]() texture atlas), we get some loss of information in the alpha channel:
 
-![AlphaLoss](http://i.imgur.com/rava5.png)
+![AlphaLoss](images/rava5.png)
 
 This occurs because we are blending *twice*. When we draw the track and thumb sprites to the FBO, we are blending them with the background. Then, when we draw the sprites to the screen, we are blending again -- this second blend is causing the result to look more transparent than it should.
 
@@ -107,7 +107,7 @@ One solution would be to use `glDisable(GL_BLEND)` before drawing to our FBO, or
 
 You can see the resulting code in the [FBOTest](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/FBOTest.java) example. The output:
 
-![Output](http://i.imgur.com/KCi3u.png)
+![Output](images/KCi3u.png)
 
 ## Full-Screen FBOs and Post-Processing
 

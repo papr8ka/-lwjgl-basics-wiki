@@ -1,4 +1,4 @@
-![Lightning](http://i.imgur.com/IQVpl.png)
+![Lightning](images/IQVpl.png)
 
 ## Effects
 

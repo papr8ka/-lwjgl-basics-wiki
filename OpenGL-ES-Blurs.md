@@ -61,7 +61,7 @@ blurred.dispose();
 ```
 
 The result, using the notorious [Lenna](http://en.wikipedia.org/wiki/Lenna):    
-![Blurred](http://i.imgur.com/kA3gW.png)
+![Blurred](images/kA3gW.png)
 
 Note that the resulting texture is not managed, so you will have to re-load it using the above code after GL context loss.
 
@@ -86,11 +86,11 @@ _Note:_ I'll assume you understand the basics of mipmapping. If not, [read up on
 
 An old-school trick for cheap blurs is to down-sample your image with high quality interpolation (such as those employed by most drivers for mip-mapping), and then up-scale the image with linear filtering. 
 
-![Crap](http://i.imgur.com/e7zb4.png)
+![Crap](images/e7zb4.png)
 
 Downscaled to 64x64, upscaled to 256x256. Looks pretty crappy. Now, let's do the above, but after downsampling to 64x64, we'll apply a nice quality gaussian blur to the downsized image. Rendered at 256x256:
 
-![Nice](http://i.imgur.com/ZOPd1.png)
+![Nice](images/ZOPd1.png)
 
 Holy shiza, it looks like a blur. The code for that:
 
@@ -170,7 +170,7 @@ void main() {
 }
 ```
 
-![MipmapBlur](http://i.imgur.com/FAROj.gif)
+![MipmapBlur](images/FAROj.gif)
 
 <sup>(Shown in grayscale for better GIF quality)</sup>
 
@@ -192,17 +192,17 @@ It requires the [BlurUtils](https://gist.github.com/4383372) class mentioned ear
 Another solution is create multiple textures of varying blur strengths, and "linearly interpolate" between them while rendering to mimic realtime blurring. This doesn't require the `bias` parameter (which is not thoroughly tested), and allows for a slightly smoother transition from unblurred to blurred.
 
 Given our original texture:  
-![Orig](http://i.imgur.com/9ePyD.png)
+![Orig](images/9ePyD.png)
 
 We would create an array of increasingly blurry images, like so:
 
-![8x](http://i.imgur.com/JL3yQ.png)
+![8x](images/JL3yQ.png)
 
 Notice that each is half the size of our original; this "downsampling" reduces memory usage, and the differences will be minor when we upscale with linear filtering. Since we're working on phones and small screens, we could probably get away with even further downsampling.
 
 To fake the real-time blurring, we use `mix()` in GLSL to lerp between two different blur strengths. It looks like this:
 
-![AnimatedBlur](http://i.imgur.com/yU3xF.gif)
+![AnimatedBlur](images/yU3xF.gif)
 
 <sup>(Shown in grayscale for better GIF quality)</sup>
 
@@ -212,9 +212,9 @@ Instead, we'll use another solution to demonstrate how to work with a custom mes
 
 Firstly, decode our image into a Pixmap. Then we need to build a larger pixmap, made up of our image at varying sizes and blur strengths. Here are two ideas for laying out your sheet, although you can use your own layout that suits your needs:
 
-![Layout1](http://i.imgur.com/P1mta.png)
+![Layout1](images/P1mta.png)
 
-![Layout2](http://i.imgur.com/p2AY0.png)
+![Layout2](images/p2AY0.png)
 
 The first layout leads to a smoother and wider transition of blurs, while the second uses less texture space. Note that the second layout uses a non-power-of-two texture width, which may be a problem for various devices (e.g. Samsung Tab II does not seem to support NPOT very well).
 
@@ -240,7 +240,7 @@ mesh.setIndices(new short[] {
 ```
 
 As explained in the [Sprite Batching](Sprite-Batching) tutorial, we need to pass data as `GL_TRIANGLES`, not quads. See the image for reference:  
-![Verts](http://i.imgur.com/5dOga.png)
+![Verts](images/5dOga.png)
 
 As we can see, there are some repeating elements in our image. This is why we use "vertex indices". This way, we only need to pass 4 vertices when giving the data to the GPU, and OpenGL will evaluate it to 6 vertices to make up our triangles.
 

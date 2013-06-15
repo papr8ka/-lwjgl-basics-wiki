@@ -1,14 +1,14 @@
-![Screenshot](http://i.imgur.com/sJiUG6x.png)
+![Screenshot](images/sJiUG6x.png)
 
 ## Intro
 
 Detailed here is an approach to 2D pixel-perfect lights/shadows using shaders and the GPU. Because of the high fill rate and multiple passes involved, this is generally less performant than geometry shadows (which are not per-pixel). My technique is implemented in LibGDX, although the concepts can be applied to any OpenGL/GLSL framework. 
 
 The basic steps involved are (1) render occluders to a FBO, (2) build a 1D shadow map, (3) render shadows and sprites.  
-![Img](http://i.imgur.com/vcaWNof.png)
+![Img](images/vcaWNof.png)
 
 The following animation best demonstrates what's happening:   
-![Visual](http://i.imgur.com/qcH7G.gif)  
+![Visual](images/qcH7G.gif)  
 <sup>(Image from [this thread](http://www.gmlscripts.com/forums/viewtopic.php?id=1657))</sup>
 
 The idea is an extension of my [previous attempts](http://www.java-gaming.org/topics/starbound-lighting-techneques/26363/msg/230988/view.html#msg230988) at shader-based shadows, which combines [ideas from various sources](#further-reading). My technique is inspired by Catalin Zima's [dynamic lighting](http://www.catalinzima.com/2010/07/my-technique-for-the-shader-based-dynamic-2d-shadows/), although the process discussed in this article is rather different and requires far fewer passes. As you can see I'm using the same placeholder graphics for the occluders.
@@ -74,16 +74,16 @@ occludersFBO.end();
 ```
 
 We could use a custom shader here to encode specific data into our occlusion pass (such as [normals for diffuse lighting](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson6)). But for now we'll just use the default SpriteBatch shader, and only rely on sampling from the alpha channel. The resulting "occlusion map" might look like this -- with the light at center -- if we were to render the alpha channel in black and white:  
-![Occlusion](http://i.imgur.com/SH4kg16.png)
+![Occlusion](images/SH4kg16.png)
 
 ## Step 2: Build a 1D Shadow Map Lookup Texture
 
 Now we need to build a 1D lookup texture, which will be used as our shadow/light map. The texture is very small (256x1 pixels), and looks like this:  
 
-![ShadowMap](http://i.imgur.com/ZaGDDgL.png)
+![ShadowMap](images/ZaGDDgL.png)
 
 Our x-axis represents the angle `theta` of a "light ray" from center; i.e. 360 degrees of a circle. An easy way to visualize it is to imagine a few rays, like in the following:  
-![Shadow2D](http://i.imgur.com/tJR0QSz.png)
+![Shadow2D](images/tJR0QSz.png)
 
 On the left, we see each ray being cast from the center (light position) to the first occluder (opaque pixel in our occlusion map). 
 
@@ -278,7 +278,7 @@ batch.setColor(Color.WHITE);
 ```
 
 And voila! With a few different lights and some additive blending, we can get some very pretty per-pixel soft shadows:  
-![PixelPerfect](http://i.imgur.com/Cq8cmzX.png)
+![PixelPerfect](images/Cq8cmzX.png)
 
 ## Source Code
 
