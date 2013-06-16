@@ -14,11 +14,11 @@ As discussed in the earlier tutorials; a single vertex can hold information abou
 
 OpenGL doesn't know the concept of a Mesh; this is a LibGDX utility. In LibGDX, a Mesh is really just a big array of vertices. It's important to understand that a Mesh doesn't need to represent a _single_ primitive object; in fact, you should generally try to pack as much data into one Mesh as you can. For example; if we wanted to render two triangles to create a rectangular quad, we would put all of their data into the same array, and thus the same Mesh, and call render once. Likewise; if we planned to develop our own sprite batcher, we would want to store potentially hundreds of triangles in the same Mesh, so that we can render them all in a single call. 
 
-## Mesh Example: Quads
+## Mesh Example: Triangles
 
 ### Vert & Frag Shaders
 
-Let's say we want to render some quads (i.e. two triangles) of different colours. The best way to do this is to use a `Position` attribute which holds the `(x, y)` components, and a `Color` attribute which holds the `(r, g, b, a)` components. First, we need to construct a shader for our mesh.
+Let's say we want to render several triangles of different sizes and colours. The best way to do this is to use a `Position` attribute which holds the `(x, y)` components of each vertex, and a `Color` attribute which holds the `(r, g, b, a)` components. First, we need to construct a shader for our mesh.
 
 Vertex shader:
 ```glsl
@@ -52,31 +52,36 @@ void main() {
 }
 ```
 
-Then, we need to set up some constants and create a float[] array which we will re-use later. Keep in mind that a triangle takes three vertices, and so we need six vertices to make up a quad. Here is how we construct our Mesh:
+Then, we need to set up some constants and create a float[] array which we will re-use later. Keep in mind that a triangle takes three vertices.
 
 ```java
 //Position attribute - (x, y) 
-final int POSITION_COMPONENTS = 2;
+public static final int POSITION_COMPONENTS = 2;
 
 //Color attribute - (r, g, b, a)
-final int COLOR_COMPONENTS = 4;
+public static final int COLOR_COMPONENTS = 4;
 
 //Total number of components for all attributes
-final int NUM_COMPONENTS = POSITION_COMPONENTS + COLOR_COMPONENTS;
+public static final int NUM_COMPONENTS = POSITION_COMPONENTS + COLOR_COMPONENTS;
 
-//The maximum number of quads our mesh will hold
-final int MAX_QUADS = 10;
+//The "size" (total number of floats) for a single triangle
+public static final int PRIMITIVE_SIZE = 3 * NUM_COMPONENTS;
 
-//The actual number of vertices; each quad is made up of 6
-final int MAX_VERTS = MAX_QUADS * 6;
+//The maximum number of triangles our mesh will hold
+public static final int MAX_TRIS = 1;
+
+//The maximum number of vertices our mesh will hold
+public static final int MAX_VERTS = MAX_TRIS * 3;
 
 //The array which holds all the data, interleaved like so:
-//  {
 //    x, y, r, g, b, a
 //    x, y, r, g, b, a, 
+//    x, y, r, g, b, a, 
 //    ... etc ...
-//  }
-float[] verts = new float[MAX_VERTS * NUM_COMPONENTS];
+protected float[] verts = new float[MAX_VERTS * NUM_COMPONENTS];
+
+//The current index that we are pushing triangles into the array
+protected int idx = 0;
 
 @Override
 public void create() {
@@ -86,3 +91,43 @@ public void create() {
 	... 
 }
 ```
+
+Now, we need to specify a "draw" method. Just like a SpriteBatch, this won't send any data to OpenGL; instead, it will just update our vertices array if we have more room. Once we are finished placing all the triangles in the batch, *then* we can send the data in a single GL render call. This is much more efficient than making a render call for each triangle.
+
+```java
+void drawTriangle(float x, float y, float width, float height, Color color) {
+	//we don't want to hit any index out of bounds exception...
+	//so we need to flush the batch if we can't store any more verts
+	if (idx==verts.length)
+		flush();
+	
+	//now we push the vertex data into our array
+	//we are assuming (0, 0) is lower left, and Y is up
+	
+	//bottom left vertex
+	verts[idx++] = x; 			//Position(x, y) 
+	verts[idx++] = y;
+	verts[idx++] = color.r; 	//Color(r, g, b, a)
+	verts[idx++] = color.g;
+	verts[idx++] = color.b;
+	verts[idx++] = color.a;
+	
+	//top left vertex
+	verts[idx++] = x; 			//Position(x, y) 
+	verts[idx++] = y + height;
+	verts[idx++] = color.r; 	//Color(r, g, b, a)
+	verts[idx++] = color.g;
+	verts[idx++] = color.b;
+	verts[idx++] = color.a;
+
+	//bottom right vertex
+	verts[idx++] = x + width;	 //Position(x, y) 
+	verts[idx++] = y;
+	verts[idx++] = color.r;		 //Color(r, g, b, a)
+	verts[idx++] = color.g;
+	verts[idx++] = color.b;
+	verts[idx++] = color.a;
+}
+```
+
+
