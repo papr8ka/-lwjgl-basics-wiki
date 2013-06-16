@@ -1,12 +1,13 @@
 ##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [LibGDX Meshes](LibGDX-Meshes) » Lesson 1
 
 ***
+
 # Rendering a Batch of Triangles
 
 You can follow along with the full source code here:  
 [MeshTutorial1.java](https://gist.github.com/mattdesl/5793041)
 
-### Vert & Frag Shaders
+## Vert & Frag Shaders
 
 Let's say we want to render several triangles of different sizes and colours. The best way to do this is to use a `Position` attribute which holds the `(x, y)` components of each vertex, and a `Color` attribute which holds the `(r, g, b, a)` components. First, we need to construct a shader for our mesh.
 
@@ -42,7 +43,7 @@ void main() {
 }
 ```
 
-### Mesh Creation
+## Mesh Creation
 
 Then, we need to set up some constants and create a float[] array which we will re-use later. Keep in mind that a triangle takes three vertices.
 
@@ -86,7 +87,7 @@ public void create() {
 
 Notice that the last argument to Mesh is a varargs of VertexAttribute. The order you specify them should match the order you will be placing your data into the vertex array. Their names (like "a_color") should match the attribute specified in the shader, as should their component count. If you specify a component count of 1, the attribute should be a `float`, 2 components should be `vec2`, etc.
 
-### Pushing Vertex Data
+## Pushing Vertex Data
 
 Now, we need to specify a "draw" method. Just like a SpriteBatch, this won't send any data to OpenGL; instead, it will just update our vertices array if we have more room. Once we are finished placing all the triangles in the batch, *then* we can send the data in a single GL render call. This is much more efficient than making a render call for each triangle.
 
@@ -126,7 +127,7 @@ void drawTriangle(float x, float y, float width, float height, Color color) {
 }
 ```
 
-### Rendering The Triangle Batch
+## Rendering The Triangle Batch
 
 Now we need to specify our "render" or "flush" method, which pushes the data to GL in a single render call.
 
@@ -173,7 +174,7 @@ void flush() {
 }
 ```
 
-### Using the Batch
+## Using the Batch
 
 Now, we can use the batch like so in our ApplicationListener:
 
@@ -191,7 +192,7 @@ public void render() {
 }
 ```
 
-### Optimization: Packed Color Data
+## Optimization: Packed Color Data
 
 LibGDX includes an option to use packed color data, instead of sending four floats for a RGBA color. This leads to a bit of an optimization as you are sending less data to GL per frame; however, it comes with a slight loss of color precision. To use packed color data, you need to use 1 as your COLOR_COMPONENTS count, and specify the VertexAttribute like so:
 ```java
