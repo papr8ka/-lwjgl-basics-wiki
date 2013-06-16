@@ -2,6 +2,8 @@
 
 ***
 
+This tutorial is part of a series. Take a look at the [Introduction and Table of Contents](LibGDX-Meshes) if you haven't already.
+
 # Batching Triangles
 
 You can follow along with the full source code here:  
