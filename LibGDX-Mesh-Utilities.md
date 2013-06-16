@@ -52,6 +52,8 @@ void main() {
 }
 ```
 
+### Mesh Creation
+
 Then, we need to set up some constants and create a float[] array which we will re-use later. Keep in mind that a triangle takes three vertices.
 
 ```java
@@ -92,6 +94,8 @@ public void create() {
 }
 ```
 
+### Pushing Vertex Data
+
 Now, we need to specify a "draw" method. Just like a SpriteBatch, this won't send any data to OpenGL; instead, it will just update our vertices array if we have more room. Once we are finished placing all the triangles in the batch, *then* we can send the data in a single GL render call. This is much more efficient than making a render call for each triangle.
 
 ```java
@@ -130,4 +134,67 @@ void drawTriangle(float x, float y, float width, float height, Color color) {
 }
 ```
 
+### Rendering The Triangle Batch
 
+Now we need to specify our "render" or "flush" method, which pushes the data to GL in a single render call.
+
+Notice that we use OrthographicCamera so that we can specify our positions in 2D screen space. This only needs to be sent to the shader whenever it changes (i.e. on screen resize), but the performance impact is not too significant even if we send it every frame.
+
+```java
+void flush() {
+	//if we've already flushed
+	if (idx==0)
+		return;
+	
+	//sends our vertex data to the mesh
+	mesh.setVertices(verts);
+	
+	//no need for depth...
+	Gdx.gl.glDepthMask(false);
+	
+	//enable blending, for alpha
+	Gdx.gl.glEnable(GL20.GL_BLEND);
+	Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+	
+	//number of vertices we need to render
+	int vertexCount = (idx/NUM_COMPONENTS);
+	
+	//update the camera with our Y-up coordiantes
+	cam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	
+	//start the shader before setting any uniforms
+	shader.begin();
+	
+	//update the projection matrix so our triangles are rendered in 2D
+	shader.setUniformMatrix("u_projTrans", cam.combined);
+	
+	//render the mesh
+	mesh.render(shader, GL20.GL_TRIANGLES, 0, vertexCount);
+	
+	shader.end();
+	
+	//re-enable depth to reset states to their default
+	Gdx.gl.glDepthMask(true);
+	
+	//reset index to zero
+	idx = 0;
+}
+```
+
+### Using the Batch
+
+Now, we can use the batch like so in our ApplicationListener:
+
+```java
+@Override
+public void render() {
+	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	
+	//push a few triangles to the batch
+	drawTriangle(10, 10, 40, 40, Color.RED);
+	drawTriangle(50, 50, 70, 40, Color.BLUE);
+	
+	//this will render the above triangles to GL, using Mesh
+	flush();
+}
+```
