@@ -248,7 +248,9 @@ When rendering, we use it like so. Notice that it uses a `vec3` for position; we
 //passes the projection matrix to the camera
 r.begin(camera.combined, GL20.GL_TRIANGLES);
 
-//renders a single triangle...
+...
+
+//push our vertex data here...
 
 //specify normals/colors/texcoords before vertex position
 r.color(color.r, color.g, color.b, color.a);
@@ -259,6 +261,8 @@ r.vertex(x, y+height, 0);
 
 r.color(color.r, color.g, color.b, color.a);
 r.vertex(x+width, y, 0);
+
+...
 
 //flush the renderer
 r.end();
