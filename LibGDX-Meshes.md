@@ -10,7 +10,7 @@ This tutorial will cover Mesh and ImmediateModeRenderer utilities in LibGDX, and
 
 ## Table of Contents
 
-  * [Lesson 1](LibGDX-Meshes-Lesson1): Rendering a batch of Triangles
+  * [Lesson 1](LibGDX-Meshes-Lesson-1): Rendering a batch of Triangles
   * Lesson 2: Understanding indices
   * Lesson 3: Using ImmediateModeRenderer for Prototyping
   * Lesson 4: Practical Applications 
@@ -23,4 +23,4 @@ OpenGL doesn't know the concept of a Mesh; this is a LibGDX utility. In LibGDX, 
 
 ## Get Started
 
-Move onto [Lesson 1](LibGDX-Meshes-Lesson1) to get started.
+Move onto [Lesson 1](LibGDX-Meshes-Lesson-1) to get started.
