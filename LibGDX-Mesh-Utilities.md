@@ -16,6 +16,9 @@ OpenGL doesn't know the concept of a Mesh; this is a LibGDX utility. In LibGDX, 
 
 ## Mesh Example: Triangles
 
+You can follow along with the full source code here:  
+[MeshTutorial1.java](https://gist.github.com/mattdesl/5793041)
+
 ### Vert & Frag Shaders
 
 Let's say we want to render several triangles of different sizes and colours. The best way to do this is to use a `Position` attribute which holds the `(x, y)` components of each vertex, and a `Color` attribute which holds the `(r, g, b, a)` components. First, we need to construct a shader for our mesh.
@@ -93,6 +96,8 @@ public void create() {
 	... 
 }
 ```
+
+Notice that the last argument to Mesh is a varargs of VertexAttribute. The order you specify them should match the order you will be placing your data into the vertex array. Their names (like "a_color") should match the attribute specified in the shader, as should their component count. If you specify a component count of 1, the attribute should be a `float`, 2 components should be `vec2`, etc.
 
 ### Pushing Vertex Data
 
@@ -197,4 +202,34 @@ public void render() {
 	//this will render the above triangles to GL, using Mesh
 	flush();
 }
+```
+
+### Optimization: Packed Color Data
+
+LibGDX includes an option to use packed color data, instead of sending four floats for a RGBA color. This leads to a bit of an optimization as you are sending less data to GL per frame; however, it comes with a slight loss of color precision. To use packed color data, you need to use 1 as your COLOR_COMPONENTS count, and specify the VertexAttribute like so:
+```//now we just need one float to specify color in our vertex array
+public static final int COLOR_COMPONENTS = 1; 
+...
+        //VertexAttribute still expects ColorPacked to have 4 components
+    ... new VertexAttribute(Usage.ColorPacked, 4, "a_color") ...
+```
+
+Then, you will send data like this instead:
+```
+float c = color.toFloatBits();
+		
+//bottom left vertex
+verts[idx++] = x; 			 
+verts[idx++] = y;
+verts[idx++] = c;
+
+//top left vertex
+verts[idx++] = x; 			 
+verts[idx++] = y + height;
+verts[idx++] = c;
+		
+//bottom right vertex
+verts[idx++] = x + width;	 
+verts[idx++] = y;
+verts[idx++] = c;
 ```
