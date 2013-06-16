@@ -211,7 +211,7 @@ LibGDX includes an option to use packed color data, instead of sending four floa
 public static final int COLOR_COMPONENTS = 1; 
 
     //VertexAttribute still expects ColorPacked to have 4 components
-    new VertexAttribute(Usage.ColorPacked, 4, "a_color") ...
+    new VertexAttribute(Usage.ColorPacked, 4, "a_color") 
 ```
 
 Then, you will send data like this instead:
