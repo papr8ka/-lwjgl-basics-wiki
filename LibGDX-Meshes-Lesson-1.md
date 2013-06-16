@@ -2,7 +2,7 @@
 
 ***
 
-This tutorial is part of a series. Take a look at the [Introduction and Table of Contents](LibGDX-Meshes) if you haven't already.
+This tutorial is part of a series. Take a look at the [Introduction](LibGDX-Meshes) before you move on.
 
 # Batching Triangles
 
