@@ -1,12 +1,12 @@
 This tutorial will cover Mesh and ImmediateModeRenderer utilities in LibGDX, and using custom shaders to create highly performant and specialized effects. Before starting, you should get familiar with the following:
 
 - [Texture Handling](https://github.com/mattdesl/lwjgl-basics/wiki/LibGDX-Textures)
-- [Shaders](https://github.com/mattdesl/lwjgl-basics/wiki/Shaders) - you should at least up to Lesson 2
+- [Shaders](https://github.com/mattdesl/lwjgl-basics/wiki/Shaders) - you should read up to Lesson 2, at least
 - [Sprite Batch Basics](https://github.com/mattdesl/lwjgl-basics/wiki/Sprite-Batching)
 
 ## Table of Contents
 
-- Todo
+* Intro
 
 ## Intro to Vertices & Meshes
 
