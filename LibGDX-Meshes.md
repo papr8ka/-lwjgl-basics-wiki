@@ -11,7 +11,8 @@ This series will cover Mesh and ImmediateModeRenderer utilities in LibGDX, and u
 ## Table of Contents
 
   * [Intro](#wiki-intro) briefly introduces the concept of mesh rendering
-  * [Lesson 1](LibGDX-Meshes-Lesson-1): Rendering a batch of Triangles
+  * [Lesson 1](LibGDX-Meshes-Lesson-1): Batching Triangles
+  * [Lesson 2](LibGDX-Meshes-Lesson-2): Prototyping with ImmediateModeRenderer
   * Lesson 2: Understanding indices
   * Lesson 3: Using ImmediateModeRenderer for Prototyping
   * Lesson 4: Practical Applications 
