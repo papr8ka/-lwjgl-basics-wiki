@@ -1,4 +1,4 @@
-##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [LibGDX Meshes](LibGDX-Meshes) » Lesson 2
+##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [LibGDX Meshes](LibGDX-Meshes) » Lesson 1
 
 ***
 
