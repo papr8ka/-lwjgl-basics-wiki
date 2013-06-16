@@ -4,7 +4,9 @@ This tutorial will cover Mesh and ImmediateModeRenderer utilities in LibGDX, and
 - [Shaders](https://github.com/mattdesl/lwjgl-basics/wiki/Shaders) - you should at least up to Lesson 2
 - [Sprite Batch Basics](https://github.com/mattdesl/lwjgl-basics/wiki/Sprite-Batching)
 
-[TOC]
+## Table of Contents
+
+- Todo
 
 ## Intro to Vertices & Meshes
 
@@ -47,5 +49,40 @@ varying vec4 vColor;
 
 void main() {
 	gl_FragColor = vColor;
+}
+```
+
+Then, we need to set up some constants and create a float[] array which we will re-use later. Keep in mind that a triangle takes three vertices, and so we need six vertices to make up a quad. Here is how we construct our Mesh:
+
+```java
+//Position attribute - (x, y) 
+final int POSITION_COMPONENTS = 2;
+
+//Color attribute - (r, g, b, a)
+final int COLOR_COMPONENTS = 4;
+
+//Total number of components for all attributes
+final int NUM_COMPONENTS = POSITION_COMPONENTS + COLOR_COMPONENTS;
+
+//The maximum number of quads our mesh will hold
+final int MAX_QUADS = 10;
+
+//The actual number of vertices; each quad is made up of 6
+final int MAX_VERTS = MAX_QUADS * 6;
+
+//The array which holds all the data, interleaved like so:
+//  {
+//    x, y, r, g, b, a
+//    x, y, r, g, b, a, 
+//    ... etc ...
+//  }
+float[] verts = new float[MAX_VERTS * NUM_COMPONENTS];
+
+@Override
+public void create() {
+	mesh = new Mesh(true, MAX_VERTS, 0, 
+			new VertexAttribute(Usage.Position, POSITION_COMPONENTS, "a_position"),
+			new VertexAttribute(Usage.Color, COLOR_COMPONENTS, "a_color"));
+	... 
 }
 ```
