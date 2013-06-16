@@ -209,9 +209,9 @@ public void render() {
 LibGDX includes an option to use packed color data, instead of sending four floats for a RGBA color. This leads to a bit of an optimization as you are sending less data to GL per frame; however, it comes with a slight loss of color precision. To use packed color data, you need to use 1 as your COLOR_COMPONENTS count, and specify the VertexAttribute like so:
 ```//now we just need one float to specify color in our vertex array
 public static final int COLOR_COMPONENTS = 1; 
-...
-        //VertexAttribute still expects ColorPacked to have 4 components
-    ... new VertexAttribute(Usage.ColorPacked, 4, "a_color") ...
+
+    //VertexAttribute still expects ColorPacked to have 4 components
+    new VertexAttribute(Usage.ColorPacked, 4, "a_color") ...
 ```
 
 Then, you will send data like this instead:
