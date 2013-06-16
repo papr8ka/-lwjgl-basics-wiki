@@ -10,11 +10,13 @@ As discussed in the earlier tutorials; a single vertex can hold information abou
 
 OpenGL doesn't know the concept of a Mesh; this is a LibGDX utility. In LibGDX, a Mesh is really just a big array of vertices. It's important to understand that a Mesh doesn't need to represent a _single_ primitive object; in fact, you should generally try to pack as much data into one Mesh as you can. For example; if we wanted to render two triangles to create a rectangular quad, we would put all of their data into the same array, and thus the same Mesh, and call render once. Likewise; if we planned to develop our own sprite batcher, we would want to store potentially hundreds of triangles in the same Mesh, so that we can render them all in a single call. 
 
-## Mesh Example: Triangles
+## Mesh Example: Quads
 
-Let's say we want to render some triangles of different colours. The best way to do this is to use a `Position` attribute which holds the `(x, y)` components, and a `Color` attribute which holds the `(r, g, b, a)` components. First, we need to construct a shader for our mesh.
+### Vert & Frag Shaders
 
-Vertex:
+Let's say we want to render some quads (i.e. two triangles) of different colours. The best way to do this is to use a `Position` attribute which holds the `(x, y)` components, and a `Color` attribute which holds the `(r, g, b, a)` components. First, we need to construct a shader for our mesh.
+
+Vertex shader:
 ```glsl
 //our attributes
 attribute vec2 a_position;
@@ -32,7 +34,7 @@ void main() {
 }
 ```
 
-Fragment:
+Fragment shader:
 ```glsl
 #ifdef GL_ES
 precision mediump float;
