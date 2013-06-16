@@ -1,8 +1,8 @@
-##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [LibGDX Meshes](LibGDX-Meshes) » Lesson 1
+##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » [LibGDX Meshes](LibGDX-Meshes) » Lesson 2
 
 ***
 
-# Rendering a Batch of Triangles
+# Batching Triangles
 
 You can follow along with the full source code here:  
 [MeshTutorial1.java](https://gist.github.com/mattdesl/5793041)
