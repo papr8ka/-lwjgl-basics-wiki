@@ -4,8 +4,8 @@
 
 This tutorial assumes some basic understanding of vertices and meshes in OpenGL and LibGDX. Take a look at the [LibGDX Meshes](LibGDX-Meshes) lessons before you move on. 
 
-## The problem
+## Circular Progress Bar in LibGDX
 
-We want to achieve 
+![Image](images/XJzEeP8.png)
 
 ## Triangle Strips
