@@ -230,7 +230,7 @@ verts[idx++] = c;
 
 # Prototyping with ImmediateModeRenderer
 
-Now that you understand the concepts of how meshes and vertices come together to form geometry, we can utilize LibGDX's ImmediateModeRenderer for some faster prototyping. This is a specialized utility which is good for un-indexed geometry (something we will cover in the next lesson) that holds `Position(x, y, z)` and some other optional attributes: `Normal(x, y, z)`, `Color(r, g, b, a)`, and a variable number of `TexCoord(s, t)`. 
+Now that you understand the concepts of how meshes and vertices come together to form geometry, we can utilize LibGDX's ImmediateModeRenderer for some faster prototyping. This is a specialized utility which is good for un-indexed geometry that holds `Position(x, y, z)` and some other optional attributes: `Normal(x, y, z)`, `Color(r, g, b, a)`, and a variable number of `TexCoord(s, t)`. 
 
 ## Setting up the renderer
 
