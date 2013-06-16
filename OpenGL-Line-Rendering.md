@@ -6,13 +6,8 @@ The guide should serve as an introduction to basic vector math, as well as learn
 
 ## The Path
 
-A line is just a series of 2D or 3D points which create a path. We could use any growable array, but since we are using LibGDX we will use the Array<T> class which is easier on the garbage collector. Our Path class is pretty basic, and roughly looks like this in pseudo-code:
+A line is just a series of 2D or 3D points which create a path. We could use any growable array, but since we are using LibGDX we will use the Array<T> class which is easier on the garbage collector. Later on, we can extend the Path class to provide support for splines and curves.
 
-```java
-class Path
-    void clear()
-    void addPoint(Vector2 p)
-    int getPointCount()
-    float getPointX(int index)
-    float getPointY(int index)
-```
+## Debugging with ShapeRenderer
+
+In LibGDX, we can use ShapeRenderer for line debugging. T
