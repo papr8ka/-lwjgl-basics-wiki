@@ -4,6 +4,8 @@ This tutorial will cover Mesh and ImmediateModeRenderer utilities in LibGDX, and
 - [Shaders](https://github.com/mattdesl/lwjgl-basics/wiki/Shaders) - you should at least up to Lesson 2
 - [Sprite Batch Basics](https://github.com/mattdesl/lwjgl-basics/wiki/Sprite-Batching)
 
+[TOC]
+
 ## Intro to Vertices & Meshes
 
 As discussed in the earlier tutorials; a single vertex can hold information about Position, Color, Texture Coordinates, or whatever else we would like to pass to the shaders. If we wanted to make a 2D white triangle, we would use three vertices, each one holding a `Position` attribute with `(x, y)` components.
