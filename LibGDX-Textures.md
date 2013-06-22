@@ -213,7 +213,7 @@ texture.setWrap(Texture.ClampToEdge, Texture.ClampToEdge);
 The minification/magnification filters define how the image is handled upon scaling. For "pixel-art" style games, generally `Filter.Nearest` is suitable as it leads to hard-edge scaling without blurring. Specifying `Filter.Linear` will use bilinear scaling for smoother results, which is generally effective for 3D games (e.g. a 1024x1024 rock or grass texture) but not always so for a 2D game. In OpenGL, the terms used are `GL_NEAREST` and `GL_LINEAR`, respectively.   
 ![Scaling](images/vAVHc.png)
 
-When rendering pixmaps (i.e. in software), we can set the filter like so:
+With textures, we use `TextureFilter.Linear` and `TextureFilter.Nearest`. When rendering with pixmaps (i.e. in software), we can set the filter with `Filter.NearestNeighbour` and `Filter.BiLinear`, like so:
 ```java
 pixmap.setFilter(Filter.NearestNeighbour); //or Filter.BiLinear
 pixmap.drawPixmap(... resample another pixmap ...);
