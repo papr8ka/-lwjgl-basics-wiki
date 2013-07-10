@@ -161,12 +161,12 @@ Another nice feature of LibGDX's Pixmap utilities is re-sampling images. So, if 
 
 ```java
 float scale = 0.25f; //25% of original size
-Pixmap thumb = new Pixmap(original.getWidth() * scale, original.getHeight() * scale, original.getFormat());
-thumb.setFilter(Filter.BiLinear);
+Pixmap thumb = new Pixmap((int)(original.getWidth() * scale), (int)(original.getHeight() * scale), original.getFormat());
+Pixmap.setFilter(Filter.BiLinear);
 thumb.draw(original, 0, 0, original.getWidth(), original.getHeight(), 0, 0, thumb.getWidth(), thumb.getHeight());
 ```
 
-The `setFilter` operation will be explained in more detail below.
+The `setFilter` operation will be explained in more detail below. Note that it's static; as with Pixmap.setBlending, and affects all calls after it.
 
 ## Reading Pixmaps
 
@@ -215,7 +215,7 @@ The minification/magnification filters define how the image is handled upon scal
 
 With textures, we use `TextureFilter.Linear` and `TextureFilter.Nearest`. When rendering with pixmaps (i.e. in software), we can set the filter with `Filter.NearestNeighbour` and `Filter.BiLinear`, like so:
 ```java
-pixmap.setFilter(Filter.NearestNeighbour); //or Filter.BiLinear
+Pixmap.setFilter(Filter.NearestNeighbour); //or Filter.BiLinear
 pixmap.drawPixmap(... resample another pixmap ...);
 ```
 
