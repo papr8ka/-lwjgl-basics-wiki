@@ -1,4 +1,4 @@
-### Masking Rectangles
+# Clipping
 
 Rendering a sprite masked by a rectangle is dead simple in LibGDX and OpenGL. We simply draw a TextureRegion to our SpriteBatch, which acts as a sub-region of a texture:
 ```java
@@ -48,9 +48,7 @@ batch.end();
 
 Sometimes it can be a bit faster to just flush a batch, rather than calling `end()` followed by `start()`.
 
-***
-
-## Shapes
+# Complex Masks
 
 Masking something other than an axis-aligned rectangle becomes a little bit more difficult. Here are some common approaches.
 
@@ -67,6 +65,8 @@ If you choose this route, make sure to enable the stencil buffer with `AndroidAp
 ### Masking with Depth Buffer
 
 Another approach is to use the depth buffer to discard pixels in hardware. Here, we clear the depth buffer with 1.0f, then draw our shapes to the depth buffer at 0.0. We then render our scene with depth testing enabled, and `GL_GEQUAL`
+
+
 
 ## Notes
 
