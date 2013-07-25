@@ -68,6 +68,11 @@ Another approach is to use the depth buffer to discard pixels in hardware. We fi
 
 Then, we render our color sprites to the screen with the depth function `GL_EQUAL`, again at `z=0`. The result is that the fragment will pass the depth test (and be shown on screen) only if the z-value is equal to the value stored in the depth buffer.
 
+You can see an example here:  
+https://gist.github.com/mattdesl/6076849
+
+<sup>Download the grass image [here](http://i.imgur.com/oODzehT.png) and save it as `grass.png` in your *assets/data* folder.</sup>
+
 The advantage of this is that fragments outside of our masked areas will be discarded from the OpenGL pipeline, allowing for a significant performance boost (especially on fill-limited devices like Android/iOS). 
 
 The downside, as with stencil buffer, is that we don't have a smooth alpha blending that you might expect from a circular mask.
@@ -80,9 +85,15 @@ Another common approach is to use blend functions to achieve masking. The benefi
 
 Again, standard batching applies. Try your best to render all your masks in one go, and then all your tiles/sprites in another go. The less you are flushing batches, the better your performance will be.
 
+You can see an example here:  
+https://gist.github.com/mattdesl/6076849
+
+<sup>Download the mask image [here](http://i.imgur.com/PMkKLuP.png) and save it as `mask.png` in your *assets/data* folder.</sup>
+
 ### Fragment Shader with gl_FragCoord
 
-Other approaches to masking might utilize a fragment shader.
+Other approaches to masking might utilize a fragment shader. 
+---- TODO
 
 ### Fragment Shader with Multi-Texture
 
@@ -93,13 +104,15 @@ https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson4
 
 ### Fragment Shader with Custom Attributes
 
-...
+... TODO
 
 ### Textured Mesh
 
 We can use LibGDX meshes to construct arbitrary shapes for us, and supply texture coordinates to each vertex. If we calculate the texture coordinates correctly, it will lead to a desirable masking. This means we can use arbitrary polygons, lines, etc. as our masks, adjusting them in real-time without much of a performance hit. It also paves the way for other features, such as tiling a texture across the polygon. 
 
 This is a good solution but, like the others which rely on GL primitives, we lose anti-aliasing along the edges. For certain shapes, like circles and lines, this can be fixed by providing hints for anti-aliasing as vertex attributes.
+
+---- TODO
 
 ## Notes
 
