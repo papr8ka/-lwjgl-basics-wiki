@@ -64,11 +64,45 @@ If you choose this route, make sure to enable the stencil buffer with `AndroidAp
 
 ### Masking with Depth Buffer
 
-Another approach is to use the depth buffer to discard pixels in hardware. Here, we clear the depth buffer with 1.0f, then draw our shapes to the depth buffer at 0.0. We then render our scene with depth testing enabled, and `GL_GEQUAL`
+Another approach is to use the depth buffer to discard pixels in hardware. We first clear the depth buffer with a value of 1.0. Then, we render our shapes at `z=0`, using a depth function of `GL_LESS`. We can imagine it like so: each pixel in the depth buffer is 1.0, except the shapes we rendered (at depth 0.0), which "pass" the depth test because they are less than 1.0. In this step, we didn't write any colour information.
 
+Then, we render our color sprites to the screen with the depth function `GL_EQUAL`, again at `z=0`. The result is that the fragment will pass the depth test (and be shown on screen) only if the z-value is equal to the value stored in the depth buffer.
 
+The advantage of this is that fragments outside of our masked areas will be discarded from the OpenGL pipeline, allowing for a significant performance boost (especially on fill-limited devices like Android/iOS). 
+
+The downside, as with stencil buffer, is that we don't have a smooth alpha blending that you might expect from a circular mask.
+
+Ideally you should always try to batch your rendering where possible; so if you have many masks to apply to a single scene, it would be better to draw all the mask shapes at once to the depth buffer. 
+
+### Masking with Blend Functions
+
+Another common approach is to use blend functions to achieve masking. The benefit of this is that it can lead to smooth alpha-blending, such as a feathered circle. The major downsides is that it does not discard pixels outside of the mask, and also the nature of the blending may introduce some more fill-rate issues. It also does not scale well, since we are dealing with raster and not vector information. Further, there have been some reported issues with these blend functions on [certain Android devices](http://www.badlogicgames.com/forum/viewtopic.php?p=44987#p44987). 
+
+Again, standard batching applies. Try your best to render all your masks in one go, and then all your tiles/sprites in another go. The less you are flushing batches, the better your performance will be.
+
+### Fragment Shader with gl_FragCoord
+
+Other approaches to masking might utilize a fragment shader.
+
+### Fragment Shader with Multi-Texture
+
+Another shader approach is to use two textures in a single draw call, and apply the blending or masking in the fragment shader. The primary downsides is that you will probably require a second set of texture coordinates passed to the vertex shader (which SpriteBatch doesn't support, at the moment), and that you will want your textures to be the same size for best results.
+
+However, for complex masks, especially dynamic masks that might be changing, this might be a good option. See here:  
+https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson4
+
+### Fragment Shader with Custom Attributes
+
+...
+
+### Textured Mesh
+
+We can use LibGDX meshes to construct arbitrary shapes for us, and supply texture coordinates to each vertex. If we calculate the texture coordinates correctly, it will lead to a desirable masking. This means we can use arbitrary polygons, lines, etc. as our masks, adjusting them in real-time without much of a performance hit. It also paves the way for other features, such as tiling a texture across the polygon. 
+
+This is a good solution but, like the others which rely on GL primitives, we lose anti-aliasing along the edges. For certain shapes, like circles and lines, this can be fixed by providing hints for anti-aliasing as vertex attributes.
 
 ## Notes
 
 - Anti-aliasing is enabled by default in WebGL, at least in major browsers like Chrome and Firefox
 - Remember to flush() or end your batch before changing GL states. This includes things like setting the blend and depth functions and enabling/disabling a GL state.
+- Fill-rate is limited on Android and iOS, so it might be beneficial to use a combination of multiple techniques, such as shader and depth masking.
