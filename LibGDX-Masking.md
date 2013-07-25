@@ -1,6 +1,4 @@
-Masking presents a bit of a challenge in OpenGL, and there are a variety of approaches. Which approach you end up taking decides on the goals and needs of your particular game/application.
-
-## Masking Rectangles
+### Masking Rectangles
 
 Rendering a sprite masked by a rectangle is dead simple in LibGDX and OpenGL. We simply draw a TextureRegion to our SpriteBatch, which acts as a sub-region of a texture:
 ```java
