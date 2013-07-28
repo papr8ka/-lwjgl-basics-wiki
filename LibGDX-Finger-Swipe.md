@@ -301,4 +301,5 @@ This already performs well on Android and desktop. But if you need more performa
 <a name="Source" />
 ## Source Code
 
-I plan to fix up the code a little before releasing it. Stay tuned.
+See here for some source code and a runnable example:  
+https://github.com/mattdesl/gdx-swiper
