@@ -17,7 +17,7 @@ batch.draw(...);
 batch.end();
 
 //we should reset the tex env to GL_MODULATE
-Gdx.gl11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_ADD);
+Gdx.gl11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
 ```
 
 ## GL20 Brightness & Contrast
