@@ -1,7 +1,7 @@
 ##### [start](https://github.com/mattdesl/lwjgl-basics/wiki) » Frame Buffer Objects
 ***
 
-This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics) API for FrameBuffer and rendering utilities. The code has also been [Ported to LibGDX](#Ports). The concepts should be universal enough that they could be applied to SDL, Android, iOS, WebGL, or any other platforms that support OpenGL. 
+This series relies on the minimal [lwjgl-basics](https://github.com/mattdesl/lwjgl-basics) API for FrameBuffer and rendering utilities. The code has also been [Ported to LibGDX](https://gist.github.com/4393861). The concepts should be universal enough that they could be applied to SDL, Android, iOS, WebGL, or any other platforms that support OpenGL. 
 
 ***
 
