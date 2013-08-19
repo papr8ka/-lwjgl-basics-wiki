@@ -27,7 +27,7 @@ These tutorials are specific to LWJGL devs. They use the lwjgl-basics API to red
   * [Blurs for Mobile Applications](wiki/OpenGL-ES-Blurs)
   * [2D Per-Pixel Shadows on the GPU](wiki/2D-Pixel-Perfect-Shadows)
   * [Mesh and ImmediateModeRenderer Tutorials](wiki/LibGDX-Meshes)
-  * [Custom Sprite Batcher in LibGDX](wiki/Custom-Sprite-Batcher-in-LibGDX)
+  * [Custom Sprite Batcher in LibGDX](wiki/Custom-Sprite-Batcher-in-LibGDX) (WIP)
 
 ### Code Snippets & Tips
 
