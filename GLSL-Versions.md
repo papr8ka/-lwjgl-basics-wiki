@@ -84,6 +84,8 @@ So, for example, if a feature is available in GLSL 120, it probably won't be ava
 
 # Differences at a Glance
 
+Differences between (desktop) GLSL versions.
+
 ## Version 100
 
 Vertex shader:
