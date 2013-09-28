@@ -40,7 +40,7 @@ Notice that OpenGL is a "static" and "state based" API. Generally speaking, the 
 ### Game Loop
 
 The game loop we have here is very basic. At a later point, you can return to it to implement some timing and interpolation,
-such as in [this example](http://www.lwjgl.org/wiki/index.php?title=LWJGL_Basics_4_(Timing)). For now, we rely on LWJGL's
+such as in [this example](http://www.lwjgl.org/wiki/index.php?title=LWJGL_Basics_4_(Timing\)). For now, we rely on LWJGL's
 `Display.sync` method to cap the frame-rate at 60 frames per second. 
 
 LWJGL uses double-buffering under the hood; we render to the "back buffer,"
