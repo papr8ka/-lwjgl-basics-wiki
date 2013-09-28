@@ -30,6 +30,7 @@ This is a very simple means of rendering shapes. The technique in this article r
 
 ## Further Reading
 
+- [Advanced line rendering in OpenGL](http://artgrammer.blogspot.ca/search/label/opengl)
 - [Smoothed and rounded end-cap lines in iOS](http://programming4.us/multimedia/3348.aspx)
 - [Drawing Nearly Perfect 2D Line Segments in OpenGL](http://www.codeproject.com/Articles/199525/Drawing-nearly-perfect-2D-line-segments-in-OpenGL)
 - [Drawing Lines with Tessellated Polygons](http://www.codeproject.com/Articles/226569/Drawing-polylines-by-tessellation) 
