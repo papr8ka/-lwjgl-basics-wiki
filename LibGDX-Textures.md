@@ -295,7 +295,7 @@ boolean npotSupported = Gdx.graphics.supportsExtension("GL_OES_texture_npot")
                   || Gdx.graphics.supportsExtension("GL_ARB_texture_non_power_of_two");
 ```
 
-It should be noted that even if the driver does support NPOT textures, it's generally still advisable to stick to POT sizes as it will often lead to better performance and storage. And on some devices, NPOT textures may not render correctly, even though the device says it should work.
+It should be noted that even if the driver does support NPOT textures, it's generally still advisable to stick to POT sizes as it will often lead to better performance and storage. And on some Android devices, NPOT textures may not render correctly, even though the device says it should work. (This may be due to a buggy driver, or a driver that only supported NPOT with limited filtering, no mipmapping, etc.)
 
 ## Realtime Per-Pixel Manipulation
 
