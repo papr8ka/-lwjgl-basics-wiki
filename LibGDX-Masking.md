@@ -86,7 +86,7 @@ Another common approach is to use blend functions to achieve masking. The benefi
 Again, standard batching applies. Try your best to render all your masks in one go, and then all your tiles/sprites in another go. The less you are flushing batches, the better your performance will be.
 
 You can see an example here:  
-https://gist.github.com/mattdesl/6076849
+https://gist.github.com/mattdesl/6076846
 
 <sup>Download the mask image [here](http://i.imgur.com/PMkKLuP.png) and save it as `mask.png` in your *assets/data* folder.</sup>
 
