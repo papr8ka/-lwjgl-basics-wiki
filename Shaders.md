@@ -59,7 +59,7 @@ Check out [Lesson 1](ShaderLesson1) to get started.
 The best way to learn GLSL is through experimentation and practice. Once you've finished the lessons, check out some online GLSL effects to see how they were achieved:
 
 - http://glsl.heroku.com/
-- http://www.iquilezles.org/apps/shadertoy/
+- http://www.shadertoy.com
 
 If you're feeling comfortable with GLSL, you could also try making your own shader-based sprite batcher (see [here](https://github.com/mattdesl/lwjgl-basics/wiki/ShaderProgram-Utility) and [here](https://github.com/mattdesl/lwjgl-basics/wiki/SpriteBatch)) in order to have a better grasp of how it all comes together.
 
