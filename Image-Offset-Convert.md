@@ -1,3 +1,4 @@
+java
 ```java
 //offset to (x, y)
 int y = i / width;
@@ -7,6 +8,11 @@ int x = i - width*y;
 int i = x + (y * w);
 ```
 
+js:
+```js
+var x = i % width,
+    y = ~~( i / width );
+```
 
 ```
 int value = pixmap.getPixel(x, y);
