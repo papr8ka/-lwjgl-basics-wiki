@@ -30,6 +30,7 @@ The effect is the same shown in [this popular YouTube video](http://youtu.be/vtY
 - [Generating Normal Maps](#GeneratingNormals)
   - [Blender Tool](#BlenderTool)
 - [Further Reading](#FurtherReading)
+- [Appendix: Pixel Art](#Appendix)
 - [Other APIs](#Ports)
 
 <a name="VectorsNormals" />
@@ -362,7 +363,7 @@ Here are some useful links that go into more detail regarding normal mapping for
 - [Bump Mapping in GLSL - Fabien Sanglard](http://fabiensanglard.net/bumpMapping/index.php)
 
 <a name="Appendix" />
-### Appendix: Pixel Art
+## Appendix: Pixel Art
 
 There are a couple of considerations that I had to take into account when creating my WebGL [normal map pixel art](http://mattdesl.github.io/kami-demos/release/normals-pixel.html) demo. You can see the source and details [here](https://github.com/mattdesl/kami-demos/tree/master/src/normals-pixel).
 
