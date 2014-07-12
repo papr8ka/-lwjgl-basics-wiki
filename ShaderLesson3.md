@@ -258,7 +258,7 @@ gl_FragColor = texColor;
 ...
 ```
 
-Above we blending the original texture colour with the vignette-applied texture colour based on the given weight, a value between 0.0 and 1.0. Specifying 1.0 would lead to the full vignette effect, whereas 0.0 would give us no change (i.e. output would be the original texture color). We use 0.5 to specify 50% strength/opacity for our vignette effect.
+Above we blend the original texture colour with the vignette-applied texture colour based on the given weight, a value between 0.0 and 1.0. Specifying 1.0 would lead to the full vignette effect, whereas 0.0 would give us no change (i.e. output would be the original texture color). We use 0.5 to specify 50% strength/opacity for our vignette effect.
 
 ![Reduced](images/4jxbe.png)
 
