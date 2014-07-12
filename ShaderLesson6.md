@@ -327,6 +327,8 @@ At a certain point you may ask yourself: "Why don't I just make a 3D game?" This
 ## Generating Normal Maps
 
 There are a number of ways of generating a normal map from an image. Common applications and filters for converting 2D images to normal maps include:
+
+- [SpriteLamp](http://snakehillgames.com/spritelamp/) - specifically aimed at 2D normal-map art
 - [SMAK! - Super Model Army Knife](http://getsmak.com/)
 - [CrazyBump](http://www.crazybump.com/)
 - [NVIDIA Texture Tools for Photoshop](https://developer.nvidia.com/nvidia-texture-tools-adobe-photoshop)
@@ -359,8 +361,19 @@ Here are some useful links that go into more detail regarding normal mapping for
 - [oZone Bump Mapping Tutorial](http://www.ozone3d.net/tutorials/bump_mapping.php)
 - [Bump Mapping in GLSL - Fabien Sanglard](http://fabiensanglard.net/bumpMapping/index.php)
 
+<a name="Appendix" />
+### Appendix: Pixel Art
+
+There are a couple of considerations that I had to take into account when creating my WebGL [normal map pixel art](http://mattdesl.github.io/kami-demos/release/normals-pixel.html) demo. You can see the source and details [here](https://github.com/mattdesl/kami-demos/tree/master/src/normals-pixel).
+
+In this demo, I wanted the falloff the be visible as a stylistic element. The typical approach leads to a very smooth falloff, which clashes with the blocky pixel art style. Instead, I used "cel shading" for the light, to give it a stepped falloff. This was achieved with simple [toon shading](http://prideout.net/blog/?p=22) through if-else statements in the fragment shader.
+
+The next consideration is that we want the edge pixels of the light to scale along with the pixels of our sprites. One way of achieving this is to draw our scene to an FBO with the illumination shader, and *then* render it with a default shader to the screen at a larger size. This way the illumination affects whole "texels" in our blocky pixel art. 
+
 <a name="Ports" />
 
 ## Other APIs
 
 * [LibGDX Port](https://gist.github.com/4653464)
+* [JS/WebGL Port](https://github.com/mattdesl/kami-demos/tree/master/src/normals)
+* [JS/WebGL Port (Pixel Art)](https://github.com/mattdesl/kami-demos/tree/master/src/normals-pixel)
