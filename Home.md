@@ -45,6 +45,7 @@ These tutorials are specific to LWJGL devs. They use the lwjgl-basics API to red
   * [Underwater](http://glsl.heroku.com/e#6052.4)
   * [Space](http://glsl.heroku.com/e#6607.3)
   * [Rotated 2D Rounded Rectangle](http://glsl.heroku.com/e#8013.4)
+  * [Earth](http://glsl.heroku.com/e#7662.3)
 * Misc
   * [2D Lightning Effect](wiki/LightningEffect)
   * [Tiled Maps from Images](wiki/Tiled-Map-Images)
