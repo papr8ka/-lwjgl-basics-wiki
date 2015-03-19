@@ -130,7 +130,7 @@ Now let's try to apply this to model GLSL. Note that we will only be working wit
 <a name="JavaCode" />
 ## Java Code Example
 
-You can see the Java code example [here](). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. We'll use the following two textures:
+You can see the Java code example [here](https://github.com/mattdesl/lwjgl-basics/blob/master/test/mdesl/test/shadertut/ShaderLesson6.java). It's relatively straight-forward, and doesn't introduce much that hasn't been discussed in earlier lessons. We'll use the following two textures:
 
 ![Rock](images/e4FtQNt.png)
 ![RockN](images/cjFUm7X.png)  
