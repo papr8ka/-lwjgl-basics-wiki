@@ -35,3 +35,14 @@ N / 2 + 0.5
 //remap [0.0 .. 1.0] to [1.0 .. 0.0 .. 1.0] 
 abs(N * 2 - 1)
 ```
+
+
+
+```js
+// index to (x, y)
+const x = Math.floor(index % columns);
+const y = Math.floor(index / columns);
+
+//(x, y) to offset
+const index = x + (y * columns);
+```
